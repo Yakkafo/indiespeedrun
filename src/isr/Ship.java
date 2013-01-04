@@ -54,20 +54,56 @@ public class Ship
 		rooms[room.getType()] = room;
 	}
 	
-	public Room[] getRooms()
+	public Room getRoom(int ID)
 	{
-		return rooms;
+		return rooms[ID];
 	}
 	
-	public Character[] getCharacters()
+	public Character getCharacter(int ID)
 	{
-		return characters;
+		return characters[ID];
+	}
+	
+	/**
+	 * Searches the first room that is under the
+	 * specified screen position (as the mouse cursor)
+	 * and returns it if there is something.
+	 * @param screenX
+	 * @param screenY
+	 * @return the room, or null if there is nothing
+	 */
+	public Room getRoomAt(int screenX, int screenY)
+	{
+		for(Room r : rooms)
+		{
+			if(r.contains(screenX, screenY))
+				return r;
+		}
+		return null;
+	}
+	
+	/**
+	 * Searches the first character that is under the
+	 * specified screen position (as the mouse cursor)
+	 * and returns it if there is something.
+	 * @param screenX
+	 * @param screenY
+	 * @return the character, or null if there is nothing
+	 */
+	public Character getCharacterAt(int screenX, int screenY)
+	{
+		for(Character c : characters)
+		{
+			if(c.contains(screenX, screenY))
+				return c;
+		}
+		return null;
 	}
 
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx)
 	{
 		// First, draw the ship (the background is NOT the Ship)
-		// TODO draw Ship background
+		gfx.drawImage(Sprites.shipBackground, 0, 0);
 		
 		// Grounds		
 		for(Room r : rooms)

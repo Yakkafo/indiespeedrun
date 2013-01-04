@@ -9,7 +9,7 @@ public class Sounds
 	
 	public static void load()
 	{
-		String dir = "src/assets/";
+		String dir = Game.ASSETS_DIR;
 		
 		//music = new Music(dir + "music.ogg", true);
 		

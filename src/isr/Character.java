@@ -12,12 +12,8 @@ import backend.geom.Rectangle;
 
 public class Character
 {
-	public static final int NB_CHARACTERS = 6;
 	private static final int INITIAL_LOYALTY[] = {40, 50, 60, 70, 80, 90};
-	/**Possible names for characters*/
-	private static final String NAMES[] = {"Sarah", "Ellen", "Lola", "Brutus", "Egdar", "John"};
-	/**Sprites for characters*/
-	private static final String GFX[] = {"char1.jpg", "char2.jpg", "char3.jpg", "char4.jpg", "char5.jpg", "char6.jpg"};
+
 	/**The character is loyal if his loyalty > this*/
 	private static final int LOYAL_STEP = 25; 
 	/**Turns before the character becomes sleepy*/
@@ -44,19 +40,22 @@ public class Character
 	
 	public Character(int id, int loyalty)
 	{
-		if(id < NB_CHARACTERS && id >= 0)
+		if(id < CharacterProfile.values().length && id >= 0)
 		{
+			CharacterProfile profile = CharacterProfile.values()[id];
+			
 			this.selected = false;
 			this.id = id;
 			this.loyalty = loyalty;
 			this.lastSleep = 0;
 			this.nextAction = -1;
-			this.name = NAMES[id];
+			this.name = profile.name;
 			this.currentRoom = Room.TYPE_CORRIDOR;
 			this.x = 0;
 			this.y = 0;
+
 			try {
-				this.img = new Image(GFX[id]);
+				this.img = new Image(Game.ASSETS_DIR + profile.spriteName);
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -149,7 +148,7 @@ public class Character
 	 * @param by click y
 	 * @return
 	 */
-	public boolean isClicked(int bx, int by)
+	public boolean contains(int bx, int by)
 	{
 		if(bx >= x && bx <= x + img.getWidth() && by >= y && by <= y + img.getHeight())
 			return true;
@@ -163,20 +162,22 @@ public class Character
 	 */
 	public static Character[] createCrew()
 	{
-		Character crew[] = new Character[NB_CHARACTERS];
+		int nb = CharacterProfile.values().length;
+		
+		Character crew[] = new Character[nb];
 		int temp_loyalties[] = INITIAL_LOYALTY;
 		
-		for(int i = 0; i < NB_CHARACTERS; i++)
+		for(int i = 0; i < nb; i++)
 		{
-			int r = MathHelper.randInt(0, NB_CHARACTERS-1);
+			int r = MathHelper.randInt(0, temp_loyalties.length-1);
 			int secure = 0; //security against infinite loop
 			while(temp_loyalties[r] == -1)
 			{
 				r++;
 				secure ++;
-				if(r >= NB_CHARACTERS)
+				if(r >= nb)
 					r = 0;
-				if(secure >= NB_CHARACTERS)
+				if(secure >= nb)
 				{
 					System.out.println("Error: wrong initial loyalty.");
 					break;
@@ -198,12 +199,15 @@ public class Character
 	}
 
 	//DISPLAY METHODS
-	public void render(GameContainer gc, StateBasedGame game, Graphics gfx) {
+	public void render(GameContainer gc, StateBasedGame game, Graphics gfx)
+	{
 		img.draw(x, y);
 	}
 	
-	public void update(GameContainer gc, StateBasedGame game, int delta) {
+	public void update(GameContainer gc, StateBasedGame game, int delta)
+	{
 	}
-	
-	
+		
 }
+
+

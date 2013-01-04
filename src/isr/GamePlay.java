@@ -12,6 +12,8 @@ import backend.ui.UIBasicGameState;
 public class GamePlay extends UIBasicGameState
 {
 	private static Color bgColor = new Color(0, 64, 128);
+	
+	private Character selectedCharacter;
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -26,6 +28,8 @@ public class GamePlay extends UIBasicGameState
 			throws SlickException
 	{
 		super.enter(container, game);
+		
+		Ship.get().init();
 	}
 
 	@Override
@@ -42,13 +46,7 @@ public class GamePlay extends UIBasicGameState
 	{
 		gfx.setBackground(bgColor);
 		
-		gfx.setColor(Color.white);
-		gfx.drawRect(10, 10, 2500.f/2.75f, 1500.f/2.75f);
-		
-		String text = "TAMEEEEEE";
-		gfx.drawString(text, 
-				(gc.getWidth() - gfx.getFont().getWidth(text)) / 2, 
-				(gc.getHeight() - gfx.getFont().getLineHeight()) / 2);
+		Ship.get().render(gc, game, gfx);
 	}
 
 	@Override
@@ -56,7 +54,6 @@ public class GamePlay extends UIBasicGameState
 			throws SlickException
 	{
 		
-
 	}
 
 	@Override
@@ -66,33 +63,35 @@ public class GamePlay extends UIBasicGameState
 	}
 	
 	@Override
-	public void mousePressed(int button, int x, int y) {		
-		//Characters selection
-		if(button == Input.MOUSE_LEFT_BUTTON)
+	public void mousePressed(int button, int x, int y) 
+	{
+		if(button == Input.MOUSE_LEFT_BUTTON) //Characters selection
 		{
-			for(Character c : Ship.get().getCharacters())
+			Character c = Ship.get().getCharacterAt(x, y);
+			if(c != null) // Character under the mouse !
 			{
-				if(c.isClicked(x, y))
-					c.setSelected(true);
-				else
-					c.setSelected(false);
+				c.setSelected(true);
+				selectedCharacter = c;
+			}
+			else
+			{
+				// Unselect the last selected character
+				if(selectedCharacter != null)
+				{
+					selectedCharacter.setSelected(false);
+					selectedCharacter = null;
+				}
 			}
 		}
-		//send action to a character
-		else if(button == Input.MOUSE_RIGHT_BUTTON)
+		else if(button == Input.MOUSE_RIGHT_BUTTON)	// Send action to a character
 		{
-			for(Room r : Ship.get().getRooms())
+			if(selectedCharacter != null) // If we have selected a character
 			{
-				if(r.isClicked(x, y))
+				Room r = Ship.get().getRoomAt(x, y); // Get the room from click position
+				if(r != null)
 				{
-					for(Character c : Ship.get().getCharacters())
-					{
-						if(c.isSelected())
-						{
-							c.setNextAction(r.getType());
-							break;
-						}
-					}
+					// If room found, send the character to it
+					selectedCharacter.setNextAction(r.getType());
 				}
 			}
 		}

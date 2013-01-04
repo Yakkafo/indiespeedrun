@@ -5,7 +5,10 @@ import java.util.HashSet;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
+
+import backend.geom.Vector2i;
 
 public class Room
 {
@@ -31,6 +34,9 @@ public class Room
 	/** Type of the room (corridor, engine, jail...) **/
 	private int type;
 	
+	/** Position of the top-left-corner of the room's bounding rectangle **/
+	private Vector2i pos = new Vector2i();
+	
 	public Room(int roomType)
 	{
 		this.type = roomType;
@@ -53,16 +59,22 @@ public class Room
 	
 	/**
 	 * check if the point is in the room
-	 * @param bx
-	 * @param by
+	 * @param bx : global x in pixels
+	 * @param by : global y in pixels
 	 * @return
 	 */
-	public boolean isClicked(int bx, int by)
+	public boolean contains(int bx, int by)
 	{
-//		if(bx >= x && bx <= x + img.getWidth() && by >= y && by <= y + img.getHeight())
-//			return true;
-//		else
-//			return false;
+		int spriteX = bx - pos.x;
+		int spriteY = by - pos.y;		
+		// We use the floor as a collision mask because it covers all the surface of the room
+		Image img = Sprites.roomFloors[type]; 
+		// If in the image
+		if(spriteX >= 0 && spriteY >= 0 && spriteX < img.getWidth() && spriteY < img.getHeight())
+		{
+			// If the pixel is not (roughly) transparent
+			return img.getColor(spriteX, spriteY).a > 0.01f;
+		}
 		return false;
 	}
 	
