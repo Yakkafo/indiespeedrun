@@ -1,5 +1,6 @@
 libs/
 natives/
+assets/
 bin/
 .project
 .classpath
