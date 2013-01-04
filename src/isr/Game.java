@@ -9,8 +9,8 @@ import backend.ui.UIStateBasedGame;
 public class Game extends UIStateBasedGame
 {
 	public static final String TITLE = "Our ISR game";
-	public static final int SCREEN_WIDTH = 800;
-	public static final int SCREEN_HEIGHT = 600;
+	public static final int SCREEN_WIDTH = 1000;
+	public static final int SCREEN_HEIGHT = 700;
 	
 	public static final int GAME_PLAY = 2;
 

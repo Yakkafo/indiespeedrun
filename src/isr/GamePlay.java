@@ -41,6 +41,9 @@ public class GamePlay extends UIBasicGameState
 	{
 		gfx.setBackground(bgColor);
 		
+		gfx.setColor(Color.white);
+		gfx.drawRect(10, 10, 2500.f/2.75f, 1500.f/2.75f);
+		
 		String text = "TAMEEEEEE";
 		gfx.drawString(text, 
 				(gc.getWidth() - gfx.getFont().getWidth(text)) / 2, 
