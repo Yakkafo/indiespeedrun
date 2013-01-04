@@ -10,18 +10,20 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Room
 {
 	// Kinds of room
-	public static final int CORRIDOR = 0;
-	public static final int ENGINE = 1;
-	public static final int JAIL = 2;
-	public static final int SPY = 3;
-	public static final int SLEEP = 4;
-	public static final int MAIN = 5;
+	public static final int TYPE_CORRIDOR = 0;
+	public static final int TYPE_ENGINE = 1;
+	public static final int TYPE_JAIL = 2;
+	public static final int TYPE_SPY = 3;
+	public static final int TYPE_SLEEP = 4;
+	public static final int TYPE_MAIN = 5;
+	public static final int TYPE_COUNT = 6;
 	
 	// Drawing layers
 	public static final int LAYER_FLOOR = 0;
 	public static final int LAYER_OBJECTS = 1;
 	public static final int LAYER_CHARACTERS = 2;
 	public static final int LAYER_CEILING = 3;
+	public static final int LAYER_COUNT = 4;
 	
 	/** Characters in the room **/
 	private HashSet<Character> characterRefs = new HashSet<Character>();

@@ -34,12 +34,12 @@ public class Ship
 	public void init()
 	{
 		// Rooms creations
-		setRoom(new Room(Room.CORRIDOR));
-		setRoom(new Room(Room.ENGINE));
-		setRoom(new Room(Room.JAIL));
-		setRoom(new Room(Room.SPY));
-		setRoom(new Room(Room.SLEEP));
-		setRoom(new Room(Room.MAIN));
+		setRoom(new Room(Room.TYPE_CORRIDOR));
+		setRoom(new Room(Room.TYPE_ENGINE));
+		setRoom(new Room(Room.TYPE_JAIL));
+		setRoom(new Room(Room.TYPE_SPY));
+		setRoom(new Room(Room.TYPE_SLEEP));
+		setRoom(new Room(Room.TYPE_MAIN));
 		
 		for(Room r : rooms)
 			r.init();
