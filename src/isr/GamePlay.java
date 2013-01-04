@@ -54,7 +54,7 @@ public class GamePlay extends UIBasicGameState
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException
 	{
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -62,6 +62,20 @@ public class GamePlay extends UIBasicGameState
 	public int getID()
 	{
 		return Game.GAME_PLAY;
+	}
+	
+	@Override
+	public void mousePressed(int button, int x, int y) {
+		super.mousePressed(button, x, y);
+		
+		//Characters selection
+		for(Character c : Ship.get().getCharacters())
+		{
+			if(c.isClicked(x, y))
+				c.setSelected(true);
+			else
+				c.setSelected(false);
+		}
 	}
 
 }

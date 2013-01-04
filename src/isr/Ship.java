@@ -53,6 +53,11 @@ public class Ship
 	{
 		rooms[room.getType()] = room;
 	}
+	
+	public Character[] getCharacters()
+	{
+		return characters;
+	}
 
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx)
 	{
