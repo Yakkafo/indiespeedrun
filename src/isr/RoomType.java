@@ -16,6 +16,6 @@ public enum RoomType {
 	{
 		this.name = name;
 		this.size = size;
-		this.spriteName = spriteName;		
+		this.spriteName = spriteName;	
 	}
 }
