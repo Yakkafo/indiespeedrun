@@ -1,5 +1,6 @@
 libs/
 natives/
+bin/
 .project
 .classpath
 *.jar
