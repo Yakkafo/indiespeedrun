@@ -13,20 +13,20 @@ public class Sprites
 	public static void load() throws SlickException
 	{
 		String dir = "src/assets/";
-		
+
 		shipBackground = new Image(dir + "preview_salle.jpg");
 		//shipWalls = new Image(dir + "architecture.png");
-		
+
 		// Floors
 		roomFloors = new Image[Room.TYPE_COUNT];
 		//roomFloors[Room.TYPE_CORRIDOR] = new Image(dir + "corridor-floor.png");
 		//...
-		
+
 		// Objects & decorations
 		roomObjects = new Image[Room.LAYER_COUNT];
 		//roomObjects[Room.TYPE_CORRIDOR] = new Image(dir + "corridor-objects.png");
 		//...
-	
+
 	}
 
 }
