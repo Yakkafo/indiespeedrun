@@ -7,6 +7,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import backend.geom.Vector2i;
 import backend.ui.UIBasicGameState;
 
 public class GamePlay extends UIBasicGameState
@@ -14,6 +15,7 @@ public class GamePlay extends UIBasicGameState
 	private static Color bgColor = new Color(0, 64, 128);
 	
 	private Character selectedCharacter;
+	private Vector2i viewOffset = new Vector2i();
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -30,6 +32,10 @@ public class GamePlay extends UIBasicGameState
 		super.enter(container, game);
 		
 		Ship.get().init();
+		
+		Vector2i shipSize = Ship.get().getBackgroundSize();
+		viewOffset.x = (container.getWidth() - shipSize.x) / 2;
+		viewOffset.y = (container.getHeight() - shipSize.y) / 2;
 	}
 
 	@Override
@@ -46,7 +52,12 @@ public class GamePlay extends UIBasicGameState
 	{
 		gfx.setBackground(bgColor);
 		
+		gfx.pushTransform();
+		gfx.translate(viewOffset.x, viewOffset.y);
+		
 		Ship.get().render(gc, game, gfx);
+		
+		gfx.popTransform();
 	}
 
 	@Override
@@ -62,12 +73,19 @@ public class GamePlay extends UIBasicGameState
 		return Game.GAME_PLAY;
 	}
 	
+	private Vector2i convertToSceneCoords(int x, int y)
+	{
+		return new Vector2i(x - viewOffset.x, y - viewOffset.y);
+	}
+	
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{
+		Vector2i pos = convertToSceneCoords(x, y);
+		
 		if(button == Input.MOUSE_LEFT_BUTTON) //Characters selection
 		{
-			Character c = Ship.get().getCharacterAt(x, y);
+			Character c = Ship.get().getCharacterAt(pos.x, pos.y);
 			if(c != null) // Character under the mouse !
 			{
 				c.setSelected(true);
@@ -87,7 +105,7 @@ public class GamePlay extends UIBasicGameState
 		{
 			if(selectedCharacter != null) // If we have selected a character
 			{
-				Room r = Ship.get().getRoomAt(x, y); // Get the room from click position
+				Room r = Ship.get().getRoomAt(pos.x, pos.y); // Get the room from click position
 				if(r != null)
 				{
 					// If room found, send the character to it

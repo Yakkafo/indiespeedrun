@@ -18,4 +18,5 @@ public enum RoomType {
 		this.size = size;
 		this.spriteName = spriteName;	
 	}
+
 }

@@ -6,6 +6,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import backend.geom.Vector2i;
+
 /**
  * This is the submarine.
  * @author Marc
@@ -22,7 +24,6 @@ public class Ship
 
 	private Room rooms[] = new Room[ROOM_COUNT];
 	private Character characters[];
-	private static Image background;
 	
 	public static Ship get()
 	{
@@ -39,16 +40,16 @@ public class Ship
 	public Ship()
 	{
 	}
-		
+	
 	public void init()
 	{
 		// Rooms creations
-		setRoom(new Room(Room.TYPE_CORRIDOR));
-		setRoom(new Room(Room.TYPE_ENGINE));
-		setRoom(new Room(Room.TYPE_JAIL));
-		setRoom(new Room(Room.TYPE_SPY));
-		setRoom(new Room(Room.TYPE_SLEEP));
-		setRoom(new Room(Room.TYPE_MAIN));
+		setRoom(new Room(RoomType.CELL));
+		setRoom(new Room(RoomType.COMMON));
+		setRoom(new Room(RoomType.CORRIDOR));
+		setRoom(new Room(RoomType.DORM));
+		setRoom(new Room(RoomType.ENGINE));
+		setRoom(new Room(RoomType.HOLD));
 		
 		for(Room r : rooms)
 			r.init();
@@ -56,6 +57,11 @@ public class Ship
 		// Characters creation
 		characters = Character.createCrew();
 		
+	}
+	
+	public Vector2i getBackgroundSize()
+	{
+		return new Vector2i(backgroundImage.getWidth(), backgroundImage.getHeight());
 	}
 	
 	private void setRoom(Room room) // Just a shorthand for creating rooms
@@ -113,9 +119,7 @@ public class Ship
 	{
 		// First, draw the ship (the background is NOT the Ship)
 		final Image img = backgroundImage;
-		gfx.drawImage(img, 
-				(img.getWidth() - gc.getWidth() / 2),
-				(img.getHeight() - gc.getHeight() / 2));
+		gfx.drawImage(img, 0, 0);
 		
 		// Grounds		
 		for(Room r : rooms)

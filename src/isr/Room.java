@@ -6,6 +6,7 @@ import java.util.HashSet;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import backend.geom.Vector2i;
@@ -40,15 +41,16 @@ public class Room
 	/** Position of the top-left-corner of the room's bounding rectangle **/
 	private Vector2i pos = new Vector2i();
 	
-	public static void loadContent()
+	public static void loadContent() throws SlickException
 	{
-		// TODO load sprites
-		
+		backgrounds = new Image[RoomType.values().length];
+		for(RoomType t : RoomType.values())
+			backgrounds[t.ordinal()] = new Image(Game.ASSETS_DIR + t.spriteName);
 	}
 	
-	public Room(int roomType)
+	public Room(RoomType type)
 	{
-		this.type = roomType;
+		this.type = type.ordinal();
 	}
 	
 	public void init()
