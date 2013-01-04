@@ -10,7 +10,7 @@ import backend.GameComponent;
 import backend.MathHelper;
 import backend.geom.Rectangle;
 
-public class Character extends GameComponent
+public class Character
 {
 	public static final int NB_CHARACTERS = 6;
 	private static final int INITIAL_LOYALTY[] = {40, 50, 60, 70, 80, 90};
@@ -52,7 +52,7 @@ public class Character extends GameComponent
 			this.lastSleep = 0;
 			this.nextAction = -1;
 			this.name = NAMES[id];
-			this.currentRoom = 0;
+			this.currentRoom = Room.TYPE_CORRIDOR;
 			this.x = 0;
 			this.y = 0;
 			try {
@@ -138,6 +138,20 @@ public class Character extends GameComponent
 		return lastSleep >= TIME_SLEEP;
 	}
 	
+	/**Check if the player clicks on the character
+	 * 
+	 * @param bx click x
+	 * @param by click y
+	 * @return
+	 */
+	public boolean isClicked(int bx, int by)
+	{
+		if(bx >= x && bx <= x + img.getWidth() && by >= y && by <= y + img.getHeight())
+			return true;
+		else
+			return false;
+	}
+	
 	/**
 	 * Initialize a crew for a ship.
 	 * @return a Character[] where all the crew is initialized
@@ -179,32 +193,11 @@ public class Character extends GameComponent
 	}
 
 	//DISPLAY METHODS
-	
-	@Override
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx) {
 		img.draw(x, y);
 	}
-
-	@Override
-	public boolean isVisible() {
-		return true;
-	}
-
-	@Override
-	public int getDrawOrder() {
-		return 0;
-	}
-
-	@Override
-	public void getRenderBounds(Rectangle range) {
-	}
-
-	@Override
+	
 	public void update(GameContainer gc, StateBasedGame game, int delta) {
-	}
-
-	@Override
-	public void onDestruction() {
 	}
 	
 	
