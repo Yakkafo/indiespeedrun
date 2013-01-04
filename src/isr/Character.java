@@ -1,13 +1,22 @@
 package isr;
 
-import backend.MathHelper;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
-public class Character
+import backend.GameComponent;
+import backend.MathHelper;
+import backend.geom.Rectangle;
+
+public class Character extends GameComponent
 {
 	public static final int NB_CHARACTERS = 6;
 	private static final int INITIAL_LOYALTY[] = {40, 50, 60, 70, 80, 90};
 	/**Possible names for characters*/
 	private static final String NAMES[] = {"Sarah", "Ellen", "Lola", "Brutus", "Egdar", "John"};
+	private static final String GFX[] = {"char1.jpg", "char2.jpg", "char3.jpg", "char4.jpg", "char5.jpg", "char6.jpg"};
 	/**The character is loyal if his loyalty > this*/
 	private static final int LOYAL_STEP = 25; 
 	/**Turns before the character becomes sleepy*/
@@ -27,6 +36,8 @@ public class Character
 	private int nextAction;
 	/**Where the character is*/
 	private int currentRoom;
+	private Image img;
+	private int x, y;
 	
 	public Character(int id, int loyalty)
 	{
@@ -38,6 +49,13 @@ public class Character
 			this.nextAction = -1;
 			this.name = NAMES[id];
 			this.currentRoom = 0;
+			this.x = 0;
+			this.y = 0;
+			try {
+				this.img = new Image(GFX[id]);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
 		else
 			System.out.println("Error: wrong ID!");
@@ -124,6 +142,35 @@ public class Character
 		s += "Name: "+name+"\n";
 		s += "Loyalty: "+loyalty+"\n";
 		return s;
+	}
+
+	//DISPLAY METHODS
+	
+	@Override
+	public void render(GameContainer gc, StateBasedGame game, Graphics gfx) {
+		img.draw(x, y);
+	}
+
+	@Override
+	public boolean isVisible() {
+		return true;
+	}
+
+	@Override
+	public int getDrawOrder() {
+		return 0;
+	}
+
+	@Override
+	public void getRenderBounds(Rectangle range) {
+	}
+
+	@Override
+	public void update(GameContainer gc, StateBasedGame game, int delta) {
+	}
+
+	@Override
+	public void onDestruction() {
 	}
 	
 	
