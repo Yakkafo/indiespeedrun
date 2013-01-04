@@ -16,6 +16,7 @@ public class Character extends GameComponent
 	private static final int INITIAL_LOYALTY[] = {40, 50, 60, 70, 80, 90};
 	/**Possible names for characters*/
 	private static final String NAMES[] = {"Sarah", "Ellen", "Lola", "Brutus", "Egdar", "John"};
+	/**Sprites for characters*/
 	private static final String GFX[] = {"char1.jpg", "char2.jpg", "char3.jpg", "char4.jpg", "char5.jpg", "char6.jpg"};
 	/**The character is loyal if his loyalty > this*/
 	private static final int LOYAL_STEP = 25; 
@@ -36,6 +37,8 @@ public class Character extends GameComponent
 	private int nextAction;
 	/**Where the character is*/
 	private int currentRoom;
+	/**True if the character is selected by the player*/
+	private boolean selected;
 	private Image img;
 	private int x, y;
 	
@@ -43,6 +46,7 @@ public class Character extends GameComponent
 	{
 		if(id < NB_CHARACTERS && id >= 0)
 		{
+			this.selected = false;
 			this.id = id;
 			this.loyalty = loyalty;
 			this.lastSleep = 0;
@@ -84,6 +88,36 @@ public class Character extends GameComponent
 	public int getCurrentRoom()
 	{
 		return currentRoom;
+	}
+	
+	public int getX()
+	{
+		return x;
+	}
+	
+	public void setX(int x)
+	{
+		this.x = x;
+	}
+	
+	public int getY()
+	{
+		return y;
+	}
+	
+	public void setY(int y)
+	{
+		this.y = y;
+	}
+	
+	public void setSelected(boolean s)
+	{
+		selected = s;
+	}
+	
+	public boolean isSelected()
+	{
+		return selected;
 	}
 	
 	/**
