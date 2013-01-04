@@ -25,6 +25,8 @@ public class Character
 	private int lastSleep; 
 	/**Next action of the character. -1 means that there is not any actions yet*/
 	private int nextAction;
+	/**Where the character is*/
+	private int currentRoom;
 	
 	public Character(int id, int loyalty)
 	{
@@ -35,6 +37,7 @@ public class Character
 			this.lastSleep = 0;
 			this.nextAction = -1;
 			this.name = NAMES[id];
+			this.currentRoom = 0;
 		}
 		else
 			System.out.println("Error: wrong ID!");
@@ -58,6 +61,11 @@ public class Character
 	public int getId()
 	{
 		return id;
+	}
+	
+	public int getCurrentRoom()
+	{
+		return currentRoom;
 	}
 	
 	/**
