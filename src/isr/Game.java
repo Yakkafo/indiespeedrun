@@ -40,7 +40,9 @@ public class Game extends UIStateBasedGame
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException
 	{
-		//Sounds.load();
+		Sprites.load();
+		Sounds.load();
+		
 		this.getState(GAME_PLAY).init(gc, this);
 	}
 

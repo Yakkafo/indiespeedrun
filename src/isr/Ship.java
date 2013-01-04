@@ -2,6 +2,7 @@ package isr;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
@@ -17,6 +18,7 @@ public class Ship
 
 	private Room rooms[] = new Room[ROOM_COUNT];
 	private Character characters[];
+	private static Image background;
 	
 	public static Ship get()
 	{
@@ -27,6 +29,10 @@ public class Ship
 	
 	public Ship()
 	{
+	}
+	
+	public void init()
+	{
 		// Rooms creations
 		setRoom(new Room(Room.CORRIDOR));
 		setRoom(new Room(Room.ENGINE));
@@ -35,8 +41,12 @@ public class Ship
 		setRoom(new Room(Room.SLEEP));
 		setRoom(new Room(Room.MAIN));
 		
+		for(Room r : rooms)
+			r.init();
+		
 		// Characters creation
-		characters = Character.createCrew(); // TODO uncomment when available
+		characters = Character.createCrew();
+		
 	}
 	
 	private void setRoom(Room room) // Just a shorthand for creating rooms
