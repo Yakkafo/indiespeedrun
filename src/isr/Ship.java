@@ -3,6 +3,7 @@ package isr;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
@@ -13,6 +14,9 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Ship
 {
 	private static final int ROOM_COUNT = 6;
+	
+	private static Image backgroundImage;
+	private static Image wallsImage;
 
 	private static Ship instance;
 
@@ -27,10 +31,15 @@ public class Ship
 		return instance;
 	}
 	
+	public static void loadContent() throws SlickException
+	{
+		backgroundImage = new Image(Game.ASSETS_DIR + "sousmarin.png");
+	}
+
 	public Ship()
 	{
 	}
-	
+		
 	public void init()
 	{
 		// Rooms creations
@@ -103,7 +112,10 @@ public class Ship
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx)
 	{
 		// First, draw the ship (the background is NOT the Ship)
-		gfx.drawImage(Sprites.shipBackground, 0, 0);
+		final Image img = backgroundImage;
+		gfx.drawImage(img, 
+				(img.getWidth() - gc.getWidth() / 2),
+				(img.getHeight() - gc.getHeight() / 2));
 		
 		// Grounds		
 		for(Room r : rooms)

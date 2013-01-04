@@ -19,7 +19,7 @@ public enum CharacterProfile
 	{
 		this.name = name;
 		this.sex = sex;
-		this.spriteName = spriteName;		
+		this.spriteName = spriteName;
 	}
 
 }

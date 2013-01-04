@@ -28,6 +28,9 @@ public class Room
 	public static final int LAYER_CEILING = 3;
 	public static final int LAYER_COUNT = 4;
 	
+	// Sprites
+	private static Image backgrounds[];
+	
 	/** Characters in the room **/
 	private HashSet<Character> characterRefs = new HashSet<Character>();
 	
@@ -36,6 +39,12 @@ public class Room
 	
 	/** Position of the top-left-corner of the room's bounding rectangle **/
 	private Vector2i pos = new Vector2i();
+	
+	public static void loadContent()
+	{
+		// TODO load sprites
+		
+	}
 	
 	public Room(int roomType)
 	{
@@ -68,7 +77,7 @@ public class Room
 		int spriteX = bx - pos.x;
 		int spriteY = by - pos.y;		
 		// We use the floor as a collision mask because it covers all the surface of the room
-		Image img = Sprites.roomFloors[type]; 
+		Image img = backgrounds[type];
 		// If in the image
 		if(spriteX >= 0 && spriteY >= 0 && spriteX < img.getWidth() && spriteY < img.getHeight())
 		{
