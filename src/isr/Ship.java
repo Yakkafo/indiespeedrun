@@ -39,14 +39,31 @@ public class Ship
 		characters = Character.createCrew(); // TODO uncomment when available
 	}
 	
-	private void setRoom(Room room)
+	private void setRoom(Room room) // Just a shorthand for creating rooms
 	{
 		rooms[room.getType()] = room;
 	}
 
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx)
 	{
+		// First, draw the ship (the background is NOT the Ship)
+		// TODO draw Ship background
 		
+		// Grounds		
+		for(Room r : rooms)
+			r.render(gc, game, gfx, Room.LAYER_FLOOR);
+		
+		// Objects
+		for(Room r : rooms)
+			r.render(gc, game, gfx, Room.LAYER_OBJECTS);
+		
+		// Characters
+//		for(Character c : characters)
+//			c.render(gc, game, gfx); // TODO render method in Character
+		
+		// Ceiling
+		for(Room r : rooms)
+			r.render(gc, game, gfx, Room.LAYER_CEILING);
 	}
 
 }
