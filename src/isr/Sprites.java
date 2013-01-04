@@ -6,18 +6,27 @@ import org.newdawn.slick.SlickException;
 public class Sprites
 {
 	public static Image shipBackground;
-	public static Image rooms[][]; // [type][layer]
+	public static Image shipWalls;
+	public static Image roomFloors[]; // [type]
+	public static Image roomObjects[]; // [type]
 	
 	public static void load() throws SlickException
 	{
 		String dir = "src/assets/";
 		
 		shipBackground = new Image(dir + "preview_salle.jpg");
+		//shipWalls = new Image(dir + "architecture.png");
 		
-		rooms = new Image[Room.TYPE_COUNT][Room.LAYER_COUNT];
-		rooms[Room.TYPE_CORRIDOR][Room.LAYER_FLOOR] = new Image(dir + "");
+		// Floors
+		roomFloors = new Image[Room.TYPE_COUNT];
+		//roomFloors[Room.TYPE_CORRIDOR] = new Image(dir + "corridor-floor.png");
+		//...
 		
-		// TODO load sprites here
+		// Objects & decorations
+		roomObjects = new Image[Room.LAYER_COUNT];
+		//roomObjects[Room.TYPE_CORRIDOR] = new Image(dir + "corridor-objects.png");
+		//...
+	
 	}
 
 }
