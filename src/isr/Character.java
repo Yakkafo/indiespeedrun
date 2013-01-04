@@ -70,6 +70,11 @@ public class Character
 		return nextAction;
 	}
 	
+	public void setNextAction(int n)
+	{
+		nextAction = n;
+	}
+	
 	public int getLoyalty()
 	{
 		return loyalty;
