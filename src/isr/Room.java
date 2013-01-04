@@ -51,6 +51,21 @@ public class Room
 		return type;
 	}
 	
+	/**
+	 * check if the point is in the room
+	 * @param bx
+	 * @param by
+	 * @return
+	 */
+	public boolean isClicked(int bx, int by)
+	{
+//		if(bx >= x && bx <= x + img.getWidth() && by >= y && by <= y + img.getHeight())
+//			return true;
+//		else
+//			return false;
+		return false;
+	}
+	
 	public void addCharacter(Character c)
 	{
 		if(isCharacterIn(c))

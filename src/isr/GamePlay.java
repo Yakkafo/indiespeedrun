@@ -3,6 +3,7 @@ package isr;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -65,16 +66,35 @@ public class GamePlay extends UIBasicGameState
 	}
 	
 	@Override
-	public void mousePressed(int button, int x, int y) {
-		super.mousePressed(button, x, y);
-		
+	public void mousePressed(int button, int x, int y) {		
 		//Characters selection
-		for(Character c : Ship.get().getCharacters())
+		if(button == Input.MOUSE_LEFT_BUTTON)
 		{
-			if(c.isClicked(x, y))
-				c.setSelected(true);
-			else
-				c.setSelected(false);
+			for(Character c : Ship.get().getCharacters())
+			{
+				if(c.isClicked(x, y))
+					c.setSelected(true);
+				else
+					c.setSelected(false);
+			}
+		}
+		//send action to a character
+		else if(button == Input.MOUSE_RIGHT_BUTTON)
+		{
+			for(Room r : Ship.get().getRooms())
+			{
+				if(r.isClicked(x, y))
+				{
+					for(Character c : Ship.get().getCharacters())
+					{
+						if(c.isSelected())
+						{
+							c.setNextAction(r.getType());
+							break;
+						}
+					}
+				}
+			}
 		}
 	}
 

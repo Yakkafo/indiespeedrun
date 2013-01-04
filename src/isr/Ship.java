@@ -54,6 +54,11 @@ public class Ship
 		rooms[room.getType()] = room;
 	}
 	
+	public Room[] getRooms()
+	{
+		return rooms;
+	}
+	
 	public Character[] getCharacters()
 	{
 		return characters;
