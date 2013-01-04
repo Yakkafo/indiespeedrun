@@ -55,6 +55,11 @@ public class Character
 		return name;
 	}
 	
+	public int getId()
+	{
+		return id;
+	}
+	
 	/**
 	 * Check if the character is loyal.
 	 * @return true if the character is loyal.
@@ -103,6 +108,14 @@ public class Character
 		}
 		
 		return crew;
+	}
+	
+	public String toString()
+	{
+		String s = new String();
+		s += "Name: "+name+"\n";
+		s += "Loyalty: "+loyalty+"\n";
+		return s;
 	}
 	
 	
