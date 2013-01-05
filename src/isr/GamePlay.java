@@ -1,5 +1,7 @@
 package isr;
 
+import java.io.CharArrayWriter;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -24,13 +26,17 @@ public class GamePlay extends UIBasicGameState
 	private Character selectedCharacter;
 	private Character hoveredCharacter;
 	private Vector2f viewOffset = new Vector2f();
+	private MouseCursor currentCurs;
 	private MouseCursor cursEngine;
+	private MouseCursor defaultCursor;
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException
 	{
-		//cursEngine = new MouseCursor(new Image("assets/cursor_mouse.png"), 0, 0);
+		cursEngine = new MouseCursor(new Image("assets/engine_cursor.png"), 0, 0);
+		defaultCursor = new MouseCursor(new Image("assets/cursor.png"), 0, 0);
+		currentCurs = defaultCursor;
 	}
 	
 	@Override
@@ -79,7 +85,7 @@ public class GamePlay extends UIBasicGameState
 				
 		Ship.get().render(gc, game, gfx);
 		
-		
+		currentCurs.use(gc);
 		gfx.popTransform();
 	}
 
@@ -118,13 +124,25 @@ public class GamePlay extends UIBasicGameState
 		if(hoveredCharacter != null)
 			hoveredCharacter.setMouseOver(true);
 		
+		Boolean sec = false;
+		for(int i = 0; i < Ship.get().getCharactersSize(); i++)
+		{
+			sec = Ship.get().getCharacter(i).isSelected();
+			if(sec)
+				break;
+		}
 		//cursor mouse
 		Room r = Ship.get().getRoomAt((int)pos.x, (int)pos.y); // Get the room from click position
-		if(r != null)
+		if(r != null && sec)
 		{
 			switch(r.getType())
 			{
 			case ENGINE :
+				currentCurs = cursEngine;
+				break;
+			
+			default :
+				currentCurs = defaultCursor;
 				break;
 			}
 		}

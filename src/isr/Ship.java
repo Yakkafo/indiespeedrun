@@ -80,6 +80,11 @@ public class Ship
 		return characters[ID];
 	}
 	
+	public int getCharactersSize()
+	{
+		return characters.length;
+	}
+	
 	/**
 	 * Searches the first room that is under the
 	 * specified screen position (as the mouse cursor)
