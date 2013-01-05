@@ -26,6 +26,10 @@ public class GamePlay extends UIBasicGameState
 	private Vector2f viewOffset = new Vector2f();
 	private MouseCursor currentCurs;
 	private MouseCursor cursEngine;
+	private MouseCursor cursCell;
+	private MouseCursor cursHold;
+	private MouseCursor cursCommon;
+	private MouseCursor cursDorm;
 	private MouseCursor defaultCursor;
 	private DescriptionBar descript;
 
@@ -33,7 +37,11 @@ public class GamePlay extends UIBasicGameState
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException
 	{
-		cursEngine = new MouseCursor(new Image("assets/engine_cursor.png"), 0, 0);
+		cursEngine = new MouseCursor(new Image("assets/cursor_engine.png"), 0, 0);
+		cursCell = new MouseCursor(new Image("assets/cursor_cell.png"), 0, 0);
+		cursHold = new MouseCursor(new Image("assets/cursor_hold.png"), 0, 0);
+		cursCommon = new MouseCursor(new Image("assets/cursor_common.png"), 0, 0);
+		cursDorm = new MouseCursor(new Image("assets/cursor_dorm.png"), 0, 0);
 		defaultCursor = new MouseCursor(new Image("assets/cursor.png"), 0, 0);
 		currentCurs = defaultCursor;
 	}
@@ -138,7 +146,18 @@ public class GamePlay extends UIBasicGameState
 				case ENGINE :
 					currentCurs = cursEngine;
 					break;
-				
+				case CELL :
+					currentCurs = cursCell;
+					break;
+				case HOLD :
+					currentCurs = cursHold;
+					break;
+				case COMMON :
+					currentCurs = cursCommon;
+					break;
+				case DORM :
+					currentCurs = cursDorm;
+					break;
 				default :
 					currentCurs = defaultCursor;
 					break;

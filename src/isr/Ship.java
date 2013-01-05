@@ -25,6 +25,8 @@ public class Ship
 	private Room rooms[] = new Room[ROOM_COUNT];
 	private Character characters[];
 	
+	private Spy spy;
+	
 	public static Ship get()
 	{
 		if(instance == null)
@@ -40,6 +42,7 @@ public class Ship
 
 	public Ship()
 	{
+		spy = new Spy();
 	}
 	
 	public void init()
@@ -134,6 +137,9 @@ public class Ship
 //		// Objects
 //		for(Room r : rooms)
 //			r.render(gc, game, gfx, Room.LAYER_OBJECTS);
+		
+		//spy
+		spy.render(gc, game, gfx);
 		
 		// Characters
 		for(Character c : characters)
