@@ -1,5 +1,7 @@
 package isr;
 
+import javax.swing.JComboBox.KeySelectionManager;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -10,6 +12,9 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
+import sun.awt.SunHints.Key;
+
+import backend.KeySequenceDetector;
 import backend.MathHelper;
 import backend.MouseCursor;
 import backend.audio.MusicPlayer;
@@ -35,6 +40,7 @@ public class GamePlay extends UIBasicGameState
 	private MouseCursor defaultCursor;
 	private DescriptionBar descript;
 	private ProgressBar progress;
+	private KeySequenceDetector kDetector;
 	
 	private int progression;
 	private static final int PROGRESSION_GOAL = 1000;
@@ -57,6 +63,8 @@ public class GamePlay extends UIBasicGameState
 		progression = 0;
 
 		background = new Image(Game.ASSETS_DIR + "fond.png");
+		
+		kDetector = new KeySequenceDetector(KeySequenceDetector.KONAMI_CODE);
 	}
 	
 	@Override
@@ -64,8 +72,6 @@ public class GamePlay extends UIBasicGameState
 			throws SlickException
 	{
 		super.enter(container, game);
-		
-		MusicPlayer.get().play(Sounds.music, 1);
 		
 		Ship.get().init();
 	}
@@ -128,6 +134,10 @@ public class GamePlay extends UIBasicGameState
 		float t = (float)gc.getTime() / 1000.f;
 		viewOffset.x += 8.f * (float)Math.cos(t);
 		viewOffset.y += 4.f * (float)Math.sin(2.f * t);
+		
+		// Play music
+		if(!Sounds.music.playing() && !Sounds.kMusic.playing())
+			MusicPlayer.get().loop(Sounds.music, 1);
 	}
 	
 	private void renderBackground(Graphics gfx, GameContainer gc)
@@ -250,6 +260,15 @@ public class GamePlay extends UIBasicGameState
 					Log.debug("The room " + r.getType().name + " has been targeted.");
 				}
 			}
+		}
+	}
+	
+	@Override
+	public void keyPressed(int key, char c)
+	{
+		if(kDetector.keyPressMatch(key))
+		{
+			MusicPlayer.get().play(Sounds.kMusic, 1);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package isr;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -129,7 +130,10 @@ public class Ship
 	{
 		// First, draw the ship (the background is NOT the Ship)
 		final Image img = backgroundImage;
-		gfx.drawImage(img, 0, 0);
+		Color clr = Color.white;
+		if(Sounds.kMusic.playing())
+			clr = Color.yellow;
+		gfx.drawImage(img, 0, 0, clr);
 		
 		// Grounds		
 		for(Room r : rooms)
