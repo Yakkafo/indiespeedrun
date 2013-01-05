@@ -140,24 +140,27 @@ public class Ship
 			clr = Color.yellow;
 		gfx.drawImage(img, 0, 0, clr);
 		
-		// Grounds		
-		for(Room r : rooms)
-			r.render(gc, game, gfx, Room.LAYER_FLOOR);
-		
-//		// Objects
-//		for(Room r : rooms)
-//			r.render(gc, game, gfx, Room.LAYER_OBJECTS);
-		
-		//spy
-		spy.render(gc, game, gfx);
-		
-		// Characters
-		for(Character c : characters)
-			c.render(gc, game, gfx); // TODO render method in Character
-		
-		// Ceiling
-		gfx.drawImage(wallsImage, 243, 218);
-		
+		if(game.getCurrentStateID() != Game.INTRO_DIVE)
+		{
+			// Grounds
+			for(Room r : rooms)
+				r.render(gc, game, gfx, Room.LAYER_FLOOR);
+			
+	//		// Objects
+	//		for(Room r : rooms)
+	//			r.render(gc, game, gfx, Room.LAYER_OBJECTS);
+			
+			//spy
+			spy.render(gc, game, gfx);
+			
+			// Characters
+			for(Character c : characters)
+				c.render(gc, game, gfx); // TODO render method in Character
+			
+			// Ceiling
+			gfx.drawImage(wallsImage, 243, 218);
+		}
+
 	}
 	
 	void turn()

@@ -53,7 +53,7 @@ public class MainMenu extends UIBasicGameState
 		startBtn.addActionListener(new IActionListener() {
 			@Override
 			public void actionPerformed(Widget sender) {
-				nextState = Game.GAME_PLAY;
+				nextState = Game.INTRO_MISSION;
 			}
 		});
 		ui.add(startBtn);

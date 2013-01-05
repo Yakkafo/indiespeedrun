@@ -14,8 +14,10 @@ public class Game extends UIStateBasedGame
 	public static final String ASSETS_DIR = "src/assets/";
 	
 	public static final int MAIN_MENU = 1;
-	public static final int GAME_PLAY = 3;
-	public static final int CREDITS = 6;
+	public static final int INTRO_MISSION = 2;
+	public static final int INTRO_DIVE = 3;
+	public static final int GAME_PLAY = 4;
+	public static final int CREDITS = 7;
 
 	public static void main(String args[])
 	{
@@ -38,6 +40,8 @@ public class Game extends UIStateBasedGame
 	{
 		super(TITLE);
 		this.addState(new MainMenu());
+		this.addState(new IntroMission());
+		this.addState(new IntroDive());
 		this.addState(new GamePlay());
 		this.addState(new Credits());
 	}
@@ -51,8 +55,8 @@ public class Game extends UIStateBasedGame
 		Character.loadContent();
 		ScrollBackground.loadContent();
 		
-		this.getState(MAIN_MENU).init(gc, this);
-		this.getState(GAME_PLAY).init(gc, this);
+//		this.getState(MAIN_MENU).init(gc, this);
+//		this.getState(GAME_PLAY).init(gc, this);
 	}
 
 }

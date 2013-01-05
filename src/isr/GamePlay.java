@@ -68,7 +68,6 @@ public class GamePlay extends UIBasicGameState
 	{
 		super.enter(container, game);
 		
-		Ship.get().init();
 	}
 
 	@Override
