@@ -30,7 +30,7 @@ public class Room
 	private int freeSlots;
 	
 	/** Type of the room (corridor, engine, jail...) **/
-	private int type;
+	private RoomType type;
 	
 	/** Position of the top-left-corner of the room's bounding rectangle **/
 	private Vector2i pos = new Vector2i();
@@ -44,7 +44,7 @@ public class Room
 	
 	public Room(RoomType type)
 	{
-		this.type = type.ordinal();
+		this.type = type;
 		if(type.size() > 0)
 		{
 			pos.set(type.x, type.y);
@@ -65,12 +65,12 @@ public class Room
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx, int layer)
 	{
-		gfx.drawImage(backgrounds[type], 
-				RoomType.values()[type].x, 
-				RoomType.values()[type].y);
+		gfx.drawImage(backgrounds[type.ordinal()], 
+				type.x, 
+				type.y);
 	}
 
-	public int getType()
+	public RoomType getType()
 	{
 		return type;
 	}
@@ -86,7 +86,7 @@ public class Room
 		int spriteX = bx - pos.x;
 		int spriteY = by - pos.y;
 		// We use the floor as a collision mask because it covers all the surface of the room
-		Image img = backgrounds[type];
+		Image img = backgrounds[type.ordinal()];
 		// If in the image
 		if(spriteX >= 0 && spriteY >= 0 && spriteX < img.getWidth() && spriteY < img.getHeight())
 		{
@@ -115,8 +115,8 @@ public class Room
 				if(absolute)
 				{
 					return new Vector2i(
-						s.pos.x + RoomType.values()[type].x,
-						s.pos.y + RoomType.values()[type].y);
+						s.pos.x + type.x,
+						s.pos.y + type.y);
 				}
 				else
 					return new Vector2i(s.pos);
@@ -137,7 +137,7 @@ public class Room
 	 */
 	public Vector2i addCharacter(Character c, boolean absolutePosition)
 	{
-		String roomName = RoomType.values()[type].name;
+		String roomName = RoomType.values()[type.ordinal()].name;
 		if(isFull())
 		{
 			System.out.println(
@@ -160,8 +160,8 @@ public class Room
 				if(absolutePosition)
 				{
 					return new Vector2i(
-							s.pos.x + RoomType.values()[type].x,
-							s.pos.y + RoomType.values()[type].y);
+							s.pos.x + RoomType.values()[type.ordinal()].x,
+							s.pos.y + RoomType.values()[type.ordinal()].y);
 				}
 				else
 					return new Vector2i(s.pos);
