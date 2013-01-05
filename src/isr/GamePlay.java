@@ -90,6 +90,15 @@ public class GamePlay extends UIBasicGameState
 						Ship.get().getRoom(RoomType.ENGINE.ordinal()).getCharacterCount() * PROGRESSION_FACTOR;
 				progress.setProgression(progression);
 				progress.makeEnemyMove(ENEMY_SPEED);
+				//SPY
+				if(Ship.get().getRoom(RoomType.ENGINE.ordinal()).getCharacterCount() == 0 && 
+						Ship.get().getSpy().isDoingBadAction())
+				{
+					progress.makeEnemyMove(Spy.BAD_ACTION);
+					System.out.println("Sabotage");
+				}
+				//---
+				///Check victory
 				if(progress.isLost())
 					System.out.println("PERDU!");
 			}

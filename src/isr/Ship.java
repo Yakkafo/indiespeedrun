@@ -75,6 +75,11 @@ public class Ship
 		rooms[room.getType().ordinal()] = room;
 	}
 	
+	public Spy getSpy()
+	{
+		return spy;
+	}
+	
 	public Room getRoom(int ID)
 	{
 		return rooms[ID];

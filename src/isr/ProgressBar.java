@@ -21,7 +21,7 @@ public class ProgressBar extends BasicWidget {
 		super(parent, x, y, width, height);
 		
 		xShip = 0;
-		this.enemy_progression = -700;
+		this.enemy_progression = -560;
 		this.goal = goal;
 		
 		try {

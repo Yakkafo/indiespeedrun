@@ -6,9 +6,13 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import backend.MathHelper;
+
 public class Spy {
 	
 	private Image img;
+	private static final float PROBABILITY_BAD_ACTION = 0.25f; 
+	public static final int BAD_ACTION = 40; 
 	
 	public Spy()
 	{
@@ -23,6 +27,11 @@ public class Spy {
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx)
 	{
 		img.draw(575, 250);
+	}
+	
+	public boolean isDoingBadAction()
+	{
+		return MathHelper.randFloat(0, 1) <= PROBABILITY_BAD_ACTION;
 	}
 
 }
