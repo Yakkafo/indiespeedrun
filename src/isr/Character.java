@@ -118,7 +118,7 @@ public class Character
 	 * assuming there is a place for him.
 	 * @param room
 	 */
-	private void enterRoom(Room room)
+	public void enterRoom(Room room)
 	{
 		if(room.isFull())
 		{
