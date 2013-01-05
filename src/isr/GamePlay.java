@@ -1,7 +1,5 @@
 package isr;
 
-import javax.swing.JComboBox.KeySelectionManager;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -11,8 +9,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
-
-import sun.awt.SunHints.Key;
 
 import backend.KeySequenceDetector;
 import backend.MathHelper;
@@ -46,6 +42,8 @@ public class GamePlay extends UIBasicGameState
 	private static final int PROGRESSION_GOAL = 1000;
 	private static final int PROGRESSION_FACTOR = 20;
 	private static final int INITIAL_SPEED = 20;
+	private static final int ENEMY_SPEED = 70;
+	private Image background;
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -89,12 +87,29 @@ public class GamePlay extends UIBasicGameState
 						INITIAL_SPEED + 
 						Ship.get().getRoom(RoomType.ENGINE.ordinal()).getCharacterCount() * PROGRESSION_FACTOR;
 				progress.setProgression(progression);
+				progress.makeEnemyMove(ENEMY_SPEED);
+				//SPY
+				if(Ship.get().getRoom(RoomType.HOLD.ordinal()).getCharacterCount() == 0 && 
+						Ship.get().getSpy().isDoingBadAction())
+				{
+					progress.makeEnemyMove(Spy.BAD_ACTION);
+					System.out.println("Sabotage");
+				} else if(Ship.get().getRoom(RoomType.HOLD.ordinal()).isTraitorInside() &&
+						Ship.get().getSpy().isDoingBadAction())
+				{
+					progress.makeEnemyMove(Spy.BAD_ACTION);
+					System.out.println("Sabotage");
+				}
+				//---
+				///Check victory
+				if(progress.isLost())
+					System.out.println("PERDU!");
 			}
 		});
 		ui.add(btn);
 		
 		//Progress bar
-		progress = new ProgressBar(ui, 100, 25, 800, 15, PROGRESSION_GOAL);
+		progress = new ProgressBar(ui, 100, 25, 800, 15, PROGRESSION_GOAL, ENEMY_SPEED);
 		ui.add(progress);
 		
 		//Description

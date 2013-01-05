@@ -222,6 +222,22 @@ public class Room
 		return count;
 	}
 	
+	public int getTraitorCount()
+	{
+		int count = 0;
+		for(Slot s : slots)
+		{
+			if(s.characterRef != null)
+				count += s.characterRef.isLoyal() ? 0 : 1;
+		}
+		return count;
+	}
+	
+	public boolean isTraitorInside()
+	{
+		return getTraitorCount() > 0;
+	}
+	
 	public int getCharacterCount()
 	{
 		return slots.length - freeSlots;
