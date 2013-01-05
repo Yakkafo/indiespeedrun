@@ -17,27 +17,27 @@ public enum RoomType
 	static
 	{
 		Vector2i posEngine[] = {
-				new Vector2i(15, 15), 
-				new Vector2i(20, 20), 
-				new Vector2i(25, 25)
+				new Vector2i(250, 55), 
+				new Vector2i(165, 145), 
+				new Vector2i(250, 225)
 		};
 		ENGINE.charactersPositions = posEngine;
 		
-		Vector2i posHold[] = {new Vector2i(100, 100)};
+		Vector2i posHold[] = {new Vector2i(90, 70)};
 		HOLD.charactersPositions = posHold;
 		
 		Vector2i posDormitory[] = {
-				new Vector2i(100, 10), 
-				new Vector2i(120, 20)
+				new Vector2i(70, 70), 
+				new Vector2i(200, 70)
 		};
 		DORM.charactersPositions = posDormitory;
 		
-		Vector2i posCell[] = {new Vector2i(15, 110)};
+		Vector2i posCell[] = {new Vector2i(50, 50)};
 		CELL.charactersPositions = posCell;
 		
 		Vector2i posCommon[] = {
-				new Vector2i(65, 65), 
-				new Vector2i(80, 80)
+				new Vector2i(130, 50), 
+				new Vector2i(250, 50)
 		};
 		COMMON.charactersPositions = posCommon;
 		
