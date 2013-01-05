@@ -76,7 +76,6 @@ public class GamePlay extends UIBasicGameState
 	{
 		super.enter(container, game);
 		
-		Ship.get().init();
 	}
 
 	@Override
@@ -137,7 +136,7 @@ public class GamePlay extends UIBasicGameState
 			throws SlickException
 	{
 		gfx.setBackground(bgColor);
-		renderBackground(gfx, gc);
+		ScrollBackground.get().render(gfx);
 		
 		gfx.pushTransform();		
 		gfx.translate(viewOffset.x, viewOffset.y);
@@ -167,19 +166,13 @@ public class GamePlay extends UIBasicGameState
 			reportPhase = true;
 			report.setVisible(true);
 		}
+		
+		ScrollBackground.get().update(delta);
 		// Play music
 		if(!Sounds.music.playing() && !Sounds.kMusic.playing())
 			MusicPlayer.get().loop(Sounds.music, 1);
 	}
-	
-	private void renderBackground(Graphics gfx, GameContainer gc)
-	{
-		float x0 = -(float)background.getWidth() * MathHelper.frac((float)gc.getTime() / 50000.f);
-		gfx.drawImage(background, x0, 0, Color.gray);
-		gfx.drawImage(background, x0 + background.getWidth(), 0, Color.gray);
-		gfx.drawImage(background, x0 + 2*background.getWidth(), 0, Color.gray);
-	}
-	
+		
 	@Override
 	public int getID()
 	{
