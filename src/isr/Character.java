@@ -19,8 +19,6 @@ public class Character
 	private static final int LOYAL_STEP = 25; 
 	/**Turns before the character becomes sleepy*/
 	private static final int TIME_SLEEP = 3; 
-	/** Probabilty for a sabotage */
-	private static final float SABOTAGE_PROBABILITY = 0.33f;
 	/** Radius of the hit-circle for clicking on a character **/
 	private static final float SELECTION_RADIUS = 25;
 	
@@ -358,6 +356,7 @@ public class Character
 		boolean has_sleep = false;
 		int COMMON_ROOM_LOYALTY_GAIN = 5;
 		int SPY_ROOM_LOYALTY_LOSS = 25;
+		float SPY_ROOM_PROBABILITY_TALK = 0.25f;
 		int BETRAYER_LOYALTY_LOSS = 5;
 		int CELL_LOYALTY_GAIN = 25;
 		int CELL_LOYALTY_LOSS = 10;
@@ -375,7 +374,8 @@ public class Character
 		else if(currentRoom.getType() == RoomType.HOLD)
 		{
 			// Si le personnage est à côté de l'espion, il se fait influencer
-			decreaseLoyalty(SPY_ROOM_LOYALTY_LOSS);
+			if(MathHelper.randFloat(0, 1) <= SPY_ROOM_PROBABILITY_TALK)
+				decreaseLoyalty(SPY_ROOM_LOYALTY_LOSS);
 		}
 		else if(currentRoom.getType() == RoomType.DORM)
 		{
