@@ -23,7 +23,7 @@ public class DescriptionBar extends WidgetContainer {
 		report.setTextColor(Color.white);
 		this.add(report);
 		try {
-			img = new Image("assets/layout.png");
+			img = new Image(Game.ASSETS_DIR+"layout.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
