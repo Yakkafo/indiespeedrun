@@ -6,15 +6,15 @@ import org.newdawn.slick.SlickException;
 public class Sounds
 {
 	// Music
-	public static Music music1;
-	public static Music music2;
+	public static Music music;
+	public static Music kMusic;
 	
 	public static void load() throws SlickException
 	{
 		String dir = Game.ASSETS_DIR;
 		
-		music1 = new Music(dir + "music1.ogg", true);
-		music2 = new Music(dir + "music2.ogg", true);
+		music = new Music(dir + "music.ogg", true);
+		kMusic = new Music(dir + "kmusic.ogg", true);
 		
 		// TODO load sounds here
 	}
