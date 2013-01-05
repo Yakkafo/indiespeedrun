@@ -52,6 +52,10 @@ public class GamePlay extends UIBasicGameState
 			}
 		});
 		ui.add(btn);
+		
+		//Progress bar
+		ProgressBar bar = new ProgressBar(ui, 100, 25, 600, 30);
+		ui.add(bar);
 
 	}
 
