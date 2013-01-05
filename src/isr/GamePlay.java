@@ -11,6 +11,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
 import backend.MouseCursor;
+import backend.audio.MusicPlayer;
 import backend.geom.Vector2i;
 import backend.ui.IActionListener;
 import backend.ui.RootPane;
@@ -20,7 +21,7 @@ import backend.ui.Widget;
 public class GamePlay extends UIBasicGameState
 {
 	private static Color bgColor = new Color(0, 32, 64);
-	
+
 	private Character selectedCharacter;
 	private Character hoveredCharacter;
 	private Vector2f viewOffset = new Vector2f();
@@ -44,7 +45,8 @@ public class GamePlay extends UIBasicGameState
 	{
 		super.enter(container, game);
 		
-		Ship.get().init();		
+		MusicPlayer.get().play(Sounds.music1, 1);
+		Ship.get().init();
 	}
 
 	@Override
@@ -158,7 +160,7 @@ public class GamePlay extends UIBasicGameState
 		}
 		
 		descript.setText(description);
-		
+
 	}
 	
 	@Override
