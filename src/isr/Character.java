@@ -35,9 +35,9 @@ public class Character
 	/**Time (in turns) before the last sleep.*/
 	private int lastSleep;
 	/**Next action of the character. -1 means that there is not any actions yet*/
-	private int nextAction;
+	private Room targetedRoom;
 	/**Where the character is*/
-	private int currentRoom;
+	private Room currentRoom;
 	/**True if the character is selected by the player*/
 	private boolean selected;
 	private boolean mouseOver;
@@ -95,9 +95,9 @@ public class Character
 			this.id = id;
 			this.loyalty = loyalty;
 			this.lastSleep = 0;
-			this.nextAction = -1;
+			this.targetedRoom = null;
 			this.name = profile.name;
-			this.currentRoom = -1; // None
+			this.currentRoom = null; // None
 			this.x = 0;
 			this.y = 0;
 
@@ -123,27 +123,27 @@ public class Character
 		Vector2i pos = room.addCharacter(this, true);
 		if(pos == null)
 			return; // Cannot enter the room (but should not occur here)
-		if(currentRoom >= 0)
+		if(currentRoom != null)
 		{
 			// Quit the last room
-			Ship.get().getRoom(currentRoom).removeCharacter(this);
+			room.removeCharacter(this);
 		}
-		currentRoom = room.getType();
+		currentRoom = room;
 		x = pos.x;
 		y = pos.y;
 		// Debug
-		Log.debug(name + " entered in the \"" + RoomType.values()[currentRoom].name + "\"");
+		Log.debug(name + " entered in the \"" + room.getType().name + "\"");
 	}
 	
-	public int getNextAction()
+	public Room getNextAction()
 	{
-		return nextAction;
+		return targetedRoom;
 	}
 	
-	public void setNextAction(int n)
+	public void setNextAction(Room r)
 	{
-		Log.debug("Set next " + n);
-		nextAction = n;
+		Log.debug("Set next " + r);
+		targetedRoom = r;
 	}
 	
 	public int getLoyalty()
@@ -161,7 +161,7 @@ public class Character
 		return id;
 	}
 	
-	public int getCurrentRoom()
+	public Room getCurrentRoom()
 	{
 		return currentRoom;
 	}
@@ -249,9 +249,9 @@ public class Character
 		// Draw centered
 		gfx.drawImage(img, x - img.getWidth() / 2, y - img.getHeight() / 2);
 		
-		if(nextAction >= 0)
+		if(targetedRoom != null)
 		{
-			Vector2i targetPos = Ship.get().getRoom(nextAction).getNextAvailablePosition(true);
+			Vector2i targetPos = targetedRoom.getNextAvailablePosition(true);
 			if(targetPos != null)
 			{
 				Color clr = new Color(255,255,255);
@@ -290,9 +290,9 @@ public class Character
 
 	public void doMovePhase()
 	{
-		if(nextAction >= 0)
-			enterRoom(Ship.get().getRoom(nextAction));
-		nextAction = -1;
+		if(targetedRoom != null)
+			enterRoom(targetedRoom);
+		targetedRoom = null;
 	}
 	
 	public void doResolvePhase()

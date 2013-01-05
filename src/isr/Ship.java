@@ -67,7 +67,7 @@ public class Ship
 	
 	private void setRoom(Room room) // Just a shorthand for creating rooms
 	{
-		rooms[room.getType()] = room;
+		rooms[room.getType().ordinal()] = room;
 	}
 	
 	public Room getRoom(int ID)

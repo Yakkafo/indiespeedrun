@@ -3,12 +3,14 @@ package isr;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
+import backend.MouseCursor;
 import backend.geom.Vector2i;
 import backend.ui.IActionListener;
 import backend.ui.RootPane;
@@ -22,11 +24,13 @@ public class GamePlay extends UIBasicGameState
 	private Character selectedCharacter;
 	private Character hoveredCharacter;
 	private Vector2f viewOffset = new Vector2f();
+	private MouseCursor cursEngine;
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException
 	{
+		//cursEngine = new MouseCursor(new Image("assets/cursor_mouse.png"), 0, 0);
 	}
 	
 	@Override
@@ -113,6 +117,17 @@ public class GamePlay extends UIBasicGameState
 		hoveredCharacter = c;
 		if(hoveredCharacter != null)
 			hoveredCharacter.setMouseOver(true);
+		
+		//cursor mouse
+		Room r = Ship.get().getRoomAt((int)pos.x, (int)pos.y); // Get the room from click position
+		if(r != null)
+		{
+			switch(r.getType())
+			{
+			case ENGINE :
+				break;
+			}
+		}
 	}
 	
 	@Override
@@ -149,11 +164,11 @@ public class GamePlay extends UIBasicGameState
 				if(r != null)
 				{
 					// If room found, send the character to it
-					selectedCharacter.setNextAction(r.getType());
+					selectedCharacter.setNextAction(r);
 					// Unselect the character
 					selectedCharacter.setSelected(false);
 					selectedCharacter = null;
-					Log.debug("The room " + RoomType.values()[r.getType()].name + " has been targeted.");
+					Log.debug("The room " + r.getType().name + " has been targeted.");
 				}
 			}
 		}
