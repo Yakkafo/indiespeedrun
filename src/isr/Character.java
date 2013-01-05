@@ -40,6 +40,7 @@ public class Character
 	private int currentRoom;
 	/**True if the character is selected by the player*/
 	private boolean selected;
+	private boolean mouseOver;
 	private Image img;
 	private int x, y;
 	
@@ -119,7 +120,7 @@ public class Character
 	{
 		if(room.isFull())
 			return; // Cannot enter the room
-		Vector2i pos = room.addCharacter(this);
+		Vector2i pos = room.addCharacter(this, true);
 		if(pos == null)
 			return; // Cannot enter the room (but should not occur here)
 		if(currentRoom >= 0)
@@ -127,10 +128,9 @@ public class Character
 			// Quit the last room
 			Ship.get().getRoom(currentRoom).removeCharacter(this);
 		}
-		x = pos.x + RoomType.values()[room.getType()].x;
-		y = pos.y + RoomType.values()[room.getType()].y;
 		currentRoom = room.getType();
-		
+		x = pos.x;
+		y = pos.y;
 		// Debug
 		Log.debug(name + " entered in the \"" + RoomType.values()[currentRoom].name + "\"");
 	}
@@ -142,6 +142,7 @@ public class Character
 	
 	public void setNextAction(int n)
 	{
+		Log.debug("Set next " + n);
 		nextAction = n;
 	}
 	
@@ -190,9 +191,19 @@ public class Character
 		selected = s;
 	}
 	
+	public void setMouseOver(boolean m)
+	{
+		mouseOver = m;
+	}
+	
 	public boolean isSelected()
 	{
 		return selected;
+	}
+	
+	public boolean isMouseOver()
+	{
+		return mouseOver;
 	}
 	
 	/**
@@ -238,17 +249,41 @@ public class Character
 		// Draw centered
 		gfx.drawImage(img, x - img.getWidth() / 2, y - img.getHeight() / 2);
 		
+		if(nextAction >= 0)
+		{
+			Vector2i targetPos = Ship.get().getRoom(nextAction).getNextAvailablePosition(true);
+			if(targetPos != null)
+			{
+				Color clr = new Color(255,255,255);
+				float k = 2.f * MathHelper.ksin((float)gc.getTime() / 200.f);
+				if(k > 1.f)
+					k = 1.f;
+				clr.a = 0.4f + 0.4f * k;
+				//clr.a = 0.5f;
+				gfx.drawImage(img, 
+						targetPos.x - img.getWidth() / 2, 
+						targetPos.y - img.getHeight() / 2, clr);
+			}
+		}
+		
 		// Debug
 //		gfx.setColor(Color.cyan); // Sprite
 //		gfx.drawRect(x - img.getWidth()/2, y - img.getHeight() / 2, img.getWidth(), img.getHeight());
 //		gfx.setColor(Color.orange);
+		if(isMouseOver())
+		{
+			gfx.setColor(Color.yellow);
+			float r = SELECTION_RADIUS; // Selection radius
+			gfx.drawOval(x - r, y - r, 2*r, 2*r);
+		}
 		if(isSelected())
 		{
+			gfx.setColor(Color.white);
 			float r = SELECTION_RADIUS; // Selection radius
 			gfx.drawOval(x - r, y - r, 2*r, 2*r);
 		}
 	}
-	
+
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 	{
 	}
