@@ -40,6 +40,7 @@ public class GamePlay extends UIBasicGameState
 	private static final int PROGRESSION_GOAL = 1000;
 	private static final int PROGRESSION_FACTOR = 20;
 	private static final int INITIAL_SPEED = 20;
+	private static final int ENEMY_SPEED = 70;
 	private Image background;
 
 	@Override
@@ -85,12 +86,15 @@ public class GamePlay extends UIBasicGameState
 						INITIAL_SPEED + 
 						Ship.get().getRoom(RoomType.ENGINE.ordinal()).getCharacterCount() * PROGRESSION_FACTOR;
 				progress.setProgression(progression);
+				progress.makeEnemyMove(ENEMY_SPEED);
+				if(progress.isLost())
+					System.out.println("PERDU!");
 			}
 		});
 		ui.add(btn);
 		
 		//Progress bar
-		progress = new ProgressBar(ui, 100, 25, 800, 15, PROGRESSION_GOAL);
+		progress = new ProgressBar(ui, 100, 25, 800, 15, PROGRESSION_GOAL, ENEMY_SPEED);
 		ui.add(progress);
 		
 		//Description
