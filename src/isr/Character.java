@@ -283,16 +283,21 @@ public class Character
 			gfx.drawOval(x - r, y - r, 2*r, 2*r);
 		}
 	}
+	
+	public void update(GameContainer gc, StateBasedGame game, int delta)
+	{
+	}
 
-	public void turn()
+	public void doMovePhase()
 	{
 		if(nextAction >= 0)
 			enterRoom(Ship.get().getRoom(nextAction));
 		nextAction = -1;
 	}
 	
-	public void update(GameContainer gc, StateBasedGame game, int delta)
+	public void doResolvePhase()
 	{
+		
 	}
 
 }
