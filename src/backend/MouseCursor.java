@@ -29,6 +29,7 @@ public class MouseCursor
 	{
 		if(lastUsed != this)
 		{
+			System.out.println(image.getWidth() + ", " + image.getHeight() + ", " + hotSpotX + ", " + hotSpotY);
 			gc.setMouseCursor(image, hotSpotX, hotSpotY);
 			lastUsed = this;
 		}
