@@ -56,7 +56,8 @@ public class GamePlay extends UIBasicGameState
 	{
 		super.enter(container, game);
 		
-		MusicPlayer.get().play(Sounds.music1, 1);
+		MusicPlayer.get().play(Sounds.music, 1);
+		
 		Ship.get().init();
 	}
 
