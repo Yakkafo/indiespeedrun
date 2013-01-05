@@ -216,7 +216,8 @@ public class GamePlay extends UIBasicGameState
 				if(r != null)
 				{
 					// If room found, send the character to it
-					selectedCharacter.setNextAction(r);
+					//selectedCharacter.setNextAction(r);
+					selectedCharacter.enterRoom(r);
 					// Unselect the character
 					selectedCharacter.setSelected(false);
 					selectedCharacter = null;
