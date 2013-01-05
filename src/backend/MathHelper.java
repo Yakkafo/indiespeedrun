@@ -233,6 +233,15 @@ public class MathHelper
 		}
 	}
 	
+	/**
+	 * Returns a sinus in [0,1]
+	 * @param t : angle in radians
+	 * @return
+	 */
+	public static float ksin(float t)
+	{
+		return 0.5f * (float)Math.sin(t) + 0.5f;
+	}
 	
 }
 

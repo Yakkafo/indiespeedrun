@@ -20,6 +20,7 @@ public class GamePlay extends UIBasicGameState
 	private static Color bgColor = new Color(0, 32, 64);
 	
 	private Character selectedCharacter;
+	private Character hoveredCharacter;
 	private Vector2f viewOffset = new Vector2f();
 
 	@Override
@@ -103,7 +104,19 @@ public class GamePlay extends UIBasicGameState
 	{
 		return new Vector2f(x - viewOffset.x, y - viewOffset.y);
 	}
-			
+	
+	@Override
+	public void mouseMoved(int oldx, int oldy, int newx, int newy)
+	{
+		Vector2f pos = convertToSceneCoords(newx, newy);
+		Character c = Ship.get().getCharacterAt((int)pos.x, (int)pos.y);
+		if(c != hoveredCharacter && hoveredCharacter != null)
+			hoveredCharacter.setMouseOver(false);
+		hoveredCharacter = c;
+		if(hoveredCharacter != null)
+			hoveredCharacter.setMouseOver(true);
+	}
+	
 	@Override
 	public void mousePressed(int button, int x, int y) 
 	{

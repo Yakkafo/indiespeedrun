@@ -100,6 +100,30 @@ public class Room
 	{
 		return freeSlots == 0 || slots == null || slots.length == 0;
 	}
+	
+	/**
+	 * Get next available position if available. Returns null if there is no place.
+	 * @param absolute : if true, the returned position will be relative to the whole ship.
+	 * @return
+	 */
+	public Vector2i getNextAvailablePosition(boolean absolute)
+	{
+		for(Slot s : slots)
+		{
+			if(s.characterRef == null)
+			{
+				if(absolute)
+				{
+					return new Vector2i(
+						s.pos.x + RoomType.values()[type].x,
+						s.pos.y + RoomType.values()[type].y);
+				}
+				else
+					return new Vector2i(s.pos);
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Adds a character to the room by finding a free slot.
@@ -108,9 +132,10 @@ public class Room
 	 * Warning: this method doesn't guaranties that a character will not 
 	 * be in two rooms at the same time.
 	 * @param c
+	 * @param absolutePosition : if true, the returned position will be relative to the whole ship.
 	 * @return
 	 */
-	public Vector2i addCharacter(Character c)
+	public Vector2i addCharacter(Character c, boolean absolutePosition)
 	{
 		String roomName = RoomType.values()[type].name;
 		if(isFull())
@@ -132,7 +157,14 @@ public class Room
 			{
 				s.characterRef = c;
 				freeSlots--;
-				return s.pos;
+				if(absolutePosition)
+				{
+					return new Vector2i(
+							s.pos.x + RoomType.values()[type].x,
+							s.pos.y + RoomType.values()[type].y);
+				}
+				else
+					return new Vector2i(s.pos);
 			}
 		}
 		return null;
