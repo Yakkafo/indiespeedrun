@@ -121,14 +121,18 @@ public class Character
 	private void enterRoom(Room room)
 	{
 		if(room.isFull())
+		{
+			Log.warn(getName() + " cannot enter " + room.getType().name);
 			return; // Cannot enter the room
+		}
 		Vector2i pos = room.addCharacter(this, true);
 		if(pos == null)
 			return; // Cannot enter the room (but should not occur here)
 		if(currentRoom != null)
 		{
 			// Quit the last room
-			room.removeCharacter(this);
+			Log.debug(getName() + " left " + currentRoom.getType().name);
+			currentRoom.removeCharacter(this);
 		}
 		currentRoom = room;
 		x = pos.x;

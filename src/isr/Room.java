@@ -53,6 +53,7 @@ public class Room
 			pos.set(type.x, type.y);
 			slots = new Slot[type.size()];
 			freeSlots = slots.length;
+			Log.debug("Created " + type.name + " with " + freeSlots + " slots");
 			for(int i = 0; i < slots.length; i++)
 			{
 				slots[i] = new Slot();
@@ -150,7 +151,7 @@ public class Room
 	 */
 	public Vector2i addCharacter(Character c, boolean absolutePosition)
 	{
-		String roomName = RoomType.values()[type.ordinal()].name;
+		String roomName = getType().name;
 		if(isFull())
 		{
 			System.out.println(
@@ -170,14 +171,17 @@ public class Room
 			{
 				s.characterRef = c;
 				freeSlots--;
+				Vector2i pos;
 				if(absolutePosition)
 				{
-					return new Vector2i(
-							s.pos.x + RoomType.values()[type.ordinal()].x,
-							s.pos.y + RoomType.values()[type.ordinal()].y);
+					pos = new Vector2i(
+							s.pos.x + getType().x,
+							s.pos.y + getType().y);
 				}
 				else
-					return new Vector2i(s.pos);
+					pos = new Vector2i(s.pos);
+				Log.debug(c.getName() + " added to " + roomName);
+				return pos;
 			}
 		}
 		return null;
