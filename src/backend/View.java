@@ -15,11 +15,19 @@ public class View
 {
 	private Rectangle bounds;
 	
+	/**
+	 * Creates a view matching the given scene rectangle
+	 * @param b
+	 */
 	public View(Rectangle b)
 	{
 		bounds = new Rectangle(b);
 	}
 	
+	/**
+	 * Creates a view matching the given game container (pixel-match view)
+	 * @param gc
+	 */
 	public View(GameContainer gc)
 	{
 		bounds = new Rectangle(0, 0, gc.getWidth(), gc.getHeight());
@@ -30,7 +38,7 @@ public class View
 		return bounds;
 	}
 	
-	public Vector2f convertCoords(GameContainer gc, float x, float y)
+	public Vector2f screenCoordsToScene(GameContainer gc, float x, float y)
 	{
 		Vector2f pos = new Vector2f(
 				bounds.getOriginX() + x * bounds.getWidth() / (float)gc.getWidth(),
@@ -38,6 +46,12 @@ public class View
 		return pos;
 	}
 	
+	/**
+	 * Modifies the current drawing matrix to match the rectangle of view.
+	 * Must be called before drawing anything with Slick2D.
+	 * @param gfx
+	 * @param gc
+	 */
 	public void look(Graphics gfx, GameContainer gc)
 	{
 		gfx.scale(gc.getWidth(), gc.getHeight());
