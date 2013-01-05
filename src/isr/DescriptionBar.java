@@ -8,36 +8,23 @@ import org.newdawn.slick.SlickException;
 import backend.ui.BasicWidget;
 import backend.ui.Widget;
 
-public class ProgressBar extends BasicWidget {
-	 
-	Image imgBar;
-	Image imgShip;
-	int xShip;
+public class DescriptionBar extends BasicWidget {
+
+	Image img;
 	
-	public ProgressBar(Widget parent, int x, int y, int width, int height) {
+	public DescriptionBar(Widget parent, int x, int y, int width, int height) {
 		super(parent, x, y, width, height);
-		
-		xShip = 0;
-		
 		try {
-			imgBar = new Image("assets/progress_bar.png");
-			imgShip = new Image("assets/mini_ship.png");
+			img = new Image("assets/description.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	public void incrementProgression(int deltaX)
-	{
-		xShip += deltaX;
-	}
-	
+
 	@Override
 	public void render(GameContainer gc, Graphics gfx) {
-		imgBar.draw(getX(), getY());
-		imgShip.draw(getX()+xShip, getY()-18);
-
+		img.draw(getX(), getY());
 	}
 
 }

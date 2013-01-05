@@ -19,7 +19,7 @@ public class NextTurnButton extends PushButton
 		if(sprites == null)
 		{
 			try {
-				sprites = new SpriteSheet("assets/next_turn_button.png", 150, 75);
+				sprites = new SpriteSheet("assets/next_turn.png", 150, 75);
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
