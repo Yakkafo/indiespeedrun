@@ -9,6 +9,8 @@ import backend.MathHelper;
 
 public class ScrollBackground
 {
+	private static final float DEFAULT_SPEED = 10.f; // In px/s
+	
 	private static Image img;
 	private static ScrollBackground instance;
 	
@@ -29,6 +31,7 @@ public class ScrollBackground
 	
 	private ScrollBackground()
 	{
+		speed = DEFAULT_SPEED;
 	}
 	
 	public void setSpeed(float pixelsPerSecond)
@@ -44,7 +47,7 @@ public class ScrollBackground
 	public void render(Graphics gfx)
 	{
 		float w = img.getWidth();
-		float x0 = w * MathHelper.frac(x / w);
+		float x0 = -w * MathHelper.frac(x / w);
 		gfx.drawImage(img, x0, 0, Color.gray);
 		gfx.drawImage(img, x0 + img.getWidth(), 0, Color.gray);
 		gfx.drawImage(img, x0 + 2.f*img.getWidth(), 0, Color.gray);

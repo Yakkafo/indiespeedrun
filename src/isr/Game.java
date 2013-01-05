@@ -15,6 +15,7 @@ public class Game extends UIStateBasedGame
 	
 	public static final int MAIN_MENU = 1;
 	public static final int GAME_PLAY = 3;
+	public static final int CREDITS = 6;
 
 	public static void main(String args[])
 	{
@@ -38,6 +39,7 @@ public class Game extends UIStateBasedGame
 		super(TITLE);
 		this.addState(new MainMenu());
 		this.addState(new GamePlay());
+		this.addState(new Credits());
 	}
 
 	@Override

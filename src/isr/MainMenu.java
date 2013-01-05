@@ -7,6 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import backend.audio.MusicPlayer;
 import backend.ui.IActionListener;
 import backend.ui.Label;
 import backend.ui.RootPane;
@@ -15,7 +16,7 @@ import backend.ui.Widget;
 
 public class MainMenu extends UIBasicGameState
 {
-	private int nextState;
+	private int nextState; // 0 means Quit
 	private Image startImage;
 	private Image creditsImage;
 	private Image quitImage;
@@ -37,6 +38,9 @@ public class MainMenu extends UIBasicGameState
 	{
 		nextState = -1;
 		super.enter(container, game);
+		
+		if(!Sounds.music.playing())
+			MusicPlayer.get().loop(Sounds.music, 1);
 	}
 
 	@Override
@@ -55,9 +59,21 @@ public class MainMenu extends UIBasicGameState
 		ui.add(startBtn);
 		
 		MenuButton creditsBtn = new MenuButton(ui, 0, 300, creditsImage);
+		creditsBtn.addActionListener(new IActionListener() {
+			@Override
+			public void actionPerformed(Widget sender) {
+				nextState = Game.CREDITS;
+			}
+		});
 		ui.add(creditsBtn);
 		
 		MenuButton quitBtn = new MenuButton(ui, 0, 400, quitImage);
+		quitBtn.addActionListener(new IActionListener() {
+			@Override
+			public void actionPerformed(Widget sender) {
+				nextState = 0;
+			}
+		});
 		ui.add(quitBtn);
 		
 		Label title = new Label(ui, 0, 50, titleImage);
@@ -78,6 +94,8 @@ public class MainMenu extends UIBasicGameState
 	{
 		if(nextState > 0)
 			game.enterState(nextState);
+		else if(nextState == 0)
+			container.exit();
 		
 		ScrollBackground.get().update(delta);
 	}
