@@ -284,6 +284,13 @@ public class Character
 		}
 	}
 
+	public void turn()
+	{
+		if(nextAction >= 0)
+			enterRoom(Ship.get().getRoom(nextAction));
+		nextAction = -1;
+	}
+	
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 	{
 	}
