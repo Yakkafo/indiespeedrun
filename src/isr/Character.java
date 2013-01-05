@@ -41,6 +41,8 @@ public class Character
 	/**True if the character is selected by the player*/
 	private boolean selected;
 	private boolean mouseOver;
+	/**Last report on the character*/
+	private String report;
 	private Image img;
 	private int x, y;
 	
@@ -100,7 +102,7 @@ public class Character
 			this.currentRoom = null; // None
 			this.x = 0;
 			this.y = 0;
-
+			this.report = "Ceci est un personnage.";
 			try {
 				this.img = new Image(Game.ASSETS_DIR + profile.spriteName);
 			} catch (SlickException e) {
@@ -166,6 +168,11 @@ public class Character
 		return currentRoom;
 	}
 	
+	public String getReport()
+	{
+		return report;
+	}
+	
 	public int getX()
 	{
 		return x;
@@ -194,6 +201,11 @@ public class Character
 	public void setMouseOver(boolean m)
 	{
 		mouseOver = m;
+	}
+	
+	public void setReport(String str)
+	{
+		report = str;
 	}
 	
 	public boolean isSelected()

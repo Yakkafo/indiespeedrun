@@ -5,13 +5,13 @@ import backend.geom.Vector2i;
 
 public enum RoomType 
 {
-	ENGINE ("Engine room", "engine.png", 253, 230),
-	HOLD ("Hold room", "hold.png", 571, 230),
-	DORM ("Dormitory", "dorm.png", 703, 230),
-	CELL ("Cell", "cell.png", 571, 413),
-	COMMON ("Common room", "commonroom.png", 703, 413),
-	CORRIDOR ("Corridor", "corridor.png", 459, 344),
-	COMMAND ("Command room", "command.png", 981, 249);
+	ENGINE ("Engine room", "engine.png", 253, 230, "Put sailors here to make the ship move.\n"),
+	HOLD ("Hold room", "hold.png", 571, 230, "The spy is in this room: keep an eye on him!\n"),
+	DORM ("Dormitory", "dorm.png", 703, 230, "Everyone needs to sleep (sometimes).\n"),
+	CELL ("Cell", "cell.png", 571, 413, "Punish a traitor by confined him here.\n"),
+	COMMON ("Common room", "commonroom.png", 703, 413, "Sailors will like you if you let them take some rest.\n"),
+	CORRIDOR ("Corridor", "corridor.png", 459, 344, ""),
+	COMMAND ("Command room", "command.png", 981, 249, "");
 	
 	//Each array contains character positions for each room in relative pixel coordinates
 	static
@@ -59,18 +59,20 @@ public enum RoomType
 	public String spriteName;
 	public int x, y;
 	public Vector2i charactersPositions[];
+	public String description;
 	
 	public int size()
 	{
 		return charactersPositions.length;
 	}
 	
-	private RoomType(String name, String spriteName, int x, int y)
+	private RoomType(String name, String spriteName, int x, int y, String des)
 	{
 		this.name = name;
 		this.spriteName = spriteName;
 		this.x = x;
 		this.y = y;
+		this.description = des;
 	}
 
 }

@@ -1,7 +1,5 @@
 package isr;
 
-import java.io.CharArrayWriter;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -29,6 +27,7 @@ public class GamePlay extends UIBasicGameState
 	private MouseCursor currentCurs;
 	private MouseCursor cursEngine;
 	private MouseCursor defaultCursor;
+	private DescriptionBar descript;
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -69,7 +68,7 @@ public class GamePlay extends UIBasicGameState
 		ui.add(bar);
 		
 		//Description
-		DescriptionBar descript = new DescriptionBar(ui, 0, 550, 600, 200);
+		descript = new DescriptionBar(ui, 0, 550, 750, 200);
 		ui.add(descript);
 
 	}
@@ -116,14 +115,10 @@ public class GamePlay extends UIBasicGameState
 	@Override
 	public void mouseMoved(int oldx, int oldy, int newx, int newy)
 	{
+		String description = "";
 		Vector2f pos = convertToSceneCoords(newx, newy);
 		Character c = Ship.get().getCharacterAt((int)pos.x, (int)pos.y);
-		if(c != hoveredCharacter && hoveredCharacter != null)
-			hoveredCharacter.setMouseOver(false);
-		hoveredCharacter = c;
-		if(hoveredCharacter != null)
-			hoveredCharacter.setMouseOver(true);
-		
+		//cursor mouse
 		Boolean sec = false;
 		for(int i = 0; i < Ship.get().getCharactersSize(); i++)
 		{
@@ -131,23 +126,38 @@ public class GamePlay extends UIBasicGameState
 			if(sec)
 				break;
 		}
-		//cursor mouse
 		Room r = Ship.get().getRoomAt((int)pos.x, (int)pos.y); // Get the room from click position
-		if(r != null && sec)
+		if(r != null)
 		{
-			switch(r.getType())
+			description = r.getReport();
+			if(sec)
 			{
-			case ENGINE :
-				currentCurs = cursEngine;
-				break;
-			
-			default :
-				currentCurs = defaultCursor;
-				break;
-			}
+				switch(r.getType())
+				{
+				case ENGINE :
+					currentCurs = cursEngine;
+					break;
+				
+				default :
+					currentCurs = defaultCursor;
+					break;
+				}
+			}			
 		}
 		else
 			currentCurs = defaultCursor;
+		//characters
+		if(c != hoveredCharacter && hoveredCharacter != null)
+			hoveredCharacter.setMouseOver(false);
+		hoveredCharacter = c;
+		if(hoveredCharacter != null)
+		{
+			hoveredCharacter.setMouseOver(true);
+			description = hoveredCharacter.getReport();
+		}
+		
+		descript.setText(description);
+		
 	}
 	
 	@Override

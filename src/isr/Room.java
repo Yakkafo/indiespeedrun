@@ -34,6 +34,8 @@ public class Room
 	
 	/** Position of the top-left-corner of the room's bounding rectangle **/
 	private Vector2i pos = new Vector2i();
+	/**Last report*/
+	private String report;
 	
 	public static void loadContent() throws SlickException
 	{
@@ -45,6 +47,7 @@ public class Room
 	public Room(RoomType type)
 	{
 		this.type = type;
+		report = "";
 		if(type.size() > 0)
 		{
 			pos.set(type.x, type.y);
@@ -73,6 +76,16 @@ public class Room
 	public RoomType getType()
 	{
 		return type;
+	}
+	
+	public String getReport()
+	{
+		return type.description+report;
+	}
+	
+	public void setReport(String s)
+	{
+		report = s;
 	}
 	
 	/**
