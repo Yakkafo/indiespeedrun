@@ -153,8 +153,8 @@ public class Ship
 	
 	void turn()
 	{
-		for(Character c : characters)
-			c.doMovePhase();
+//		for(Character c : characters)
+//			c.doMovePhase();
 		for(Character c : characters)
 			c.doResolvePhase();
 	}

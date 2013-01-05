@@ -10,8 +10,9 @@ import org.newdawn.slick.SlickException;
 import backend.ui.Label;
 import backend.ui.Panel;
 import backend.ui.Widget;
+import backend.ui.WidgetContainer;
 
-public class DescriptionBar extends Panel {
+public class DescriptionBar extends WidgetContainer {
 
 	private Image img;
 	private Label report;
@@ -27,6 +28,12 @@ public class DescriptionBar extends Panel {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public boolean isOpaqueContainer()
+	{
+		return true;
 	}
 
 	@Override

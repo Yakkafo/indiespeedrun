@@ -11,7 +11,7 @@ public class Game extends UIStateBasedGame
 	public static final String TITLE = "Our ISR game";
 	public static final int SCREEN_WIDTH = 1000;
 	public static final int SCREEN_HEIGHT = 700;
-	public static final String ASSETS_DIR = "assets/";
+	public static final String ASSETS_DIR = "src/assets/";
 	
 	public static final int GAME_PLAY = 2;
 
@@ -44,6 +44,7 @@ public class Game extends UIStateBasedGame
 		Ship.loadContent();
 		Room.loadContent();
 		Sounds.load();
+		Character.loadContent();
 		
 		this.getState(GAME_PLAY).init(gc, this);
 	}

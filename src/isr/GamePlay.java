@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
+import backend.MathHelper;
 import backend.MouseCursor;
 import backend.audio.MusicPlayer;
 import backend.geom.Vector2i;
@@ -39,6 +40,7 @@ public class GamePlay extends UIBasicGameState
 	private static final int PROGRESSION_GOAL = 1000;
 	private static final int PROGRESSION_FACTOR = 20;
 	private static final int INITIAL_SPEED = 20;
+	private Image background;
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -51,7 +53,10 @@ public class GamePlay extends UIBasicGameState
 		cursDorm = new MouseCursor(new Image("assets/cursor_dorm.png"), 0, 0);
 		defaultCursor = new MouseCursor(new Image("assets/cursor.png"), 0, 0);
 		currentCurs = defaultCursor;
+
 		progression = 0;
+
+		background = new Image(Game.ASSETS_DIR + "fond.png");
 	}
 	
 	@Override
@@ -99,6 +104,7 @@ public class GamePlay extends UIBasicGameState
 			throws SlickException
 	{
 		gfx.setBackground(bgColor);
+		renderBackground(gfx, gc);
 		
 		gfx.pushTransform();		
 		gfx.translate(viewOffset.x, viewOffset.y);
@@ -121,6 +127,14 @@ public class GamePlay extends UIBasicGameState
 		float t = (float)gc.getTime() / 1000.f;
 		viewOffset.x += 8.f * (float)Math.cos(t);
 		viewOffset.y += 4.f * (float)Math.sin(2.f * t);
+	}
+	
+	private void renderBackground(Graphics gfx, GameContainer gc)
+	{
+		float x0 = -(float)background.getWidth() * MathHelper.frac((float)gc.getTime() / 50000.f);
+		gfx.drawImage(background, x0, 0, Color.gray);
+		gfx.drawImage(background, x0 + background.getWidth(), 0, Color.gray);
+		gfx.drawImage(background, x0 + 2*background.getWidth(), 0, Color.gray);
 	}
 	
 	@Override
