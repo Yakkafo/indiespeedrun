@@ -26,6 +26,12 @@ public class Vector2i implements Serializable
 		this.y = y;
 	}
 
+	public Vector2i(Vector2i other)
+	{
+		this.x = other.x;
+		this.y = other.y;
+	}
+
 	public void set(int x, int y)
 	{
 		this.x = x;

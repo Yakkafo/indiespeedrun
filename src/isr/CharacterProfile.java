@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public enum CharacterProfile
 {
-	SARAH ("Sarah", Gender.FEMALE, "char1.jpg"),
-	ELLEN ("Ellen", Gender.FEMALE, "char2.jpg"),
-	LOLA ("Sarah", Gender.FEMALE, "char3.jpg"),
-	BRUTUS ("Brutus", Gender.MALE, "char4.jpg"),
-	EDGAR ("Edgar", Gender.MALE, "char5.jpg"),
-	JOHN ("John", Gender.MALE, "char5.jpg");
+	SARAH ("Sarah", Gender.FEMALE, "chars/1.png"),
+	ELLEN ("Ellen", Gender.FEMALE, "chars/2.png"),
+	LOLA ("Sarah", Gender.FEMALE, "chars/3.png"),
+	BRUTUS ("Brutus", Gender.MALE, "chars/4.png"),
+	EDGAR ("Edgar", Gender.MALE, "chars/5.png"),
+	JOHN ("John", Gender.MALE, "chars/6.png");
 	
 	public String name;
 	public Gender sex;

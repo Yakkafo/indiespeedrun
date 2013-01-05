@@ -8,20 +8,12 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.Log;
 
 import backend.geom.Vector2i;
 
 public class Room
 {
-	// Kinds of room
-	public static final int TYPE_CORRIDOR = 0;
-	public static final int TYPE_ENGINE = 1;
-	public static final int TYPE_JAIL = 2;
-	public static final int TYPE_SPY = 3;
-	public static final int TYPE_SLEEP = 4;
-	public static final int TYPE_MAIN = 5;
-	public static final int TYPE_COUNT = 6;
-	
 	// Drawing layers
 	public static final int LAYER_FLOOR = 0;
 	public static final int LAYER_OBJECTS = 1;
@@ -32,8 +24,10 @@ public class Room
 	// Sprites
 	private static Image backgrounds[];
 	
-	/** Characters in the room **/
-	private HashSet<Character> characterRefs = new HashSet<Character>();
+	/** Positions a Character can occuppy **/
+	private Slot[] slots;
+	/** Count of free slots (for performance) **/
+	private int freeSlots;
 	
 	/** Type of the room (corridor, engine, jail...) **/
 	private int type;
@@ -51,6 +45,17 @@ public class Room
 	public Room(RoomType type)
 	{
 		this.type = type.ordinal();
+		if(type.size() > 0)
+		{
+			pos.set(type.x, type.y);
+			slots = new Slot[type.size()];
+			freeSlots = slots.length;
+			for(int i = 0; i < slots.length; i++)
+			{
+				slots[i] = new Slot();
+				slots[i].pos = new Vector2i(type.charactersPositions[i]);
+			}
+		}
 	}
 	
 	public void init()
@@ -60,7 +65,9 @@ public class Room
 	
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx, int layer)
 	{
-		// TODO draw the room depending which layer is specified
+		gfx.drawImage(backgrounds[type], 
+				RoomType.values()[type].x, 
+				RoomType.values()[type].y);
 	}
 
 	public int getType()
@@ -77,7 +84,7 @@ public class Room
 	public boolean contains(int bx, int by)
 	{
 		int spriteX = bx - pos.x;
-		int spriteY = by - pos.y;		
+		int spriteY = by - pos.y;
 		// We use the floor as a collision mask because it covers all the surface of the room
 		Image img = backgrounds[type];
 		// If in the image
@@ -89,25 +96,81 @@ public class Room
 		return false;
 	}
 	
-	public void addCharacter(Character c)
+	public boolean isFull()
 	{
+		return freeSlots == 0 || slots == null || slots.length == 0;
+	}
+
+	/**
+	 * Adds a character to the room by finding a free slot.
+	 * Returns the position of the character if there is room for him, 
+	 * or null if not.
+	 * Warning: this method doesn't guaranties that a character will not 
+	 * be in two rooms at the same time.
+	 * @param c
+	 * @return
+	 */
+	public Vector2i addCharacter(Character c)
+	{
+		String roomName = RoomType.values()[type].name;
+		if(isFull())
+		{
+			System.out.println(
+				"INFO: the room is full (" + roomName + ")");
+			return null;
+		}
 		if(isCharacterIn(c))
 		{
 			System.out.println(
-				"ERROR: cannot add a character to a room where it is already present");
-			return;
+				"ERROR: cannot add a character to a room " +
+				"where it is already present (" + roomName + ")");
+			return null;
 		}
-		characterRefs.add(c);
+		for(Slot s : slots)
+		{
+			if(s.characterRef == null)
+			{
+				s.characterRef = c;
+				freeSlots--;
+				return s.pos;
+			}
+		}
+		return null;
 	}
 	
 	public void removeCharacter(Character c)
 	{
-		characterRefs.remove(c);
+		for(Slot s : slots)
+		{
+			if(s.characterRef == c)
+			{
+				s.characterRef = null;
+				freeSlots++;
+				return;
+			}
+		}
+		Log.warn("tried to remove a character from a room, but it was not here.");
 	}
 	
 	public boolean isCharacterIn(Character c)
 	{
-		return characterRefs.contains(c);
+		for(Slot s : slots)
+		{
+			if(s.characterRef == c)
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 * This is a position a character can occupy in the room.
+	 * @author Marc
+	 *
+	 */
+	private class Slot
+	{
+		public Vector2i pos;
+		public Character characterRef;
 	}
 
 }

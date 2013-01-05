@@ -1,14 +1,17 @@
 package isr;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.Log;
 
 import backend.GameComponent;
 import backend.MathHelper;
 import backend.geom.Rectangle;
+import backend.geom.Vector2i;
 
 public class Character
 {
@@ -20,6 +23,8 @@ public class Character
 	private static final int TIME_SLEEP = 3; 
 	/** Probabilty for a sabotage */
 	private static final float SABOTAGE_PROBABILITY = 0.33f;
+	
+	private static final float SELECTION_RADIUS = 25;
 	
 	/**id of the character. id is unique for each character and is between 0 & 5*/
 	private int id;
@@ -38,7 +43,49 @@ public class Character
 	private Image img;
 	private int x, y;
 	
-	public Character(int id, int loyalty)
+	/**
+	 * Initializes a crew for the ship.
+	 * @return a Character[] where all the crew is initialized
+	 */
+	public static Character[] createCrew()
+	{
+		int nb = CharacterProfile.values().length;
+		
+		Character crew[] = new Character[nb];
+		int temp_loyalties[] = INITIAL_LOYALTY;
+		
+		for(int i = 0; i < nb; i++)
+		{
+			int r = MathHelper.randInt(0, temp_loyalties.length-1);
+			int secure = 0; //security against infinite loop
+			while(temp_loyalties[r] == -1)
+			{
+				r++;
+				secure ++;
+				if(r >= nb)
+					r = 0;
+				if(secure >= nb)
+				{
+					System.out.println("Error: wrong initial loyalty.");
+					break;
+				}
+			}
+			crew[i] = new Character(i, temp_loyalties[r]);
+			crew[i].enterRoom(Ship.get().getRoom(RoomType.CORRIDOR.ordinal()));
+			temp_loyalties[r] = -1;
+		}
+		
+		return crew;
+	}
+	
+	/**
+	 * Creates a character with the given unique ID and base loyalty.
+	 * By default, it is not in any room of the ship.
+	 * Note : this constructor is private because we should use createCrew instead.
+	 * @param id
+	 * @param loyalty
+	 */
+	private Character(int id, int loyalty)
 	{
 		if(id < CharacterProfile.values().length && id >= 0)
 		{
@@ -50,7 +97,7 @@ public class Character
 			this.lastSleep = 0;
 			this.nextAction = -1;
 			this.name = profile.name;
-			this.currentRoom = Room.TYPE_CORRIDOR;
+			this.currentRoom = -1; // None
 			this.x = 0;
 			this.y = 0;
 
@@ -62,6 +109,31 @@ public class Character
 		}
 		else
 			System.out.println("Error: wrong ID!");
+	}
+	
+	/**
+	 * Makes the character change its room,
+	 * assuming there is a place for him.
+	 * @param room
+	 */
+	private void enterRoom(Room room)
+	{
+		if(room.isFull())
+			return; // Cannot enter the room
+		Vector2i pos = room.addCharacter(this);
+		if(pos == null)
+			return; // Cannot enter the room (but should not occur here)
+		if(currentRoom >= 0)
+		{
+			// Quit the last room
+			Ship.get().getRoom(currentRoom).removeCharacter(this);
+		}
+		x = pos.x + RoomType.values()[room.getType()].x;
+		y = pos.y + RoomType.values()[room.getType()].y;
+		currentRoom = room.getType();
+		
+		// Debug
+		Log.debug(name + " entered in the \"" + RoomType.values()[currentRoom].name + "\"");
 	}
 	
 	public int getNextAction()
@@ -150,46 +222,9 @@ public class Character
 	 */
 	public boolean contains(int bx, int by)
 	{
-		if(bx >= x && bx <= x + img.getWidth() && by >= y && by <= y + img.getHeight())
-			return true;
-		else
-			return false;
+		return MathHelper.distance(x, y, bx, by) < SELECTION_RADIUS;
 	}
-	
-	/**
-	 * Initialize a crew for a ship.
-	 * @return a Character[] where all the crew is initialized
-	 */
-	public static Character[] createCrew()
-	{
-		int nb = CharacterProfile.values().length;
-		
-		Character crew[] = new Character[nb];
-		int temp_loyalties[] = INITIAL_LOYALTY;
-		
-		for(int i = 0; i < nb; i++)
-		{
-			int r = MathHelper.randInt(0, temp_loyalties.length-1);
-			int secure = 0; //security against infinite loop
-			while(temp_loyalties[r] == -1)
-			{
-				r++;
-				secure ++;
-				if(r >= nb)
-					r = 0;
-				if(secure >= nb)
-				{
-					System.out.println("Error: wrong initial loyalty.");
-					break;
-				}
-			}
-			crew[i] = new Character(i, temp_loyalties[r]);
-			temp_loyalties[r] = -1;
-		}
-		
-		return crew;
-	}
-	
+
 	public String toString()
 	{
 		String s = new String();
@@ -201,7 +236,18 @@ public class Character
 	//DISPLAY METHODS
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx)
 	{
-		img.draw(x, y);
+		// Draw centered
+		gfx.drawImage(img, x - img.getWidth() / 2, y - img.getHeight() / 2);
+		
+		// Debug
+//		gfx.setColor(Color.cyan); // Sprite
+//		gfx.drawRect(x - img.getWidth()/2, y - img.getHeight() / 2, img.getWidth(), img.getHeight());
+//		gfx.setColor(Color.orange);
+		if(isSelected())
+		{
+			float r = SELECTION_RADIUS; // Selection radius
+			gfx.drawOval(x - r, y - r, 2*r, 2*r);
+		}
 	}
 	
 	public void update(GameContainer gc, StateBasedGame game, int delta)

@@ -35,6 +35,7 @@ public class Ship
 	public static void loadContent() throws SlickException
 	{
 		backgroundImage = new Image(Game.ASSETS_DIR + "sousmarin.png");
+		wallsImage = new Image(Game.ASSETS_DIR + "archi.png");
 	}
 
 	public Ship()
@@ -125,17 +126,17 @@ public class Ship
 		for(Room r : rooms)
 			r.render(gc, game, gfx, Room.LAYER_FLOOR);
 		
-		// Objects
-		for(Room r : rooms)
-			r.render(gc, game, gfx, Room.LAYER_OBJECTS);
+//		// Objects
+//		for(Room r : rooms)
+//			r.render(gc, game, gfx, Room.LAYER_OBJECTS);
 		
 		// Characters
-//		for(Character c : characters)
-//			c.render(gc, game, gfx); // TODO render method in Character
+		for(Character c : characters)
+			c.render(gc, game, gfx); // TODO render method in Character
 		
 		// Ceiling
-		for(Room r : rooms)
-			r.render(gc, game, gfx, Room.LAYER_CEILING);
+		gfx.drawImage(wallsImage, 243, 218);
+		
 	}
 
 }
