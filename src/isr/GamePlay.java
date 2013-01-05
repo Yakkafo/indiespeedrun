@@ -81,10 +81,11 @@ public class GamePlay extends UIBasicGameState
 		
 		gfx.pushTransform();		
 		gfx.translate(viewOffset.x, viewOffset.y);
-				
+		
 		Ship.get().render(gc, game, gfx);
 		
 		currentCurs.use(gc);
+
 		gfx.popTransform();
 	}
 

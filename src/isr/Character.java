@@ -279,9 +279,13 @@ public class Character
 		}
 		
 		// Debug
+		// Contour des sprites
 //		gfx.setColor(Color.cyan); // Sprite
 //		gfx.drawRect(x - img.getWidth()/2, y - img.getHeight() / 2, img.getWidth(), img.getHeight());
 //		gfx.setColor(Color.orange);
+		// Affichage de loyauté
+		gfx.drawString(""+loyalty, x, y);
+		
 		if(isMouseOver())
 		{
 			gfx.setColor(Color.yellow);
@@ -309,7 +313,91 @@ public class Character
 	
 	public void doResolvePhase()
 	{
+		/*
+		 * Que A soit un traître ou loyal :
+		-	Si A passe le cycle en salle commune, il gagne SC de loyauté.
+		-	Si A passe le cycle dans la salle de l’espion, il perd E de loyauté.
+		Si A est un traître (loyauté de A <= LimLoy) :
+		-	Si A passe le tour dans la même salle que B, B perd AD de loyauté.
+		-	Si A passe le tour dans les geôles, il gagne GT1 de loyauté, et le reste de l’équipage gagne GT2 de loyauté.
+		Si A est loyal (loyauté de A <= LimLoy) :
+		-	Si A passe le tour dans les geôles, il perd GL1 de loyauté, et le reste de l’équipage perd GL2 de loyauté.
+		Cas « particuliers » :
+		-	Si A et B sont des traîtres et passent le tour dans la salle commune, ils perdent tous les deux AD de loyauté.
+		-	Si A est un traître, B est loyal, et qu’ils sont tous deux en salle commune, alors A gagne SC de loyauté, et B gagne SC ET perd AD.
 		
+		Valeurs initiales proposées :
+		SC = 5
+		E = 25
+		AD = 5
+		GT1 = 25
+		GT2 = 5
+		GL1 = 10
+		GL2 = 5
+		LimLoy = 25
+
+		 */
+		
+		int COMMON_ROOM_LOYALTY_GAIN = 5;
+		int SPY_ROOM_LOYALTY_LOSS = 25;
+		int BETRAYER_LOYALTY_LOSS = 5;
+		int CELL_LOYALTY_GAIN = 25;
+		int CELL_LOYALTY_LOSS = 10;
+		int CELL_OTHERS_LOYALTY_GAIN = 5;
+		int CELL_OTHERS_LOYALTY_LOSS = 5;
+		Room cell = Ship.get().getRoom(RoomType.CELL.ordinal());
+		int cellCount = cell.getCharacterCount();
+		int cellBetrayerCount = cellCount - cell.getLoyalCount();
+		
+		if(currentRoom.getType() == RoomType.COMMON)
+		{
+			// Si le personnage est dans la salle commune, il gagne en loyauté
+			increaseLoyalty(COMMON_ROOM_LOYALTY_GAIN);
+		}
+		else if(currentRoom.getType() == RoomType.HOLD)
+		{
+			// Si le personnage est à côté de l'espion, il se fait influencer
+			decreaseLoyalty(SPY_ROOM_LOYALTY_LOSS);
+		}
+		
+		// Si il y a des traitres dans la pièce, le personnage perd proportionellement en loyauté
+		int betrayerCount = currentRoom.getCharacterCount() - currentRoom.getLoyalCount();
+		if(betrayerCount > 0)
+			decreaseLoyalty(betrayerCount * BETRAYER_LOYALTY_LOSS);
+
+		// Si il y a quelqu'un dans la cellule
+		if(cellCount > 0)
+		{
+			// Les autres gagnent en loyauté si c'est un traitre
+			if(cellBetrayerCount > 0)
+				increaseLoyalty(CELL_OTHERS_LOYALTY_GAIN * cellBetrayerCount);
+			// Sinon ils perdent en loyauté
+			else
+				decreaseLoyalty(CELL_OTHERS_LOYALTY_LOSS * cellCount);
+		}
+		
+		if(!isLoyal())
+		{
+			if(currentRoom.getType() == RoomType.CELL)
+			{
+				// Si le perso est un traitre dans la cellule, il regagne en loyauté
+				increaseLoyalty(CELL_LOYALTY_GAIN);
+			}
+		}
+	}
+	
+	public void increaseLoyalty(int d)
+	{
+		loyalty += d;
+		if(loyalty > 100)
+			loyalty = 100;
+	}
+	
+	public void decreaseLoyalty(int d)
+	{
+		loyalty -= d;
+		if(loyalty < 0)
+			loyalty = 0;
 	}
 
 }

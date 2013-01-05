@@ -206,7 +206,23 @@ public class Room
 		}
 		return false;
 	}
-
+	
+	public int getLoyalCount()
+	{
+		int count = 0;
+		for(Slot s : slots)
+		{
+			if(s.characterRef != null)
+				count += s.characterRef.isLoyal() ? 1 : 0;
+		}
+		return count;
+	}
+	
+	public int getCharacterCount()
+	{
+		return slots.length - freeSlots;
+	}
+	
 	/**
 	 * This is a position a character can occupy in the room.
 	 * @author Marc
