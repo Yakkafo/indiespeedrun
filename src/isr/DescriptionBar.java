@@ -15,7 +15,7 @@ public class DescriptionBar extends BasicWidget {
 	public DescriptionBar(Widget parent, int x, int y, int width, int height) {
 		super(parent, x, y, width, height);
 		try {
-			img = new Image("assets/description.png");
+			img = new Image("assets/layout.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

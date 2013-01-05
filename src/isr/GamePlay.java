@@ -55,7 +55,7 @@ public class GamePlay extends UIBasicGameState
 		ui = new RootPane(container.getWidth(), container.getHeight()); // ecran
 
 		// Bouton next turn
-		NextTurnButton btn = new NextTurnButton(ui, 820, 600);
+		NextTurnButton btn = new NextTurnButton(ui, 820, 605);
 		btn.addActionListener(new IActionListener() {
 			@Override
 			public void actionPerformed(Widget sender) {
@@ -146,6 +146,8 @@ public class GamePlay extends UIBasicGameState
 				break;
 			}
 		}
+		else
+			currentCurs = defaultCursor;
 	}
 	
 	@Override
