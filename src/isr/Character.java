@@ -33,7 +33,7 @@ public class Character
 	/**Current percentage of loyalty*/
 	private int loyalty; 
 	/**Time (in turns) before the last sleep.*/
-	private int lastSleep; 
+	private int lastSleep;
 	/**Next action of the character. -1 means that there is not any actions yet*/
 	private int nextAction;
 	/**Where the character is*/
@@ -253,7 +253,7 @@ public class Character
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 	{
 	}
-		
+
 }
 
 
