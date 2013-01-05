@@ -370,10 +370,13 @@ public class Character
 			has_sleep = true;
 			lastSleep = 0;
 		}
+		else if(currentRoom.getType() == RoomType.ENGINE)
+		{
+			lastSleep ++;
+		}
 		
 		if(!has_sleep)
 		{
-			lastSleep ++;
 			if(lastSleep >= TIME_SLEEP)
 				loyalty -= SLEEPY_LOYALTY_LOSS;
 		}
