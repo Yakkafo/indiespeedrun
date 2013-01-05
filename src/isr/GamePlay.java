@@ -46,7 +46,6 @@ public class GamePlay extends UIBasicGameState
 	private static final int PROGRESSION_GOAL = 1000;
 	private static final int PROGRESSION_FACTOR = 20;
 	private static final int INITIAL_SPEED = 20;
-	private Image background;
 
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
@@ -61,8 +60,6 @@ public class GamePlay extends UIBasicGameState
 		currentCurs = defaultCursor;
 
 		progression = 0;
-
-		background = new Image(Game.ASSETS_DIR + "fond.png");
 		
 		kDetector = new KeySequenceDetector(KeySequenceDetector.KONAMI_CODE);
 	}
@@ -111,7 +108,7 @@ public class GamePlay extends UIBasicGameState
 			throws SlickException
 	{
 		gfx.setBackground(bgColor);
-		renderBackground(gfx, gc);
+		ScrollBackground.get().render(gfx);
 		
 		gfx.pushTransform();		
 		gfx.translate(viewOffset.x, viewOffset.y);
@@ -135,19 +132,13 @@ public class GamePlay extends UIBasicGameState
 		viewOffset.x += 8.f * (float)Math.cos(t);
 		viewOffset.y += 4.f * (float)Math.sin(2.f * t);
 		
+		ScrollBackground.get().update(delta);
+		
 		// Play music
 		if(!Sounds.music.playing() && !Sounds.kMusic.playing())
 			MusicPlayer.get().loop(Sounds.music, 1);
 	}
-	
-	private void renderBackground(Graphics gfx, GameContainer gc)
-	{
-		float x0 = -(float)background.getWidth() * MathHelper.frac((float)gc.getTime() / 50000.f);
-		gfx.drawImage(background, x0, 0, Color.gray);
-		gfx.drawImage(background, x0 + background.getWidth(), 0, Color.gray);
-		gfx.drawImage(background, x0 + 2*background.getWidth(), 0, Color.gray);
-	}
-	
+		
 	@Override
 	public int getID()
 	{

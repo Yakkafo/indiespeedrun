@@ -13,7 +13,8 @@ public class Game extends UIStateBasedGame
 	public static final int SCREEN_HEIGHT = 700;
 	public static final String ASSETS_DIR = "src/assets/";
 	
-	public static final int GAME_PLAY = 2;
+	public static final int MAIN_MENU = 1;
+	public static final int GAME_PLAY = 3;
 
 	public static void main(String args[])
 	{
@@ -35,6 +36,7 @@ public class Game extends UIStateBasedGame
 	public Game()
 	{
 		super(TITLE);
+		this.addState(new MainMenu());
 		this.addState(new GamePlay());
 	}
 
@@ -45,7 +47,9 @@ public class Game extends UIStateBasedGame
 		Room.loadContent();
 		Sounds.load();
 		Character.loadContent();
+		ScrollBackground.loadContent();
 		
+		this.getState(MAIN_MENU).init(gc, this);
 		this.getState(GAME_PLAY).init(gc, this);
 	}
 
