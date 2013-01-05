@@ -44,6 +44,7 @@ public class Game extends UIStateBasedGame
 		Ship.loadContent();
 		Room.loadContent();
 		Sounds.load();
+		Character.loadContent();
 		
 		this.getState(GAME_PLAY).init(gc, this);
 	}

@@ -21,8 +21,14 @@ public class Character
 	private static final int TIME_SLEEP = 3; 
 	/** Probabilty for a sabotage */
 	private static final float SABOTAGE_PROBABILITY = 0.33f;
-	
+	/** Radius of the hit-circle for clicking on a character **/
 	private static final float SELECTION_RADIUS = 25;
+	
+	private static final Color GLOW_COLOR_HOVER = new Color(255, 255, 255);
+	private static final Color GLOW_COLOR_SELECT = new Color(255, 255, 0);
+	
+	private static Image sleepyBubble;
+	private static Image glow;
 	
 	/**id of the character. id is unique for each character and is between 0 & 5*/
 	private int id;
@@ -33,7 +39,7 @@ public class Character
 	/**Time (in turns) before the last sleep.*/
 	private int lastSleep;
 	/**Next action of the character. -1 means that there is not any actions yet*/
-	private Room targetRoom;
+//	private Room targetRoom;
 	/**Where the character is*/
 	private Room currentRoom;
 	/**True if the character is selected by the player*/
@@ -43,7 +49,6 @@ public class Character
 	private String report;
 	private Image img;
 	private int x, y;
-	private Image sleepyBubble;
 	
 	/**
 	 * Initializes a crew for the ship.
@@ -79,6 +84,12 @@ public class Character
 		return crew;
 	}
 	
+	public static void loadContent() throws SlickException
+	{
+		sleepyBubble = new Image(Game.ASSETS_DIR + "sleepy.png");
+		glow = new Image(Game.ASSETS_DIR + "chars/contour.png");
+	}
+	
 	/**
 	 * Creates a character with the given unique ID and base loyalty.
 	 * By default, it is not in any room of the ship.
@@ -96,7 +107,7 @@ public class Character
 			this.id = id;
 			this.loyalty = loyalty;
 			this.lastSleep = 0;
-			this.targetRoom = null;
+//			this.targetRoom = null;
 			this.name = profile.name;
 			this.currentRoom = null; // None
 			this.x = 0;
@@ -104,7 +115,6 @@ public class Character
 			this.report = "Ceci est un personnage.";
 			try {
 				this.img = new Image(Game.ASSETS_DIR + profile.spriteName);
-				this.sleepyBubble = new Image(Game.ASSETS_DIR + "sleepy.png");
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -141,16 +151,16 @@ public class Character
 		Log.debug(name + " entered in the \"" + room.getType().name + "\"");
 	}
 	
-	public Room getNextAction()
-	{
-		return targetRoom;
-	}
-	
-	public void setNextAction(Room r)
-	{
-		Log.debug("Set next " + r);
-		targetRoom = r;
-	}
+//	public Room getNextAction()
+//	{
+//		return targetRoom;
+//	}
+//	
+//	public void setNextAction(Room r)
+//	{
+//		Log.debug("Set next " + r);
+//		targetRoom = r;
+//	}
 	
 	public int getLoyalty()
 	{
@@ -262,26 +272,41 @@ public class Character
 	//DISPLAY METHODS
 	public void render(GameContainer gc, StateBasedGame game, Graphics gfx)
 	{
-		// Draw centered
+		// Glow
+		Color hcolor = null;
+		if(isSelected())
+			hcolor = GLOW_COLOR_SELECT;
+		else if(isMouseOver())
+			hcolor = GLOW_COLOR_HOVER;
+		if(hcolor != null)
+		{
+			gfx.drawImage(glow, 
+					x - glow.getWidth() / 2, 
+					y - glow.getHeight() / 2, hcolor);
+		}
+		
+		// Draw character (centered)
 		gfx.drawImage(img, x - img.getWidth() / 2, y - img.getHeight() / 2);
 		if(lastSleep >= TIME_SLEEP-1)
 			gfx.drawImage(sleepyBubble, x - img.getWidth() / 2, y - img.getHeight() / 2 - 50);
-		if(targetRoom != null)
-		{
-			Vector2i targetPos = targetRoom.getNextAvailablePosition(true);
-			if(targetPos != null)
-			{
-				Color clr = new Color(255,255,255);
-				float k = 2.f * MathHelper.ksin((float)gc.getTime() / 200.f);
-				if(k > 1.f)
-					k = 1.f;
-				clr.a = 0.4f + 0.4f * k;
-				//clr.a = 0.5f;
-				gfx.drawImage(img, 
-						targetPos.x - img.getWidth() / 2, 
-						targetPos.y - img.getHeight() / 2, clr);
-			}
-		}
+		
+		// Code relatif au fantome
+//		if(targetRoom != null)
+//		{
+//			Vector2i targetPos = targetRoom.getNextAvailablePosition(true);
+//			if(targetPos != null)
+//			{
+//				Color clr = new Color(255,255,255);
+//				float k = 2.f * MathHelper.ksin((float)gc.getTime() / 200.f);
+//				if(k > 1.f)
+//					k = 1.f;
+//				clr.a = 0.4f + 0.4f * k;
+//				//clr.a = 0.5f;
+//				gfx.drawImage(img, 
+//						targetPos.x - img.getWidth() / 2, 
+//						targetPos.y - img.getHeight() / 2, clr);
+//			}
+//		}
 		
 		// Debug
 		// Contour des sprites
@@ -289,32 +314,20 @@ public class Character
 //		gfx.drawRect(x - img.getWidth()/2, y - img.getHeight() / 2, img.getWidth(), img.getHeight());
 //		gfx.setColor(Color.orange);
 		// Affichage de loyauté
-		gfx.drawString(""+loyalty, x, y);
-		
-		if(isMouseOver())
-		{
-			gfx.setColor(Color.yellow);
-			float r = SELECTION_RADIUS; // Selection radius
-			gfx.drawOval(x - r, y - r, 2*r, 2*r);
-		}
-		if(isSelected())
-		{
-			gfx.setColor(Color.white);
-			float r = SELECTION_RADIUS; // Selection radius
-			gfx.drawOval(x - r, y - r, 2*r, 2*r);
-		}
+		gfx.setColor(Color.yellow);
+		gfx.drawString(""+loyalty, x, y);		
 	}
-	
+		
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 	{
 	}
 
-	public void doMovePhase()
-	{
-		if(targetRoom != null)
-			enterRoom(targetRoom);
-		targetRoom = null;
-	}
+//	public void doMovePhase()
+//	{
+//		if(targetRoom != null)
+//			enterRoom(targetRoom);
+//		targetRoom = null;
+//	}
 	
 	public void doResolvePhase()
 	{
