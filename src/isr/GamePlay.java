@@ -34,6 +34,12 @@ public class GamePlay extends UIBasicGameState
 	private MouseCursor cursDorm;
 	private MouseCursor defaultCursor;
 	private DescriptionBar descript;
+	private ProgressBar progress;
+	
+	private int progression;
+	private static final int PROGRESSION_GOAL = 1000;
+	private static final int PROGRESSION_FACTOR = 20;
+	private static final int INITIAL_SPEED = 20;
 	private Image background;
 
 	@Override
@@ -47,6 +53,9 @@ public class GamePlay extends UIBasicGameState
 		cursDorm = new MouseCursor(new Image("assets/cursor_dorm.png"), 0, 0);
 		defaultCursor = new MouseCursor(new Image("assets/cursor.png"), 0, 0);
 		currentCurs = defaultCursor;
+
+		progression = 0;
+
 		background = new Image(Game.ASSETS_DIR + "fond.png");
 	}
 	
@@ -73,13 +82,17 @@ public class GamePlay extends UIBasicGameState
 			@Override
 			public void actionPerformed(Widget sender) {
 				Ship.get().turn();
+				progression += 
+						INITIAL_SPEED + 
+						Ship.get().getRoom(RoomType.ENGINE.ordinal()).getCharacterCount() * PROGRESSION_FACTOR;
+				progress.setProgression(progression);
 			}
 		});
 		ui.add(btn);
 		
 		//Progress bar
-		ProgressBar bar = new ProgressBar(ui, 100, 25, 800, 15);
-		ui.add(bar);
+		progress = new ProgressBar(ui, 100, 25, 800, 15, PROGRESSION_GOAL);
+		ui.add(progress);
 		
 		//Description
 		descript = new DescriptionBar(ui, 0, 550, 750, 200);

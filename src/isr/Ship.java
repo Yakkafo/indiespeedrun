@@ -24,6 +24,7 @@ public class Ship
 
 	private Room rooms[] = new Room[ROOM_COUNT];
 	private Character characters[];
+
 	
 	private Spy spy;
 	

@@ -9,15 +9,17 @@ import backend.ui.BasicWidget;
 import backend.ui.Widget;
 
 public class ProgressBar extends BasicWidget {
-	 
+
 	Image imgBar;
 	Image imgShip;
-	int xShip;
+	float xShip;
+	int goal;
 	
-	public ProgressBar(Widget parent, int x, int y, int width, int height) {
+	public ProgressBar(Widget parent, int x, int y, int width, int height, int goal) {
 		super(parent, x, y, width, height);
 		
 		xShip = 0;
+		this.goal = goal;
 		
 		try {
 			imgBar = new Image("assets/progress_bar.png");
@@ -28,16 +30,16 @@ public class ProgressBar extends BasicWidget {
 		}
 	}
 	
-	public void incrementProgression(int deltaX)
-	{
-		xShip += deltaX;
-	}
-	
 	@Override
 	public void render(GameContainer gc, Graphics gfx) {
 		imgBar.draw(getX(), getY());
 		imgShip.draw(getX()+xShip, getY()-18);
 
+	}
+
+	public void setProgression(int progression) {
+		xShip = (float)progression*(float)getWidth()/(float)goal;	
+		System.out.println(xShip);
 	}
 
 }
