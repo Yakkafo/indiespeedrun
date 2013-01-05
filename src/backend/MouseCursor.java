@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 public class MouseCursor
 {
 	private static MouseCursor lastUsed;
-	
+
 	private int hotSpotX;
 	private int hotSpotY;
 	private Image image;

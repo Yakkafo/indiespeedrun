@@ -138,6 +138,12 @@ public class Ship
 		gfx.drawImage(wallsImage, 243, 218);
 		
 	}
+	
+	void turn()
+	{
+		for(Character c : characters)
+			c.turn();
+	}
 
 }
 

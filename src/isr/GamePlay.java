@@ -53,7 +53,7 @@ public class GamePlay extends UIBasicGameState
 		btn.addActionListener(new IActionListener() {
 			@Override
 			public void actionPerformed(Widget sender) {
-				//next turn
+				Ship.get().turn();
 			}
 		});
 		ui.add(btn);
@@ -96,8 +96,6 @@ public class GamePlay extends UIBasicGameState
 		viewOffset.y += 4.f * (float)Math.sin(2.f * t);
 	}
 	
-	
-
 	@Override
 	public int getID()
 	{
