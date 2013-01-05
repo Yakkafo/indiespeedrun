@@ -10,7 +10,10 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
 import backend.geom.Vector2i;
+import backend.ui.IActionListener;
+import backend.ui.RootPane;
 import backend.ui.UIBasicGameState;
+import backend.ui.Widget;
 
 public class GamePlay extends UIBasicGameState
 {
@@ -38,7 +41,18 @@ public class GamePlay extends UIBasicGameState
 	protected void createUI(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
-		// TODO Auto-generated method stub
+		ui = new RootPane(container.getWidth(), container.getHeight()); // ecran
+
+		// Bouton next turn
+		NextTurnButton btn = new NextTurnButton(ui, 820, 600);
+		btn.addActionListener(new IActionListener() {
+			@Override
+			public void actionPerformed(Widget sender) {
+				//next turn
+			}
+		});
+		ui.add(btn);
+
 	}
 
 	@Override
@@ -51,6 +65,7 @@ public class GamePlay extends UIBasicGameState
 		gfx.translate(viewOffset.x, viewOffset.y);
 				
 		Ship.get().render(gc, game, gfx);
+		
 		
 		gfx.popTransform();
 	}
@@ -67,6 +82,8 @@ public class GamePlay extends UIBasicGameState
 		viewOffset.x += 8.f * (float)Math.cos(t);
 		viewOffset.y += 4.f * (float)Math.sin(2.f * t);
 	}
+	
+	
 
 	@Override
 	public int getID()
