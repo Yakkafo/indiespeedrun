@@ -30,7 +30,7 @@ public class GamePlay extends UIBasicGameState
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException
 	{
-		cursEngine = new MouseCursor(new Image("assets/cursor_mouse.png"), 0, 0);
+		//cursEngine = new MouseCursor(new Image("assets/cursor_mouse.png"), 0, 0);
 	}
 	
 	@Override
