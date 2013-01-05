@@ -8,9 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
-import backend.GameComponent;
 import backend.MathHelper;
-import backend.geom.Rectangle;
 import backend.geom.Vector2i;
 
 public class Character
@@ -45,6 +43,7 @@ public class Character
 	private String report;
 	private Image img;
 	private int x, y;
+	private Image sleepyBubble;
 	
 	/**
 	 * Initializes a crew for the ship.
@@ -105,6 +104,7 @@ public class Character
 			this.report = "Ceci est un personnage.";
 			try {
 				this.img = new Image(Game.ASSETS_DIR + profile.spriteName);
+				this.sleepyBubble = new Image(Game.ASSETS_DIR + "sleepy.png");
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -264,7 +264,8 @@ public class Character
 	{
 		// Draw centered
 		gfx.drawImage(img, x - img.getWidth() / 2, y - img.getHeight() / 2);
-		
+		if(lastSleep >= TIME_SLEEP-1)
+			gfx.drawImage(sleepyBubble, x - img.getWidth() / 2, y - img.getHeight() / 2 - 50);
 		if(targetRoom != null)
 		{
 			Vector2i targetPos = targetRoom.getNextAvailablePosition(true);
@@ -341,7 +342,7 @@ public class Character
 		LimLoy = 25
 
 		 */
-		
+		boolean has_sleep = false;
 		int COMMON_ROOM_LOYALTY_GAIN = 5;
 		int SPY_ROOM_LOYALTY_LOSS = 25;
 		int BETRAYER_LOYALTY_LOSS = 5;
@@ -352,7 +353,7 @@ public class Character
 		Room cell = Ship.get().getRoom(RoomType.CELL.ordinal());
 		int cellCount = cell.getCharacterCount();
 		int cellBetrayerCount = cellCount - cell.getLoyalCount();
-		
+		int SLEEPY_LOYALTY_LOSS = 5;
 		if(currentRoom.getType() == RoomType.COMMON)
 		{
 			// Si le personnage est dans la salle commune, il gagne en loyauté
@@ -362,6 +363,19 @@ public class Character
 		{
 			// Si le personnage est à côté de l'espion, il se fait influencer
 			decreaseLoyalty(SPY_ROOM_LOYALTY_LOSS);
+		}
+		else if(currentRoom.getType() == RoomType.DORM)
+		{
+			//Si le personnage dort
+			has_sleep = true;
+			lastSleep = 0;
+		}
+		
+		if(!has_sleep)
+		{
+			lastSleep ++;
+			if(lastSleep >= TIME_SLEEP)
+				loyalty -= SLEEPY_LOYALTY_LOSS;
 		}
 		
 		// Si il y a des traitres dans la pièce, le personnage perd proportionellement en loyauté
