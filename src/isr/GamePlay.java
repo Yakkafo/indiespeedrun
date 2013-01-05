@@ -79,7 +79,7 @@ public class GamePlay extends UIBasicGameState
 				
 		Ship.get().render(gc, game, gfx);
 		
-		
+
 		gfx.popTransform();
 	}
 
