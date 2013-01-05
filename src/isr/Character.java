@@ -394,13 +394,13 @@ public class Character
 				decreaseLoyalty(CELL_OTHERS_LOYALTY_LOSS * cellCount);
 		}
 		
-		if(!isLoyal())
+		// Si le perso est dans la cellule
+		if(currentRoom.getType() == RoomType.CELL)
 		{
-			if(currentRoom.getType() == RoomType.CELL)
-			{
-				// Si le perso est un traitre dans la cellule, il regagne en loyauté
+			if(isLoyal())
+				decreaseLoyalty(CELL_LOYALTY_LOSS);
+			else
 				increaseLoyalty(CELL_LOYALTY_GAIN);
-			}
 		}
 	}
 	
