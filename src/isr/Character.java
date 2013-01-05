@@ -74,7 +74,6 @@ public class Character
 			crew[i].enterRoom(Ship.get().getRoom(RoomType.CORRIDOR.ordinal()));
 			temp_loyalties[r] = -1;
 		}
-		
 		return crew;
 	}
 	
