@@ -35,7 +35,7 @@ public class Character
 	/**Time (in turns) before the last sleep.*/
 	private int lastSleep;
 	/**Next action of the character. -1 means that there is not any actions yet*/
-	private Room targetedRoom;
+	private Room targetRoom;
 	/**Where the character is*/
 	private Room currentRoom;
 	/**True if the character is selected by the player*/
@@ -95,7 +95,7 @@ public class Character
 			this.id = id;
 			this.loyalty = loyalty;
 			this.lastSleep = 0;
-			this.targetedRoom = null;
+			this.targetRoom = null;
 			this.name = profile.name;
 			this.currentRoom = null; // None
 			this.x = 0;
@@ -137,13 +137,13 @@ public class Character
 	
 	public Room getNextAction()
 	{
-		return targetedRoom;
+		return targetRoom;
 	}
 	
 	public void setNextAction(Room r)
 	{
 		Log.debug("Set next " + r);
-		targetedRoom = r;
+		targetRoom = r;
 	}
 	
 	public int getLoyalty()
@@ -249,9 +249,9 @@ public class Character
 		// Draw centered
 		gfx.drawImage(img, x - img.getWidth() / 2, y - img.getHeight() / 2);
 		
-		if(targetedRoom != null)
+		if(targetRoom != null)
 		{
-			Vector2i targetPos = targetedRoom.getNextAvailablePosition(true);
+			Vector2i targetPos = targetRoom.getNextAvailablePosition(true);
 			if(targetPos != null)
 			{
 				Color clr = new Color(255,255,255);
@@ -283,16 +283,21 @@ public class Character
 			gfx.drawOval(x - r, y - r, 2*r, 2*r);
 		}
 	}
-
-	public void turn()
-	{
-		if(targetedRoom != null)
-			enterRoom(targetedRoom);
-		targetedRoom = null;
-	}
 	
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 	{
+	}
+
+	public void doMovePhase()
+	{
+		if(targetRoom != null)
+			enterRoom(targetRoom);
+		targetRoom = null;
+	}
+	
+	public void doResolvePhase()
+	{
+		
 	}
 
 }
