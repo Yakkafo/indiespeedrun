@@ -1,5 +1,6 @@
 package isr;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -7,10 +8,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
+import backend.Counter;
 import backend.KeySequenceDetector;
 import backend.MathHelper;
 import backend.MouseCursor;
@@ -42,6 +45,9 @@ public class GamePlay extends UIBasicGameState
 	private KeySequenceDetector kDetector;
 	private NextTurnButton btn;
 	private Report report;
+	private Animation watchAnim;
+	private Counter resoPhaseCounter;
+	private int nextState;
 	
 	private int progression;
 	private static final int PROGRESSION_GOAL = 1000;
@@ -68,6 +74,7 @@ public class GamePlay extends UIBasicGameState
 		progression = 0;
 		waitingSound = new Sound(Game.ASSETS_DIR + "clic_next_turn.ogg");
 		background = new Image(Game.ASSETS_DIR + "fond.png");
+		watchAnim = new Animation(new SpriteSheet(Game.ASSETS_DIR + "montre.png", 150, 150), 100);
 		
 		kDetector = new KeySequenceDetector(KeySequenceDetector.KONAMI_CODE);
 	}
@@ -76,6 +83,7 @@ public class GamePlay extends UIBasicGameState
 	public void enter(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
+		nextState = -1;
 		super.enter(container, game);
 		
 	}
@@ -95,8 +103,11 @@ public class GamePlay extends UIBasicGameState
 				Ship.get().turn(report);
 				EnemyShip.get().advance();
 				resolutionPhase = true;
+				resoPhaseCounter = new Counter(2500);
 				waitingSound.play();
 				report.generateReport();
+				if(isWin())
+					nextState = Game.GAME_WIN;
 			}
 		});
 		ui.add(btn);
@@ -126,10 +137,13 @@ public class GamePlay extends UIBasicGameState
 		gfx.translate(viewOffset.x, viewOffset.y);
 		
 		Ship.get().render(gc, game, gfx);
-		
+				
 		currentCurs.use(gc);
 
 		gfx.popTransform();
+		
+		if(resolutionPhase)
+			gfx.drawAnimation(watchAnim, 820, 570);
 	}
 	
 	public boolean isWin()
@@ -146,6 +160,9 @@ public class GamePlay extends UIBasicGameState
 	public void update(GameContainer gc, StateBasedGame game, int delta)
 			throws SlickException
 	{
+		if(nextState > 0)
+			game.enterState(nextState);
+		
 		Vector2i shipSize = Ship.get().getBackgroundSize();
 		viewOffset.x = (gc.getWidth() - shipSize.x) / 2;
 		viewOffset.y = (gc.getHeight() - shipSize.y) / 2;
@@ -154,7 +171,7 @@ public class GamePlay extends UIBasicGameState
 		viewOffset.x += 8.f * (float)Math.cos(t);
 		viewOffset.y += 4.f * (float)Math.sin(2.f * t);
 		//report
-		if(!waitingSound.playing() && resolutionPhase)
+		if(resolutionPhase && resoPhaseCounter.update(delta))
 		{
 			resolutionPhase = false;
 			reportPhase = true;
@@ -181,6 +198,9 @@ public class GamePlay extends UIBasicGameState
 		// Play music
 		if(!Sounds.music.playing() && !Sounds.kMusic.playing())
 			MusicPlayer.get().loop(Sounds.music, 0.5f);
+		
+		if(!report.isVisible() && isLoose())
+			game.enterState(Game.GAME_LOOSE);
 	}
 		
 	@Override
