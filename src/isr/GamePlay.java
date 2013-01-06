@@ -38,6 +38,7 @@ public class GamePlay extends UIBasicGameState
 	private DescriptionBar descript;
 	private ProgressBar progress;
 	private KeySequenceDetector kDetector;
+	private NextTurnButton btn;
 	private Report report;
 	
 	private int progression;
@@ -85,11 +86,11 @@ public class GamePlay extends UIBasicGameState
 		ui = new RootPane(container.getWidth(), container.getHeight()); // ecran
 
 		// Bouton next turn
-		NextTurnButton btn = new NextTurnButton(ui, 820, 605);
+		btn = new NextTurnButton(ui, 820, 605);
 		btn.addActionListener(new IActionListener() {
 			@Override
 			public void actionPerformed(Widget sender) {
-				Ship.get().turn();
+				Ship.get().turn(report);
 				resolutionPhase = true;
 				waitingSound.play();
 				progression += 
@@ -113,6 +114,7 @@ public class GamePlay extends UIBasicGameState
 				///Check victory
 				if(progress.isLost())
 					System.out.println("PERDU!");
+				report.generateReport();
 			}
 		});
 		ui.add(btn);
@@ -165,6 +167,16 @@ public class GamePlay extends UIBasicGameState
 			resolutionPhase = false;
 			reportPhase = true;
 			report.setVisible(true);
+		}
+		if(resolutionPhase || reportPhase)
+		{
+			btn.setVisible(false);
+			descript.setVisible(false);
+		}
+		else
+		{
+			descript.setVisible(true);
+			btn.setVisible(true);
 		}
 		
 		ScrollBackground.get().update(delta);

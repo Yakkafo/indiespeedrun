@@ -1,6 +1,5 @@
 package isr;
 
-import java.util.ArrayList;
 
 public enum CharacterProfile
 {

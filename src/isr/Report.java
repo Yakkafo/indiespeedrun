@@ -1,21 +1,38 @@
 package isr;
 
+import java.util.ArrayList;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import backend.ui.Label;
 import backend.ui.Widget;
 import backend.ui.WidgetContainer;
 
 public class Report extends WidgetContainer{
 	
 	private Image background;
-	private boolean visible;	
+	private Label report;
+	private String text;
+	
+	private ArrayList<String> speakingTogetherNames;
+	private ArrayList<String> speakingDuringSleepNames;
+	
+	//temp
+	private String witness;
+	private String traitor_sleep;
+	private ArrayList<String> roomsDiscussion;
 	
 	public Report(Widget parent, int x, int y, int width, int height) 
 	{
 		super(parent, x, y, width, height);
+		cleanReport();
+		report = new Label(this, 100, 150, 400, 600, text);
+		report.setTextColor(Color.black);
+		this.add(report);
 		try {
 			background = new Image(Game.ASSETS_DIR+"report.png");
 		} catch (SlickException e) {
@@ -25,9 +42,33 @@ public class Report extends WidgetContainer{
 		visible = false;
 	}
 	
-	public void setVisible(boolean b)
+	public void setWitness(String witness)
 	{
-		visible = b;
+		this.witness = witness;
+	}
+	
+	public void cleanReport()
+	{
+		text = "";
+		speakingTogetherNames = new ArrayList<String>();
+		speakingDuringSleepNames = new ArrayList<String>();
+		roomsDiscussion = new ArrayList<String>();
+	}
+	
+	public void addSpeakingTogetherName(String name)
+	{
+		speakingTogetherNames.add(name);
+	}
+	
+	public void addSpeakingDuringSleepName(String name)
+	{
+		speakingDuringSleepNames.add(name);
+	}
+	
+	public void addDiscussionRoom(String name)
+	{
+		if(!roomsDiscussion.contains(name))
+			roomsDiscussion.add(name);
 	}
 	
 	/**
@@ -35,19 +76,23 @@ public class Report extends WidgetContainer{
 	 * @param names
 	 * @return
 	 */
-	public String speakingTogether(String ...names)
+//	public String speakingTogether(ArrayList<String> names)
+//	{
+//		String s = "";
+//		for(int i = 0; i < names.size(); i++)
+//		{
+//			s += names.get(i);
+//			if(names.size() - i > 2)
+//				s += ", ";
+//			else if(names.size() - i > 1)
+//				s += " & ";
+//		}
+//		s += " look like they had loud and suspicious discussions...";
+//		return s;
+//	}
+	public String speakingTogether(String room)
 	{
-		String s = "";
-		for(int i = 0; i < names.length; i++)
-		{
-			s += names[0];
-			if(names.length - i > 1)
-				s += ", ";
-			else if(names.length - i > 0)
-				s += " & ";
-		}
-		s += " look like they had loud and suspicious discussions...";
-		return s;
+		return "Very suspicious discussions have been heard in "+room+"...\n";
 	}
 	
 	/**
@@ -75,15 +120,15 @@ public class Report extends WidgetContainer{
 	 * When there is a sabotage
 	 * @return
 	 */
-	public String sabotageReport(String ...names)
+	public String sabotageReport(ArrayList<String> names)
 	{
 		String s = "Captain, the engines have been sabotaged! A troublemaker is within the ship!";
-		for(int i = 0; i < names.length; i++)
+		for(int i = 0; i < names.size(); i++)
 		{
-			s += names[0];
-			if(names.length - i > 1)
+			s += names.get(i);
+			if(names.size() - i > 1)
 				s += ", ";
-			else if(names.length - i > 0)
+			else if(names.size() - i > 0)
 				s += " & ";
 		}
 		s += " were in the engine room during the sabotage... You better keep an eye on them, captain!";
@@ -131,6 +176,14 @@ public class Report extends WidgetContainer{
 		return s;
 	}
 	
+	public void generateReport()
+	{
+		for(int i = 0; i < roomsDiscussion.size(); i++)
+			text += speakingTogether(roomsDiscussion.get(i));
+		
+		report.setText(text);
+	}
+	
 	@Override
 	public void render(GameContainer gc, Graphics gfx) {
 		if(visible)
@@ -140,4 +193,6 @@ public class Report extends WidgetContainer{
 		}
 		
 	}
+	
+	
 }

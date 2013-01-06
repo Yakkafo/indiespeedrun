@@ -327,7 +327,7 @@ public class Character
 //		targetRoom = null;
 //	}
 	
-	public void doResolvePhase()
+	public void doResolvePhase(Report report)
 	{
 		/*
 		 * Que A soit un traître ou loyal :
@@ -354,6 +354,8 @@ public class Character
 
 		 */
 		boolean has_sleep = false;
+		float PROBABILITY_DISCUSSION_REPORT = 1f;
+		float PROBABILITY_SLEEP_SPEAKING_REPORT = 0.2f;
 		int COMMON_ROOM_LOYALTY_GAIN = 5;
 		int SPY_ROOM_LOYALTY_LOSS = 25;
 		float SPY_ROOM_PROBABILITY_TALK = 0.25f;
@@ -368,12 +370,12 @@ public class Character
 		int SLEEPY_LOYALTY_LOSS = 5;
 		if(currentRoom.getType() == RoomType.COMMON)
 		{
-			// Si le personnage est dans la salle commune, il gagne en loyauté
+			//Si le personnage est dans la salle commune, il gagne en loyauté
 			increaseLoyalty(COMMON_ROOM_LOYALTY_GAIN);
 		}
 		else if(currentRoom.getType() == RoomType.HOLD)
 		{
-			// Si le personnage est à côté de l'espion, il se fait influencer
+			//Si le personnage est à côté de l'espion, il se fait influencer
 			if(MathHelper.randFloat(0, 1) <= SPY_ROOM_PROBABILITY_TALK)
 			{
 				decreaseLoyalty(SPY_ROOM_LOYALTY_LOSS);
@@ -384,6 +386,10 @@ public class Character
 			//Si le personnage dort
 			has_sleep = true;
 			lastSleep = 0;
+			if(MathHelper.randFloat(0, 1) <= PROBABILITY_SLEEP_SPEAKING_REPORT
+					&& currentRoom.isTraitorInside()
+					&& isLoyal())
+				report.addSpeakingDuringSleepName(name);
 		}
 		else if(currentRoom.getType() == RoomType.ENGINE)
 		{
@@ -399,7 +405,11 @@ public class Character
 		// Si il y a des traitres dans la pièce, le personnage perd proportionellement en loyauté
 		int betrayerCount = currentRoom.getCharacterCount() - currentRoom.getLoyalCount();
 		if(betrayerCount > 0)
+		{
 			decreaseLoyalty(betrayerCount * BETRAYER_LOYALTY_LOSS);
+			if(MathHelper.randFloat(0, 1) <= PROBABILITY_DISCUSSION_REPORT)
+				report.addDiscussionRoom(currentRoom.getType().name);
+		}
 
 		// Si il y a quelqu'un dans la cellule
 		if(cellCount > 0)
