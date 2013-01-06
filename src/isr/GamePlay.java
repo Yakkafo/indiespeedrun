@@ -317,12 +317,12 @@ public class GamePlay extends UIBasicGameState
 				if(c != null) // Character under the mouse !
 				{
 					c.setSelected(true);
-					Log.debug(c.getName() + " has been selected.");
+//					Log.debug(c.getName() + " has been selected.");
 					selectedCharacter = c;
 				}
 				else
 				{
-					Log.debug("No character selected.");
+//					Log.debug("No character selected.");
 				}
 			}
 			else if(button == Input.MOUSE_RIGHT_BUTTON)	// Send action to a character
@@ -338,7 +338,7 @@ public class GamePlay extends UIBasicGameState
 						// Unselect the character
 						selectedCharacter.setSelected(false);
 						selectedCharacter = null;
-						Log.debug("The room " + r.getType().name + " has been targeted.");
+//						Log.debug("The room " + r.getType().name + " has been targeted.");
 					}
 				}
 			}

@@ -53,7 +53,7 @@ public class Room
 			pos.set(type.x, type.y);
 			slots = new Slot[type.size()];
 			freeSlots = slots.length;
-			Log.debug("Created " + type.name + " with " + freeSlots + " slots");
+//			Log.debug("Created " + type.name + " with " + freeSlots + " slots");
 			for(int i = 0; i < slots.length; i++)
 			{
 				slots[i] = new Slot();
@@ -180,7 +180,7 @@ public class Room
 				}
 				else
 					pos = new Vector2i(s.pos);
-				Log.debug(c.getName() + " added to " + roomName);
+//				Log.debug(c.getName() + " added to " + roomName);
 				return pos;
 			}
 		}
@@ -198,7 +198,7 @@ public class Room
 				return;
 			}
 		}
-		Log.warn("tried to remove a character from a room, but it was not here.");
+//		Log.warn("tried to remove a character from a room, but it was not here.");
 	}
 	
 	public boolean isCharacterIn(Character c)

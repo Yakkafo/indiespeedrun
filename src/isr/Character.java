@@ -143,7 +143,7 @@ public class Character
 	{
 		if(room.isFull())
 		{
-			Log.warn(getName() + " cannot enter " + room.getType().name);
+//			Log.warn(getName() + " cannot enter " + room.getType().name);
 			return; // Cannot enter the room
 		}
 		Vector2i pos = room.addCharacter(this, true);
@@ -152,14 +152,14 @@ public class Character
 		if(currentRoom != null)
 		{
 			// Quit the last room
-			Log.debug(getName() + " left " + currentRoom.getType().name);
+//			Log.debug(getName() + " left " + currentRoom.getType().name);
 			currentRoom.removeCharacter(this);
 		}
 		currentRoom = room;
 		x = pos.x;
 		y = pos.y;
 		// Debug
-		Log.debug(name + " entered in the \"" + room.getType().name + "\"");
+//		Log.debug(name + " entered in the \"" + room.getType().name + "\"");
 	}
 	
 //	public Room getNextAction()

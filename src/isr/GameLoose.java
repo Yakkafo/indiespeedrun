@@ -79,7 +79,7 @@ public class GameLoose extends UIBasicGameState
 			if(l > 75)
 				text += Ship.get().getCharacter(i).getName()+" was loyal to our cause and fought to the death.\n";
 			else if(l > 50)
-				text += Ship.get().getCharacter(i).getName()+" tried to fight, but finished to surrender.\n";
+				text += Ship.get().getCharacter(i).getName()+" tried to fight, but eventually surrendered.\n";
 			else if(l > 25)
 				text += Ship.get().getCharacter(i).getName()+" didn’t try to fight.\n";
 			else
