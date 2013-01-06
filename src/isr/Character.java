@@ -440,7 +440,7 @@ public class Character
 		if(!has_sleep)
 		{
 			if(lastSleep >= TIME_SLEEP)
-				loyalty -= SLEEPY_LOYALTY_LOSS;
+				decreaseLoyalty(SLEEPY_LOYALTY_LOSS);
 		}
 		
 		// Si il y a des traitres dans la pièce, le personnage perd proportionellement en loyauté
