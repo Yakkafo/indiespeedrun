@@ -35,6 +35,7 @@ public class GamePlay extends UIBasicGameState
 	private MouseCursor cursHold;
 	private MouseCursor cursCommon;
 	private MouseCursor cursDorm;
+	private MouseCursor cursForbid;
 	private MouseCursor defaultCursor;
 	private DescriptionBar descript;
 	private ProgressBar progress;
@@ -62,6 +63,7 @@ public class GamePlay extends UIBasicGameState
 		cursCommon = new MouseCursor(new Image(Game.ASSETS_DIR+"cursor_common.png"), 0, 0);
 		cursDorm = new MouseCursor(new Image(Game.ASSETS_DIR+"cursor_dorm.png"), 0, 0);
 		defaultCursor = new MouseCursor(new Image(Game.ASSETS_DIR+"cursor.png"), 0, 0);
+		cursForbid = new MouseCursor(new Image(Game.ASSETS_DIR+"cursor_forbid.png"), 0, 0);
 		currentCurs = defaultCursor;
 		resolutionPhase = false;
 		reportPhase = false;
@@ -224,30 +226,46 @@ public class GamePlay extends UIBasicGameState
 			if(r != null)
 			{
 				description = r.getReport();
+				boolean forbid = r.isFull();
 				if(sec)
 				{
 					switch(r.getType())
 					{
 					case ENGINE :
-						currentCurs = cursEngine;
+						if(forbid)
+							currentCurs = cursForbid;
+						else
+							currentCurs = cursEngine;
 						break;
 					case CELL :
-						currentCurs = cursCell;
+						if(forbid)
+							currentCurs = cursForbid;
+						else
+							currentCurs = cursCell;
 						break;
 					case HOLD :
-						currentCurs = cursHold;
+						if(forbid)
+							currentCurs = cursForbid;
+						else
+							currentCurs = cursHold;
 						break;
 					case COMMON :
-						currentCurs = cursCommon;
+						if(forbid)
+							currentCurs = cursForbid;
+						else
+							currentCurs = cursCommon;
 						break;
 					case DORM :
-						currentCurs = cursDorm;
+						if(forbid)
+							currentCurs = cursForbid;
+						else
+							currentCurs = cursDorm;
 						break;
 					default :
 						currentCurs = defaultCursor;
 						break;
 					}
-				}			
+				}
 			}
 			else
 				currentCurs = defaultCursor;

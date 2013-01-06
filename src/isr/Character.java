@@ -8,7 +8,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
-import org.omg.CosNaming.IstringHelper;
 
 import backend.MathHelper;
 import backend.geom.Vector2i;
@@ -312,7 +311,7 @@ public class Character
 		// Draw character (centered)
 		gfx.drawImage(topAvatar, x - topAvatar.getWidth() / 2, y - topAvatar.getHeight() / 2);
 		if(lastSleep >= TIME_SLEEP-1)
-			gfx.drawImage(sleepyBubble, x - topAvatar.getWidth() / 2, y - topAvatar.getHeight() / 2 - 50);
+			gfx.drawImage(sleepyBubble, x - topAvatar.getWidth() / 2 - 10, y - topAvatar.getHeight() / 2 - 10);
 		
 		// Code relatif au fantome
 //		if(targetRoom != null)
