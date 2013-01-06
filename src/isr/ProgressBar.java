@@ -21,7 +21,7 @@ public class ProgressBar extends BasicWidget
 		try {
 			imgBar = new Image(Game.ASSETS_DIR+"progress_bar.png");
 			imgShip = new Image(Game.ASSETS_DIR+"mini_ship.png");
-			imgEnemy = new Image(Game.ASSETS_DIR+"enemi_mini.png");
+			imgEnemy = new Image(Game.ASSETS_DIR+"ennemi.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
