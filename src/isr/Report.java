@@ -17,6 +17,7 @@ public class Report extends WidgetContainer{
 	private Image background;
 	private Label report;
 	private String text;
+	private boolean sabotage;
 	
 	private ArrayList<String> speakingTogetherNames;
 	private ArrayList<String> speakingDuringSleepNames;
@@ -43,6 +44,11 @@ public class Report extends WidgetContainer{
 			e.printStackTrace();
 		}
 		visible = false;
+	}
+	
+	public void setSabotage(boolean sabotage)
+	{
+		this.sabotage = sabotage;
 	}
 	
 	public void setWitness(String witness)
