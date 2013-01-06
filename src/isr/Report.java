@@ -57,6 +57,7 @@ public class Report extends WidgetContainer{
 	{
 		text = "";
 		name_with_spy = "";
+		witness = "";
 		speakingTogetherNames = new ArrayList<String>();
 		speakingDuringSleepNames = new ArrayList<String>();
 		roomsDiscussion = new ArrayList<String>();
@@ -189,6 +190,8 @@ public class Report extends WidgetContainer{
 			text += speakingTogether(roomsDiscussion.get(i));
 		if(name_with_spy != "")
 			text += "Captain, it seems that "+name_with_spy+" and our prisonner talked a lot.\n";	
+		if(witness != "")
+			text += witness+" heard someone sleep talking about taking over the ship.\n";
 		
 		if(text == "")
 			text = "Nothing to report for today.\n";

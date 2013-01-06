@@ -415,7 +415,9 @@ public class Character
 			if(MathHelper.randFloat(0, 1) <= PROBABILITY_SLEEP_SPEAKING_REPORT
 					&& currentRoom.isTraitorInside()
 					&& isLoyal())
-				report.addSpeakingDuringSleepName(name);
+			{
+				report.setWitness(name);
+			}
 		}
 		else if(currentRoom.getType() == RoomType.ENGINE)
 		{
