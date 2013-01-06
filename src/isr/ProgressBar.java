@@ -13,6 +13,8 @@ public class ProgressBar extends BasicWidget
 	private Image imgBar;
 	private Image imgShip;
 	private Image imgEnemy;
+	private float playerX;
+	private float enemyX;
 	
 	public ProgressBar(Widget parent, int x, int y, int width, int height) 
 	{
@@ -35,12 +37,20 @@ public class ProgressBar extends BasicWidget
 		gfx.translate(getAbsoluteX(), getAbsoluteY());
 		
 		float w = (float)getWidth();
+		float delta = 1.f / 60.f;
+		float instantPlayerX = w * Ship.get().getProgressRatio();
+		
+		playerX += delta * (instantPlayerX - playerX);
 		
 		imgBar.draw();
-		imgShip.draw(w * Ship.get().getProgressRatio(), -18);
+		imgShip.draw(playerX, -18);
 		
 		if(EnemyShip.get().getProgressMiles() >= 0)
-			imgEnemy.draw(w * EnemyShip.get().getProgressRatio(), -18);
+		{
+			float instantEnemyX = w * EnemyShip.get().getProgressRatio();
+			enemyX += delta * (instantEnemyX - enemyX);
+			imgEnemy.draw(enemyX, -18);
+		}
 		
 		gfx.popTransform();
 	}

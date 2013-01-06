@@ -8,10 +8,10 @@ import backend.ui.UIStateBasedGame;
 
 public class Game extends UIStateBasedGame
 {
-	public static final String TITLE = "Our ISR game";
+	public static final String TITLE = "Chasm";
 	public static final int SCREEN_WIDTH = 1000;
 	public static final int SCREEN_HEIGHT = 700;
-	public static final String ASSETS_DIR = "assets/";
+	public static final String ASSETS_DIR = "src/assets/";
 	public static final boolean DEBUG = true;
 	
 	public static final int MAIN_MENU = 1;

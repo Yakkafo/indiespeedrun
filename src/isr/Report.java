@@ -56,6 +56,11 @@ public class Report extends WidgetContainer{
 		this.sabotage = sabotage;
 	}
 	
+	public boolean isSabotage()
+	{
+		return sabotage;
+	}
+	
 	public void setCellDatas(String prisonner, boolean win, boolean fail)
 	{
 		this.prisonner = prisonner;
