@@ -11,7 +11,6 @@ import backend.ui.Widget;
 public class NextTurnButton extends PushButton
 {
 	private static SpriteSheet sprites;
-	private boolean visible;
 	
 	public NextTurnButton(Widget parent, int x, int y)
 	{
@@ -26,16 +25,11 @@ public class NextTurnButton extends PushButton
 			}
 		}
 	}
-	
-	public void setVisible(boolean b)
-	{
-		visible = b;
-	}
-	
+
 	@Override
 	public void render(GameContainer gc, Graphics gfx)
 	{
-		if(visible)
+		if(isVisible())
 		{
 			gfx.drawImage(sprites.getSprite(isPressed() ? 1 : 0, 0), 
 					getAbsoluteX(), getAbsoluteY());

@@ -5,7 +5,7 @@ import org.newdawn.slick.Sound;
 
 class EnemyShip
 {
-	public static final int DEPARTURE = -200;
+	public static final int DEPARTURE = -700;
 	public static final int BASE_SPEED_PER_TURN = 40;
 	
 	private static EnemyShip instance;
