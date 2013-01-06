@@ -198,7 +198,7 @@ public class Ship
 			if(Math.random() < 0.75) // Si au moins l'un d'eux veut faire un sabotage
 			{
 				// Sabotage réussi, le sous-marin est ralenti
-				progressDelta /= 2;
+				progressDelta = 0;
 				report.setSabotage(true);
 				break;
 			}
