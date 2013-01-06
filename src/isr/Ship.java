@@ -20,6 +20,7 @@ public class Ship
 	public static final int TRIP_DISTANCE = 1000; // In miles
 	private static final int BASE_SPEED_PER_TURN = 20; // In miles/turn
 	private static final int SPEED_BONUS_PER_ENGINE_WORKER = 20; // In miles/turn
+	private static final int SPEED_MALUS_PER_SABOTAGE = 25; // In miles/turn
 	
 	private static Image backgroundImage;
 	private static Image wallsImage;
@@ -183,9 +184,21 @@ public class Ship
 			c.doResolvePhase(report);
 		
 		// Update progress
-		progressMiles += 
-			BASE_SPEED_PER_TURN + 
-			rooms[RoomType.ENGINE.ordinal()].getCharacterCount() * SPEED_BONUS_PER_ENGINE_WORKER;
+		Room engineRoom = rooms[RoomType.ENGINE.ordinal()];
+		int progressDelta = BASE_SPEED_PER_TURN;
+		progressDelta += engineRoom.getCharacterCount() * SPEED_BONUS_PER_ENGINE_WORKER;
+		
+		// Sabotage
+		int engineTraitorCount = engineRoom.getTraitorCount();
+		for(int i = 0; i < engineTraitorCount; i++) // On tire au sort pour chaque traitre
+		{
+			if(Math.random() < 0.5) // Si l'un d'eux veut faire un sabotage
+			{
+				// Sabotage réussi, le sous-marin est ralenti
+				progressDelta -= SPEED_MALUS_PER_SABOTAGE;
+				break;
+			}
+		}
 
 		// SPY
 		Room holdRoom = rooms[RoomType.HOLD.ordinal()];
