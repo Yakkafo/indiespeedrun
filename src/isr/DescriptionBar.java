@@ -14,8 +14,16 @@ import backend.ui.WidgetContainer;
 
 public class DescriptionBar extends WidgetContainer {
 
+	private static Image voidAvatar;
+	
 	private Image img;
-	private Label report;
+	private Label report; // This is a text summary, not THE report
+	private Image avatar;
+
+	public static void loadContent() throws SlickException
+	{
+		voidAvatar = new Image(Game.ASSETS_DIR + "chars/void.png");
+	}
 	
 	public DescriptionBar(Widget parent, int x, int y, int width, int height) {
 		super(parent, x, y, width, height);
@@ -28,6 +36,16 @@ public class DescriptionBar extends WidgetContainer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		avatar = voidAvatar;
+	}
+	
+	public void setAvatar(Image avatar)
+	{
+		if(avatar != null)
+			this.avatar = avatar;
+		else
+			this.avatar = voidAvatar;
 	}
 	
 	@Override
@@ -38,6 +56,13 @@ public class DescriptionBar extends WidgetContainer {
 
 	@Override
 	public void render(GameContainer gc, Graphics gfx) {
+		gfx.pushTransform();
+		gfx.translate(getX() + 58, getY() + 10);
+		gfx.drawImage(avatar, 
+				0, 0, avatar.getWidth() + 8, avatar.getHeight() + 4, 
+				0, 0, avatar.getWidth(), avatar.getHeight());
+		gfx.popTransform();
+		
 		img.draw(getX(), getY());
 		super.render(gc, gfx);
 		

@@ -56,6 +56,7 @@ public class Game extends UIStateBasedGame
 		Sounds.load();
 		Character.loadContent();
 		ScrollBackground.loadContent();
+		DescriptionBar.loadContent();
 		
 //		this.getState(MAIN_MENU).init(gc, this);
 //		this.getState(GAME_PLAY).init(gc, this);
