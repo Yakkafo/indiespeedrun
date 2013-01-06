@@ -24,11 +24,14 @@ public class Report extends WidgetContainer{
 	
 	//temp
 	private String witness;
+	private String prisonner;
 	private String traitorEngine;
 	private String name_with_spy;
 	private ArrayList<String> roomsDiscussion;
 	private boolean spyBadAction;
 	private boolean tired;
+	private boolean cell_fail;
+	private boolean cell_win;
 	
 	public Report(Widget parent, int x, int y, int width, int height) 
 	{
@@ -51,6 +54,13 @@ public class Report extends WidgetContainer{
 		this.sabotage = sabotage;
 	}
 	
+	public void setCellDatas(String prisonner, boolean win, boolean fail)
+	{
+		this.prisonner = prisonner;
+		this.cell_fail = fail;
+		this.cell_win = win;
+	}
+	
 	public void setWitness(String witness)
 	{
 		this.witness = witness;
@@ -64,11 +74,11 @@ public class Report extends WidgetContainer{
 	public void cleanReport()
 	{
 		text = "";
-		tired = false;
+		tired = sabotage = false;
 		name_with_spy = "";
 		traitorEngine = "";
 		witness = "";
-		spyBadAction = false;
+		spyBadAction = cell_fail = cell_win = false;
 		speakingTogetherNames = new ArrayList<String>();
 		speakingDuringSleepNames = new ArrayList<String>();
 		roomsDiscussion = new ArrayList<String>();
@@ -197,10 +207,16 @@ public class Report extends WidgetContainer{
 	
 	public void generateReport()
 	{
+		if(sabotage)
+			text += "Captain, the engines have been sabotaged! A troublemaker is within the ship!\n";
 		for(int i = 0; i < roomsDiscussion.size(); i++)
 			text += speakingTogether(roomsDiscussion.get(i));
+		if(cell_win)
+			text += "Congrats, Captain! "+prisonner+" was a traitor. Staying in the cells helped "+prisonner+" and the crew to forget the ennemy.\n";
+		else if(cell_fail)
+			text += prisonner+" seems to not be a traitor for the moment. All the crew is angry because of your decision to put "+prisonner+" in cells.";
 		if(name_with_spy != "")
-			text += "Captain, it seems that "+name_with_spy+" and our prisonner talked a lot. This one could have a bad influence on "+name_with_spy+"...\n";	
+			text += "Captain, it seems that "+name_with_spy+" and our prisonner talked a lot. This one could have a bad influence on "+name_with_spy+".\n";	
 		if(witness != "")
 			text += witness+" heard someone sleep talking about taking over the ship.\n";
 		if(spyBadAction)
@@ -208,7 +224,7 @@ public class Report extends WidgetContainer{
 		if(traitorEngine != "")
 			text += traitorEngine+" didn’t look very efficient during his shift.\n";
 		if(tired)
-			text += "Some sailors look exhausted: look out for nervous breakdown...\n";
+			text += "Some sailors look exhausted: look out for nervous breakdown.\n";
 		
 		if(text == "")
 			text = "Nothing to report for today.\n";
