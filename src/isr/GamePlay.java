@@ -105,7 +105,7 @@ public class GamePlay extends UIBasicGameState
 						Ship.get().getSpy().isDoingBadAction())
 				{
 					progress.makeEnemyMove(Spy.BAD_ACTION);
-					System.out.println("Sabotage");
+					report.setSpyBadAction(true);
 				} else if(Ship.get().getRoom(RoomType.HOLD.ordinal()).isTraitorInside() &&
 						Ship.get().getSpy().isDoingBadAction())
 				{
