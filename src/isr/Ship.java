@@ -204,6 +204,8 @@ public class Ship
 		// Ensure the speed is not negative lol
 		if(progressDelta < 0)
 			progressDelta = 0;
+		
+		progressMiles += progressDelta;
 
 		// SPY
 		Room holdRoom = rooms[RoomType.HOLD.ordinal()];
