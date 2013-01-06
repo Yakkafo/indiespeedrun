@@ -204,10 +204,7 @@ public class GamePlay extends UIBasicGameState
 		
 		// Play music
 		if(!Sounds.music.playing() && !Sounds.kMusic.playing())
-			MusicPlayer.get().loop(Sounds.music, 0.5f);
-		
-		if(!report.isVisible() && isLoose())
-			game.enterState(Game.GAME_LOOSE);
+			MusicPlayer.get().loop(Sounds.music, 0.5f);		
 	}
 	
 	@Override
@@ -350,6 +347,8 @@ public class GamePlay extends UIBasicGameState
 		{
 			reportPhase = false;
 			report.setVisible(false);
+			if(isLoose())
+				nextState = Game.GAME_LOOSE;
 		}
 	}
 	
