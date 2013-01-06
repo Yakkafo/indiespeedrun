@@ -12,7 +12,7 @@ public class Game extends UIStateBasedGame
 	public static final int SCREEN_WIDTH = 1000;
 	public static final int SCREEN_HEIGHT = 700;
 	public static final String ASSETS_DIR = "assets/";
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	
 	public static final int MAIN_MENU = 1;
 	public static final int INTRO_MISSION = 2;
@@ -30,6 +30,7 @@ public class Game extends UIStateBasedGame
 			gc.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, false);
 			gc.setTargetFrameRate(60);
 			gc.setMaximumLogicUpdateInterval(200);
+			gc.setShowFPS(DEBUG);
 			gc.start();
 		} 
 		catch (SlickException e)

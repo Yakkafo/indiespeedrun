@@ -27,7 +27,7 @@ public class Ship
 
 	private static Ship instance;
 
-	private Room rooms[] = new Room[ROOM_COUNT];
+	private Room rooms[];
 	private Character characters[];	
 	private Spy spy;
 	private int progressMiles;
@@ -55,6 +55,7 @@ public class Ship
 		progressMiles = 0;
 		
 		// Rooms creations
+		rooms = new Room[ROOM_COUNT];
 		setRoom(new Room(RoomType.CELL));
 		setRoom(new Room(RoomType.COMMON));
 		setRoom(new Room(RoomType.CORRIDOR));

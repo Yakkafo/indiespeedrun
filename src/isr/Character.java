@@ -232,7 +232,7 @@ public class Character
 			}
 			else
 			{
-				if(!yesSoundNegative.playing());
+				if(!yesSoundPositive.playing());
 					yesSoundPositive.play();
 			}
 		}
@@ -340,8 +340,11 @@ public class Character
 //		gfx.drawRect(x - img.getWidth()/2, y - img.getHeight() / 2, img.getWidth(), img.getHeight());
 //		gfx.setColor(Color.orange);
 		// Affichage de loyauté
-		gfx.setColor(Color.yellow);
-		gfx.drawString(""+loyalty, x, y);		
+		if(Game.DEBUG)
+		{
+			gfx.setColor(Color.yellow);
+			gfx.drawString(""+loyalty, x, y);
+		}
 	}
 		
 	public void update(GameContainer gc, StateBasedGame game, int delta)
@@ -386,7 +389,7 @@ public class Character
 		float PROBABILITY_SLEEP_SPEAKING_REPORT = 0.2f;
 		int COMMON_ROOM_LOYALTY_GAIN = 5;
 		int SPY_ROOM_LOYALTY_LOSS = 25;
-		float SPY_ROOM_PROBABILITY_TALK = 0.25f;
+		float SPY_ROOM_PROBABILITY_TALK = 0.75f;
 		int BETRAYER_LOYALTY_LOSS = 5;
 		int CELL_LOYALTY_GAIN = 25;
 		int CELL_LOYALTY_LOSS = 10;

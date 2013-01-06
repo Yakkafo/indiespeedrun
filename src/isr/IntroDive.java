@@ -33,6 +33,7 @@ public class IntroDive extends UIBasicGameState
 		nextState = -1;
 		super.enter(container, game);
 		Ship.get().init();
+		EnemyShip.get().init();
 		diveSound.play();
 		counter = new Counter(5000);
 	}
