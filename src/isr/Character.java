@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
+import org.omg.CosNaming.IstringHelper;
 
 import backend.MathHelper;
 import backend.geom.Vector2i;
@@ -379,7 +380,7 @@ public class Character
 
 		 */
 		boolean has_sleep = false;
-		float PROBABILITY_DISCUSSION_REPORT = 1f;
+		float PROBABILITY_DISCUSSION_REPORT = 0.2f;
 		float PROBABILITY_SLEEP_SPEAKING_REPORT = 0.2f;
 		int COMMON_ROOM_LOYALTY_GAIN = 5;
 		int SPY_ROOM_LOYALTY_LOSS = 25;
@@ -403,6 +404,7 @@ public class Character
 			//Si le personnage est à côté de l'espion, il se fait influencer
 			if(MathHelper.randFloat(0, 1) <= SPY_ROOM_PROBABILITY_TALK)
 			{
+				report.setWithSpy(name);
 				decreaseLoyalty(SPY_ROOM_LOYALTY_LOSS);
 			}
 		}
@@ -414,12 +416,20 @@ public class Character
 			if(MathHelper.randFloat(0, 1) <= PROBABILITY_SLEEP_SPEAKING_REPORT
 					&& currentRoom.isTraitorInside()
 					&& isLoyal())
-				report.addSpeakingDuringSleepName(name);
+			{
+				report.setWitness(name);
+			}
 		}
 		else if(currentRoom.getType() == RoomType.ENGINE)
 		{
 			lastSleep ++;
+			if(!isLoyal() && currentRoom.getCharacterCount() > 1 && currentRoom.getCharacterCount() > currentRoom.getTraitorCount()
+					&& MathHelper.randFloat(0, 1) <= 0.2f)
+				report.setTraitorEngine(name);
 		}
+		
+		if(lastSleep >= TIME_SLEEP - 1)
+			report.setTired(true);
 		
 		if(!has_sleep)
 		{
@@ -428,8 +438,8 @@ public class Character
 		}
 		
 		// Si il y a des traitres dans la pièce, le personnage perd proportionellement en loyauté
-		int betrayerCount = currentRoom.getCharacterCount() - currentRoom.getLoyalCount();
-		if(betrayerCount > 0)
+		int betrayerCount = currentRoom.getTraitorCount();
+		if(currentRoom.getCharacterCount() > 1 && currentRoom.getTraitorCount() > 0)
 		{
 			decreaseLoyalty(betrayerCount * BETRAYER_LOYALTY_LOSS);
 			if(MathHelper.randFloat(0, 1) <= PROBABILITY_DISCUSSION_REPORT)

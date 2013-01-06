@@ -23,8 +23,11 @@ public class Report extends WidgetContainer{
 	
 	//temp
 	private String witness;
-	private String traitor_sleep;
+	private String traitorEngine;
+	private String name_with_spy;
 	private ArrayList<String> roomsDiscussion;
+	private boolean spyBadAction;
+	private boolean tired;
 	
 	public Report(Widget parent, int x, int y, int width, int height) 
 	{
@@ -47,9 +50,19 @@ public class Report extends WidgetContainer{
 		this.witness = witness;
 	}
 	
+	public void setWithSpy(String name)
+	{
+		this.name_with_spy = name;
+	}
+	
 	public void cleanReport()
 	{
 		text = "";
+		tired = false;
+		name_with_spy = "";
+		traitorEngine = "";
+		witness = "";
+		spyBadAction = false;
 		speakingTogetherNames = new ArrayList<String>();
 		speakingDuringSleepNames = new ArrayList<String>();
 		roomsDiscussion = new ArrayList<String>();
@@ -180,7 +193,19 @@ public class Report extends WidgetContainer{
 	{
 		for(int i = 0; i < roomsDiscussion.size(); i++)
 			text += speakingTogether(roomsDiscussion.get(i));
+		if(name_with_spy != "")
+			text += "Captain, it seems that "+name_with_spy+" and our prisonner talked a lot.\n";	
+		if(witness != "")
+			text += witness+" heard someone sleep talking about taking over the ship.\n";
+		if(spyBadAction)
+			text += "Captain, our prisonner was able to send a radio communication to His allies! Expect opposition to reach us sooner! We need to watch Him more carefully.\n";
+		if(traitorEngine != "")
+			text += traitorEngine+" didn’t look very efficient during his shift.\n";
+		if(tired)
+			text += "Some sailors look exhausted: look out for nervous breakdown...\n";
 		
+		if(text == "")
+			text = "Nothing to report for today.\n";
 		report.setText(text);
 	}
 	
@@ -191,6 +216,20 @@ public class Report extends WidgetContainer{
 			background.draw(getX(), getY());
 			super.render(gc, gfx);
 		}
+		
+	}
+
+	public void setSpyBadAction(boolean b) {
+		spyBadAction = b;		
+	}
+
+	public void setTraitorEngine(String name) {
+		traitorEngine = name;
+		
+	}
+
+	public void setTired(boolean b) {
+		tired = b;
 		
 	}
 	

@@ -89,6 +89,7 @@ public class GamePlay extends UIBasicGameState
 		btn.addActionListener(new IActionListener() {
 			@Override
 			public void actionPerformed(Widget sender) {
+				report.cleanReport();
 				Ship.get().turn(report);
 				EnemyShip.get().advance();
 				resolutionPhase = true;
