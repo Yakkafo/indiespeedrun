@@ -264,7 +264,7 @@ public class GamePlay extends UIBasicGameState
 			if(hoveredCharacter != null)
 			{
 				hoveredCharacter.setMouseOver(true);
-				description = hoveredCharacter.getReport();
+				//description = hoveredCharacter.getReport();
 			}
 			
 			descript.setText(description);

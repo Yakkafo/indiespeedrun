@@ -8,7 +8,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import backend.ui.Label;
-import backend.ui.Panel;
 import backend.ui.Widget;
 import backend.ui.WidgetContainer;
 
