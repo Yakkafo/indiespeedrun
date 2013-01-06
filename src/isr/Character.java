@@ -428,6 +428,9 @@ public class Character
 				report.setTraitorEngine(name);
 		}
 		
+		if(lastSleep >= TIME_SLEEP - 1)
+			report.setTired(true);
+		
 		if(!has_sleep)
 		{
 			if(lastSleep >= TIME_SLEEP)
