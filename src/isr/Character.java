@@ -225,13 +225,15 @@ public class Character
 		
 		if(selected && !wasSelected)
 		{
-			if(loyalty < 50 && !yesSoundNegative.playing())
+			if(loyalty <= 50)
 			{
-				yesSoundNegative.play();
+				if(!yesSoundNegative.playing());
+					yesSoundNegative.play();
 			}
-			else if(!yesSoundPositive.playing())
+			else
 			{
-				yesSoundPositive.play();
+				if(!yesSoundNegative.playing());
+					yesSoundPositive.play();
 			}
 		}
 	}
