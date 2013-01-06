@@ -75,10 +75,15 @@ public class GameLoose extends UIBasicGameState
 		text += "You sailed "+Ship.get().getProgressMiles()+" miles before being caught up and sunk.\n\n";
 		for(int i = 0; i < 6; i++)
 		{
-			if(Ship.get().getCharacter(i).isLoyal())
+			int l = Ship.get().getCharacter(i).getLoyalty();
+			if(l > 75)
 				text += Ship.get().getCharacter(i).getName()+" was loyal to our cause and fought to the death.\n";
+			else if(l > 50)
+				text += Ship.get().getCharacter(i).getName()+" tried to fight, but finished to surrender.\n";
+			else if(l > 25)
+				text += Ship.get().getCharacter(i).getName()+" didn’t try to fight.\n";
 			else
-				text += Ship.get().getCharacter(i).getName()+" were at there side in the end. He betrayed us!\n";
+				text += Ship.get().getCharacter(i).getName()+" betrayed us and fought against you!\n";
 		}
 		report.setText(text);
 		ui.add(report);
