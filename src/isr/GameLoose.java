@@ -40,7 +40,10 @@ public class GameLoose extends UIBasicGameState
 			throws SlickException
 	{
 		if(nextState > 0)
+		{
+			container.exit(); // TODO REMOVE THIS SHIT
 			game.enterState(nextState);
+		}
 	}
 
 	@Override

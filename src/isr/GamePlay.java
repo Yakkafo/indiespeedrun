@@ -53,6 +53,7 @@ public class GamePlay extends UIBasicGameState
 	private static final int ENEMY_SPEED = 70;
 	private Image background;
 	private Sound waitingSound;
+	private Sound sabotageAlarm;
 	private boolean resolutionPhase;
 	private boolean reportPhase;
 
@@ -74,6 +75,7 @@ public class GamePlay extends UIBasicGameState
 		waitingSound = new Sound(Game.ASSETS_DIR + "clic_next_turn.ogg");
 		background = new Image(Game.ASSETS_DIR + "fond.png");
 		watchAnim = new Animation(new SpriteSheet(Game.ASSETS_DIR + "montre.png", 150, 150), 100);
+		sabotageAlarm = new Sound(Game.ASSETS_DIR + "alarme_sabotage.ogg");
 		
 		kDetector = new KeySequenceDetector(KeySequenceDetector.KONAMI_CODE);
 	}
@@ -176,6 +178,8 @@ public class GamePlay extends UIBasicGameState
 			resolutionPhase = false;
 			reportPhase = true;
 			report.setVisible(true);
+			if(report.isSabotage())
+				sabotageAlarm.play();
 		}
 		if(resolutionPhase || reportPhase)
 		{
