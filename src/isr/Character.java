@@ -5,6 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
@@ -45,7 +46,10 @@ public class Character
 	private boolean mouseOver;
 	/**Last report on the character*/
 	private String report;
-	private Image img;
+	private Image topAvatar;
+	private Image faceAvatar;
+	private Sound yesSoundPositive;
+	private Sound yesSoundNegative;
 	private int x, y;
 	
 	/**
@@ -112,13 +116,21 @@ public class Character
 			this.y = 0;
 			this.report = "Ceci est un personnage.";
 			try {
-				this.img = new Image(Game.ASSETS_DIR + profile.spriteName);
+				this.topAvatar = new Image(Game.ASSETS_DIR + profile.topSpriteName);
+				this.faceAvatar = new Image(Game.ASSETS_DIR + profile.faceSpriteName);
+				this.yesSoundPositive = new Sound(Game.ASSETS_DIR + "select/" + profile.getPositiveYesSoundName());
+				this.yesSoundNegative = new Sound(Game.ASSETS_DIR + "select/" + profile.getNegativeYesSoundName());
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
 		}
 		else
 			System.out.println("Error: wrong ID!");
+	}
+	
+	public Image getAvatar()
+	{
+		return this.faceAvatar;
 	}
 	
 	/**
@@ -207,7 +219,20 @@ public class Character
 	
 	public void setSelected(boolean s)
 	{
+		boolean wasSelected = selected;
 		selected = s;
+		
+		if(selected && !wasSelected)
+		{
+			if(loyalty < 50 && !yesSoundNegative.playing())
+			{
+				yesSoundNegative.play();
+			}
+			else if(!yesSoundPositive.playing())
+			{
+				yesSoundPositive.play();
+			}
+		}
 	}
 	
 	public void setMouseOver(boolean m)
@@ -284,9 +309,9 @@ public class Character
 		}
 		
 		// Draw character (centered)
-		gfx.drawImage(img, x - img.getWidth() / 2, y - img.getHeight() / 2);
+		gfx.drawImage(topAvatar, x - topAvatar.getWidth() / 2, y - topAvatar.getHeight() / 2);
 		if(lastSleep >= TIME_SLEEP-1)
-			gfx.drawImage(sleepyBubble, x - img.getWidth() / 2, y - img.getHeight() / 2 - 50);
+			gfx.drawImage(sleepyBubble, x - topAvatar.getWidth() / 2, y - topAvatar.getHeight() / 2 - 50);
 		
 		// Code relatif au fantome
 //		if(targetRoom != null)

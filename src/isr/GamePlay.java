@@ -17,6 +17,7 @@ import backend.MouseCursor;
 import backend.audio.MusicPlayer;
 import backend.geom.Vector2i;
 import backend.ui.IActionListener;
+import backend.ui.Label;
 import backend.ui.RootPane;
 import backend.ui.UIBasicGameState;
 import backend.ui.Widget;
@@ -178,6 +179,12 @@ public class GamePlay extends UIBasicGameState
 			descript.setVisible(true);
 			btn.setVisible(true);
 		}
+		
+		// Face avatar
+		if(selectedCharacter != null)
+			descript.setAvatar(selectedCharacter.getAvatar());
+		else
+			descript.setAvatar(null);
 		
 		ScrollBackground.get().update(delta);
 		// Play music
