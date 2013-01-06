@@ -212,7 +212,7 @@ public class Ship
 
 		// SPY
 		Room holdRoom = rooms[RoomType.HOLD.ordinal()];
-		if(holdRoom.getCharacterCount() == 0 || holdRoom.isTraitorInside())
+		if(holdRoom.getCharacterCount() == 0)
 		{
 			if(spy.isDoingBadAction()) // Chance pour que l'espion fasse son enfoiré
 			{
@@ -221,7 +221,17 @@ public class Ship
 				report.setSpyBadAction(true);
 				System.out.println("Manigances de l'espion");
 			}
-		} 
+		}
+		else if(holdRoom.isTraitorInside())
+		{
+			if(spy.isDoingBadAction()) // Chance pour que l'espion fasse son enfoiré
+			{
+				// Personne pour surveiller l'espion : l'ennemi avance plus vite
+				EnemyShip.get().advance(Spy.BAD_ACTION);
+				report.setSpyBadAction2(true);
+				System.out.println("Manigances de l'espion");
+			}
+		}
 
 	}
 
