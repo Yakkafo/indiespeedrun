@@ -6,7 +6,7 @@ import backend.geom.Vector2i;
 public enum RoomType 
 {
 	ENGINE ("Engine room", "engine.png", 253, 230, "Crew members must be operating engines to make the sub advance. The more the better.\n"),
-	HOLD ("Hold room", "hold.png", 571, 230, "He is locked here and must be monitored at all costs. But beware His treacherous talks.\n"),
+	HOLD ("Hold room", "hold.png", 571, 230, "He is locked here and must be monitored at all costs. But beware of His treacherous talks.\n"),
 	DORM ("Dormitory", "dorm.png", 703, 230, "Even seamens need to sleep. You really should send them to bed if they need some rest.\n"),
 	CELL ("Cell", "cell.png", 571, 413, "Would a crew member loose his mind, putting him here should cool him and the crew down.\n"),
 	COMMON ("Common room", "commonroom.png", 703, 413, "Your sailors love this leisure room. Send them off duty sometimes to calm their nerves.\n"),
