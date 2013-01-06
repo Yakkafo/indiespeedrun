@@ -194,7 +194,7 @@ public class Report extends WidgetContainer{
 		for(int i = 0; i < roomsDiscussion.size(); i++)
 			text += speakingTogether(roomsDiscussion.get(i));
 		if(name_with_spy != "")
-			text += "Captain, it seems that "+name_with_spy+" and our prisonner talked a lot.\n";	
+			text += "Captain, it seems that "+name_with_spy+" and our prisonner talked a lot. This one could have a bad influence on "+name_with_spy+"...\n";	
 		if(witness != "")
 			text += witness+" heard someone sleep talking about taking over the ship.\n";
 		if(spyBadAction)
