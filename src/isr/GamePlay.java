@@ -175,11 +175,16 @@ public class GamePlay extends UIBasicGameState
 		//report
 		if(resolutionPhase && resoPhaseCounter.update(delta))
 		{
-			resolutionPhase = false;
-			reportPhase = true;
-			report.setVisible(true);
 			if(report.isSabotage())
 				sabotageAlarm.play();
+			resolutionPhase = false;
+			if(isLoose())
+				nextState = Game.GAME_LOOSE;
+			else
+			{
+				reportPhase = true;
+				report.setVisible(true);
+			}
 		}
 		if(resolutionPhase || reportPhase)
 		{
@@ -347,8 +352,6 @@ public class GamePlay extends UIBasicGameState
 		{
 			reportPhase = false;
 			report.setVisible(false);
-			if(isLoose())
-				nextState = Game.GAME_LOOSE;
 		}
 	}
 	
