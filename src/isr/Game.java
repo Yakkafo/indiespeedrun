@@ -17,7 +17,9 @@ public class Game extends UIStateBasedGame
 	public static final int INTRO_MISSION = 2;
 	public static final int INTRO_DIVE = 3;
 	public static final int GAME_PLAY = 4;
-	public static final int CREDITS = 7;
+	public static final int GAME_LOOSE = 6;
+	public static final int GAME_WIN = 7;
+	public static final int CREDITS = 8;
 
 	public static void main(String args[])
 	{
