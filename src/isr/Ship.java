@@ -192,13 +192,18 @@ public class Ship
 		int engineTraitorCount = engineRoom.getTraitorCount();
 		for(int i = 0; i < engineTraitorCount; i++) // On tire au sort pour chaque traitre
 		{
-			if(Math.random() < 0.5) // Si l'un d'eux veut faire un sabotage
+			if(Math.random() < 0.5) // Si au moins l'un d'eux veut faire un sabotage
 			{
 				// Sabotage réussi, le sous-marin est ralenti
 				progressDelta -= SPEED_MALUS_PER_SABOTAGE;
+				report.setSabotage(true);
 				break;
 			}
 		}
+		
+		// Ensure the speed is not negative lol
+		if(progressDelta < 0)
+			progressDelta = 0;
 
 		// SPY
 		Room holdRoom = rooms[RoomType.HOLD.ordinal()];
