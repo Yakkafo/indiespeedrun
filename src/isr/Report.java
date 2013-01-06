@@ -23,7 +23,7 @@ public class Report extends WidgetContainer{
 	
 	//temp
 	private String witness;
-	private String traitor_sleep;
+	private String traitorEngine;
 	private String name_with_spy;
 	private ArrayList<String> roomsDiscussion;
 	private boolean spyBadAction;
@@ -58,6 +58,7 @@ public class Report extends WidgetContainer{
 	{
 		text = "";
 		name_with_spy = "";
+		traitorEngine = "";
 		witness = "";
 		spyBadAction = false;
 		speakingTogetherNames = new ArrayList<String>();
@@ -196,6 +197,8 @@ public class Report extends WidgetContainer{
 			text += witness+" heard someone sleep talking about taking over the ship.\n";
 		if(spyBadAction)
 			text += "Captain, our prisonner was able to send a radio communication to His allies! Expect opposition to reach us sooner! We need to watch Him more carefully.\n";
+		if(traitorEngine != "")
+			text += traitorEngine+" didn’t look very efficient during his shift.\n";
 		
 		if(text == "")
 			text = "Nothing to report for today.\n";
@@ -214,6 +217,11 @@ public class Report extends WidgetContainer{
 
 	public void setSpyBadAction(boolean b) {
 		spyBadAction = b;		
+	}
+
+	public void setTraitorEngine(String name) {
+		traitorEngine = name;
+		
 	}
 	
 	

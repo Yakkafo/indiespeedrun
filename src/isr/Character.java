@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
+import org.omg.CosNaming.IstringHelper;
 
 import backend.MathHelper;
 import backend.geom.Vector2i;
@@ -422,6 +423,9 @@ public class Character
 		else if(currentRoom.getType() == RoomType.ENGINE)
 		{
 			lastSleep ++;
+			if(!isLoyal() && currentRoom.getCharacterCount() > 1 && currentRoom.getCharacterCount() > currentRoom.getTraitorCount()
+					&& MathHelper.randFloat(0, 1) <= 0.2f)
+				report.setTraitorEngine(name);
 		}
 		
 		if(!has_sleep)
@@ -431,8 +435,8 @@ public class Character
 		}
 		
 		// Si il y a des traitres dans la pièce, le personnage perd proportionellement en loyauté
-		int betrayerCount = currentRoom.getCharacterCount() - currentRoom.getLoyalCount();
-		if(betrayerCount > 0)
+		int betrayerCount = currentRoom.getTraitorCount();
+		if(currentRoom.getCharacterCount() > 1 && currentRoom.getTraitorCount() > 0)
 		{
 			decreaseLoyalty(betrayerCount * BETRAYER_LOYALTY_LOSS);
 			if(MathHelper.randFloat(0, 1) <= PROBABILITY_DISCUSSION_REPORT)
