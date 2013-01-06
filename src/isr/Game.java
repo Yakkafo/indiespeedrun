@@ -2,6 +2,7 @@ package isr;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import backend.ui.UIStateBasedGame;
@@ -28,6 +29,7 @@ public class Game extends UIStateBasedGame
 		{
 			AppGameContainer gc = new AppGameContainer(new Game());
 			gc.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, false);
+			gc.setIcon(ASSETS_DIR + "icone.png");
 			gc.setTargetFrameRate(60);
 			gc.setMaximumLogicUpdateInterval(200);
 			gc.setShowFPS(DEBUG);
