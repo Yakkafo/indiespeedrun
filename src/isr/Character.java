@@ -8,6 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
+import org.omg.CosNaming.IstringHelper;
 
 import backend.MathHelper;
 import backend.geom.Vector2i;
@@ -425,6 +426,12 @@ public class Character
 			if(!isLoyal() && currentRoom.getCharacterCount() > 1 && currentRoom.getCharacterCount() > currentRoom.getTraitorCount()
 					&& MathHelper.randFloat(0, 1) <= 0.2f)
 				report.setTraitorEngine(name);
+		}else if(currentRoom.getType() == RoomType.CELL)
+		{
+			if(isLoyal())
+				report.setCellDatas(name, false, true);
+			else
+				report.setCellDatas(name, true, false);
 		}
 		
 		if(lastSleep >= TIME_SLEEP - 1)

@@ -15,12 +15,10 @@ import org.newdawn.slick.util.Log;
 
 import backend.Counter;
 import backend.KeySequenceDetector;
-import backend.MathHelper;
 import backend.MouseCursor;
 import backend.audio.MusicPlayer;
 import backend.geom.Vector2i;
 import backend.ui.IActionListener;
-import backend.ui.Label;
 import backend.ui.RootPane;
 import backend.ui.UIBasicGameState;
 import backend.ui.Widget;
