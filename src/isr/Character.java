@@ -375,7 +375,9 @@ public class Character
 		{
 			// Si le personnage est à côté de l'espion, il se fait influencer
 			if(MathHelper.randFloat(0, 1) <= SPY_ROOM_PROBABILITY_TALK)
+			{
 				decreaseLoyalty(SPY_ROOM_LOYALTY_LOSS);
+			}
 		}
 		else if(currentRoom.getType() == RoomType.DORM)
 		{

@@ -17,7 +17,7 @@ public class Spy {
 	public Spy()
 	{
 		try {
-			img = new Image("assets/espion.png");
+			img = new Image(Game.ASSETS_DIR+"espion.png");
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
