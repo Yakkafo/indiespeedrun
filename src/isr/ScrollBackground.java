@@ -9,13 +9,15 @@ import backend.MathHelper;
 
 public class ScrollBackground
 {
-	private static final float DEFAULT_SPEED = 10.f; // In px/s
+	public static final float DEFAULT_SPEED = 10.f; // In px/s
+	public static final float RUN_SPEED = 500.f;
 	
 	private static Image img;
 	private static ScrollBackground instance;
 	
 	private float x;
 	private float speed;
+	private float instantSpeed;
 	
 	public static void loadContent() throws SlickException
 	{
@@ -32,16 +34,19 @@ public class ScrollBackground
 	private ScrollBackground()
 	{
 		speed = DEFAULT_SPEED;
+		instantSpeed = speed;
 	}
 	
 	public void setSpeed(float pixelsPerSecond)
 	{
-		speed = pixelsPerSecond;
+		instantSpeed = pixelsPerSecond;
 	}
 	
 	public void update(int delta)
 	{
-		x += speed * (float)delta / 1000.f;
+		float dt = (float)delta / 1000.f;
+		speed += 4.f * dt * (instantSpeed - speed);
+		x += speed * dt;
 	}
 
 	public void render(Graphics gfx)

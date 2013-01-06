@@ -198,7 +198,10 @@ public class GamePlay extends UIBasicGameState
 		else
 			descript.setAvatar(null);
 		
+		ScrollBackground.get().setSpeed(
+				resolutionPhase ? ScrollBackground.RUN_SPEED : ScrollBackground.DEFAULT_SPEED);
 		ScrollBackground.get().update(delta);
+		
 		// Play music
 		if(!Sounds.music.playing() && !Sounds.kMusic.playing())
 			MusicPlayer.get().loop(Sounds.music, 0.5f);
