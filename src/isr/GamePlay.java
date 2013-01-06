@@ -45,8 +45,6 @@ public class GamePlay extends UIBasicGameState
 	
 	private int progression;
 	private static final int PROGRESSION_GOAL = 1000;
-	private static final int PROGRESSION_FACTOR = 20;
-	private static final int INITIAL_SPEED = 20;
 	private static final int ENEMY_SPEED = 70;
 	private Image background;
 	private Sound waitingSound;
@@ -95,36 +93,16 @@ public class GamePlay extends UIBasicGameState
 			public void actionPerformed(Widget sender) {
 				report.cleanReport();
 				Ship.get().turn(report);
+				EnemyShip.get().advance();
 				resolutionPhase = true;
 				waitingSound.play();
-				progression += 
-						INITIAL_SPEED + 
-						Ship.get().getRoom(RoomType.ENGINE.ordinal()).getCharacterCount() * PROGRESSION_FACTOR;
-				progress.setProgression(progression);
-				progress.makeEnemyMove(ENEMY_SPEED);
-				//SPY
-				if(Ship.get().getRoom(RoomType.HOLD.ordinal()).getCharacterCount() == 0 && 
-						Ship.get().getSpy().isDoingBadAction())
-				{
-					progress.makeEnemyMove(Spy.BAD_ACTION);
-					report.setSpyBadAction(true);
-				} else if(Ship.get().getRoom(RoomType.HOLD.ordinal()).isTraitorInside() &&
-						Ship.get().getSpy().isDoingBadAction())
-				{
-					progress.makeEnemyMove(Spy.BAD_ACTION);
-					System.out.println("Sabotage");
-				}
-				//---
-				///Check victory
-				if(progress.isLost())
-					System.out.println("PERDU!");
 				report.generateReport();
 			}
 		});
 		ui.add(btn);
 		
 		//Progress bar
-		progress = new ProgressBar(ui, 100, 25, 800, 15, PROGRESSION_GOAL, ENEMY_SPEED);
+		progress = new ProgressBar(ui, 100, 25, 800, 15);
 		ui.add(progress);
 		
 		//Description
@@ -153,6 +131,16 @@ public class GamePlay extends UIBasicGameState
 
 		gfx.popTransform();
 	}
+	
+	public boolean isWin()
+	{
+		return Ship.get().getProgressMiles() >= Ship.TRIP_DISTANCE;
+	}
+	
+	public boolean isLoose()
+	{
+		return EnemyShip.get().reachedPlayer();
+	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame game, int delta)
@@ -161,7 +149,7 @@ public class GamePlay extends UIBasicGameState
 		Vector2i shipSize = Ship.get().getBackgroundSize();
 		viewOffset.x = (gc.getWidth() - shipSize.x) / 2;
 		viewOffset.y = (gc.getHeight() - shipSize.y) / 2;
-		// Add somme bobbing?
+		// Add somme floating
 		float t = (float)gc.getTime() / 1000.f;
 		viewOffset.x += 8.f * (float)Math.cos(t);
 		viewOffset.y += 4.f * (float)Math.sin(2.f * t);
@@ -192,7 +180,7 @@ public class GamePlay extends UIBasicGameState
 		ScrollBackground.get().update(delta);
 		// Play music
 		if(!Sounds.music.playing() && !Sounds.kMusic.playing())
-			MusicPlayer.get().loop(Sounds.music, 1);
+			MusicPlayer.get().loop(Sounds.music, 0.5f);
 	}
 		
 	@Override
