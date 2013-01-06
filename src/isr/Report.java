@@ -24,6 +24,7 @@ public class Report extends WidgetContainer{
 	//temp
 	private String witness;
 	private String traitor_sleep;
+	private String name_with_spy;
 	private ArrayList<String> roomsDiscussion;
 	
 	public Report(Widget parent, int x, int y, int width, int height) 
@@ -47,9 +48,15 @@ public class Report extends WidgetContainer{
 		this.witness = witness;
 	}
 	
+	public void setWithSpy(String name)
+	{
+		this.name_with_spy = name;
+	}
+	
 	public void cleanReport()
 	{
 		text = "";
+		name_with_spy = "";
 		speakingTogetherNames = new ArrayList<String>();
 		speakingDuringSleepNames = new ArrayList<String>();
 		roomsDiscussion = new ArrayList<String>();
@@ -180,7 +187,11 @@ public class Report extends WidgetContainer{
 	{
 		for(int i = 0; i < roomsDiscussion.size(); i++)
 			text += speakingTogether(roomsDiscussion.get(i));
+		if(name_with_spy != "")
+			text += "Captain, it seems that "+name_with_spy+" and our prisonner talked a lot.\n";	
 		
+		if(text == "")
+			text = "Nothing to report for today.\n";
 		report.setText(text);
 	}
 	

@@ -379,7 +379,7 @@ public class Character
 
 		 */
 		boolean has_sleep = false;
-		float PROBABILITY_DISCUSSION_REPORT = 1f;
+		float PROBABILITY_DISCUSSION_REPORT = 0.2f;
 		float PROBABILITY_SLEEP_SPEAKING_REPORT = 0.2f;
 		int COMMON_ROOM_LOYALTY_GAIN = 5;
 		int SPY_ROOM_LOYALTY_LOSS = 25;
@@ -403,6 +403,7 @@ public class Character
 			//Si le personnage est à côté de l'espion, il se fait influencer
 			if(MathHelper.randFloat(0, 1) <= SPY_ROOM_PROBABILITY_TALK)
 			{
+				report.setWithSpy(name);
 				decreaseLoyalty(SPY_ROOM_LOYALTY_LOSS);
 			}
 		}
