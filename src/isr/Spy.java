@@ -11,8 +11,8 @@ import backend.MathHelper;
 public class Spy {
 	
 	private Image img;
-	private static final float PROBABILITY_BAD_ACTION = 0.25f; 
-	public static final int BAD_ACTION = 40; 
+	private static final float PROBABILITY_BAD_ACTION = 0.75f; 
+	public static final int BAD_ACTION = 80; 
 	
 	public Spy()
 	{

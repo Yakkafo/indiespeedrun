@@ -393,7 +393,7 @@ public class Character
 		Room cell = Ship.get().getRoom(RoomType.CELL.ordinal());
 		int cellCount = cell.getCharacterCount();
 		int cellBetrayerCount = cellCount - cell.getLoyalCount();
-		int SLEEPY_LOYALTY_LOSS = 5;
+		int SLEEPY_LOYALTY_LOSS = 20;
 		if(currentRoom.getType() == RoomType.COMMON)
 		{
 			//Si le personnage est dans la salle commune, il gagne en loyauté

@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import backend.MathHelper;
 import backend.ui.Label;
 import backend.ui.Widget;
 import backend.ui.WidgetContainer;
@@ -32,6 +33,7 @@ public class Report extends WidgetContainer{
 	private boolean tired;
 	private boolean cell_fail;
 	private boolean cell_win;
+	private boolean enemy_ship;
 	
 	public Report(Widget parent, int x, int y, int width, int height) 
 	{
@@ -211,20 +213,28 @@ public class Report extends WidgetContainer{
 			text += "Captain, the engines have been sabotaged! A troublemaker is within the ship!\n";
 		for(int i = 0; i < roomsDiscussion.size(); i++)
 			text += speakingTogether(roomsDiscussion.get(i));
+		if(!enemy_ship && EnemyShip.get().getProgressMiles() >= 0)
+		{
+			enemy_ship = true;
+			text += "Alert! An enemy submarine is chasing us to catch back our prisonner!\n";
+		}
 		if(cell_win)
 			text += "Congrats, Captain! "+prisonner+" was a traitor. Staying in the cells helped "+prisonner+" and the crew to forget the ennemy.\n";
 		else if(cell_fail)
-			text += prisonner+" seems to not be a traitor for the moment. All the crew is angry because of your decision to put "+prisonner+" in cells.";
+			text += prisonner+" seems to not be a traitor for the moment. All the crew is angry because of your decision to put "+prisonner+" in cells.\n";
 		if(name_with_spy != "")
 			text += "Captain, it seems that "+name_with_spy+" and our prisonner talked a lot. This one could have a bad influence on "+name_with_spy+".\n";	
 		if(witness != "")
 			text += witness+" heard someone sleep talking about taking over the ship.\n";
 		if(spyBadAction)
 			text += "Captain, our prisonner was able to send a radio communication to His allies! Expect opposition to reach us sooner! We need to watch Him more carefully.\n";
+		else if(MathHelper.randFloat(0, 1) <= 0.2f)
+			text += "Our prisonner was very calm today. But be aware he could send information about our position to his submarine if we don't watch him!\n";
 		if(traitorEngine != "")
 			text += traitorEngine+" didn’t look very efficient during his shift.\n";
 		if(tired)
 			text += "Some sailors look exhausted: look out for nervous breakdown.\n";
+		
 		
 		if(text == "")
 			text = "Nothing to report for today.\n";
