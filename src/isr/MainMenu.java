@@ -40,7 +40,7 @@ public class MainMenu extends UIBasicGameState
 		super.enter(container, game);
 		
 		if(!Sounds.music.playing())
-			MusicPlayer.get().loop(Sounds.music, 1);
+			MusicPlayer.get().loop(Sounds.music, 0.5f);
 	}
 
 	@Override

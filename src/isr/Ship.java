@@ -17,6 +17,9 @@ import backend.geom.Vector2i;
 public class Ship
 {
 	private static final int ROOM_COUNT = 6;
+	public static final int TRIP_DISTANCE = 1000; // In miles
+	private static final int BASE_SPEED_PER_TURN = 20; // In miles/turn
+	private static final int SPEED_BONUS_PER_ENGINE_WORKER = 20; // In miles/turn
 	
 	private static Image backgroundImage;
 	private static Image wallsImage;
@@ -24,10 +27,9 @@ public class Ship
 	private static Ship instance;
 
 	private Room rooms[] = new Room[ROOM_COUNT];
-	private Character characters[];
-
-	
+	private Character characters[];	
 	private Spy spy;
+	private int progressMiles;
 	
 	public static Ship get()
 	{
@@ -93,6 +95,16 @@ public class Ship
 	public int getCharactersSize()
 	{
 		return characters.length;
+	}
+	
+	public int getProgressMiles()
+	{
+		return progressMiles;
+	}
+	
+	public float getProgressRatio()
+	{
+		return (float)progressMiles / (float)TRIP_DISTANCE;
 	}
 	
 	/**
@@ -169,6 +181,24 @@ public class Ship
 //			c.doMovePhase();
 		for(Character c : characters)
 			c.doResolvePhase(report);
+		
+		// Update progress
+		progressMiles += 
+			BASE_SPEED_PER_TURN + 
+			rooms[RoomType.ENGINE.ordinal()].getCharacterCount() * SPEED_BONUS_PER_ENGINE_WORKER;
+
+		// SPY
+		Room holdRoom = rooms[RoomType.HOLD.ordinal()];
+		if(holdRoom.getCharacterCount() == 0 || holdRoom.isTraitorInside())
+		{
+			if(spy.isDoingBadAction()) // Chance pour que l'espion fasse son enfoiré
+			{
+				// Personne pour surveiller l'espion : l'ennemi avance plus vite
+				EnemyShip.get().advance(Spy.BAD_ACTION);
+				System.out.println("Manigances de l'espion");
+			}
+		} 
+
 	}
 
 }

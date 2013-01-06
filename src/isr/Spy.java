@@ -29,6 +29,11 @@ public class Spy {
 		img.draw(575, 250);
 	}
 	
+	/**
+	 * Tests with a probability-cast if the spy escapes/damage the ship,
+	 * assuming he is not under surveillance.
+	 * @return
+	 */
 	public boolean isDoingBadAction()
 	{
 		return MathHelper.randFloat(0, 1) <= PROBABILITY_BAD_ACTION;
