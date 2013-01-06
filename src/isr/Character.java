@@ -5,6 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.Log;
 
@@ -47,6 +48,8 @@ public class Character
 	private String report;
 	private Image topAvatar;
 	private Image faceAvatar;
+	private Sound yesSoundPositive;
+	private Sound yesSoundNegative;
 	private int x, y;
 	
 	/**
@@ -115,6 +118,8 @@ public class Character
 			try {
 				this.topAvatar = new Image(Game.ASSETS_DIR + profile.topSpriteName);
 				this.faceAvatar = new Image(Game.ASSETS_DIR + profile.faceSpriteName);
+				this.yesSoundPositive = new Sound(Game.ASSETS_DIR + "select/" + profile.getPositiveYesSoundName());
+				this.yesSoundNegative = new Sound(Game.ASSETS_DIR + "select/" + profile.getNegativeYesSoundName());
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -214,7 +219,20 @@ public class Character
 	
 	public void setSelected(boolean s)
 	{
+		boolean wasSelected = selected;
 		selected = s;
+		
+		if(selected && !wasSelected)
+		{
+			if(loyalty < 50 && !yesSoundNegative.playing())
+			{
+				yesSoundNegative.play();
+			}
+			else if(!yesSoundPositive.playing())
+			{
+				yesSoundPositive.play();
+			}
+		}
 	}
 	
 	public void setMouseOver(boolean m)
