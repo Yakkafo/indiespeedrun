@@ -218,6 +218,7 @@ public class Ship
 			{
 				// Personne pour surveiller l'espion : l'ennemi avance plus vite
 				EnemyShip.get().advance(Spy.BAD_ACTION);
+				report.setSpyBadAction(true);
 				System.out.println("Manigances de l'espion");
 			}
 		} 
