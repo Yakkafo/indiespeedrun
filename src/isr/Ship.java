@@ -52,6 +52,8 @@ public class Ship
 	
 	public void init()
 	{
+		progressMiles = 0;
+		
 		// Rooms creations
 		setRoom(new Room(RoomType.CELL));
 		setRoom(new Room(RoomType.COMMON));

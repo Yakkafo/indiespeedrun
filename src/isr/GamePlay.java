@@ -25,6 +25,7 @@ import backend.ui.Widget;
 
 public class GamePlay extends UIBasicGameState
 {
+	private static final int RESOLUTION_PHASE_DURATION = 1500; // in milliseconds
 	private static Color bgColor = new Color(0, 32, 64);
 
 	private Character selectedCharacter;
@@ -101,11 +102,12 @@ public class GamePlay extends UIBasicGameState
 				Ship.get().turn(report);
 				EnemyShip.get().advance();
 				resolutionPhase = true;
-				resoPhaseCounter = new Counter(2500);
 				waitingSound.play();
 				report.generateReport();
 				if(isWin())
 					nextState = Game.GAME_WIN;
+				else
+					resoPhaseCounter = new Counter(RESOLUTION_PHASE_DURATION);
 			}
 		});
 		ui.add(btn);
@@ -200,7 +202,7 @@ public class GamePlay extends UIBasicGameState
 		if(!report.isVisible() && isLoose())
 			game.enterState(Game.GAME_LOOSE);
 	}
-		
+	
 	@Override
 	public int getID()
 	{

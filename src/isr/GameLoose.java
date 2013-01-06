@@ -17,7 +17,7 @@ public class GameLoose extends UIBasicGameState
 	public void init(GameContainer container, StateBasedGame game)
 			throws SlickException
 	{
-		img = new Image(Game.ASSETS_DIR + "game_over.ogg");
+		img = new Image(Game.ASSETS_DIR + "game_over.png");
 	}
 	
 	@Override

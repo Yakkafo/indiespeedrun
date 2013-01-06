@@ -46,6 +46,8 @@ public class Game extends UIStateBasedGame
 		this.addState(new IntroDive());
 		this.addState(new GamePlay());
 		this.addState(new Credits());
+		this.addState(new GameWin());
+		this.addState(new GameLoose());
 	}
 
 	@Override
@@ -57,6 +59,7 @@ public class Game extends UIStateBasedGame
 		Character.loadContent();
 		ScrollBackground.loadContent();
 		DescriptionBar.loadContent();
+		EnemyShip.loadContent();
 		
 //		this.getState(MAIN_MENU).init(gc, this);
 //		this.getState(GAME_PLAY).init(gc, this);
