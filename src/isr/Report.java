@@ -224,7 +224,7 @@ public class Report extends WidgetContainer{
 			text += "Alert! An enemy submarine is chasing us to catch back our prisonner!\n";
 		}
 		if(cell_win)
-			text += "Congrats, Captain! "+prisonner+" was a traitor. Staying in the cells helped "+prisonner+" and the crew to forget the ennemy.\n";
+			text += "Congrats, Captain! "+prisonner+" was a traitor. Staying in the cells helped "+prisonner+" and the crew to cool down.\n";
 		else if(cell_fail)
 			text += prisonner+" seems to not be a traitor for the moment. All the crew is angry because of your decision to put "+prisonner+" in cells.\n";
 		if(name_with_spy != "")
